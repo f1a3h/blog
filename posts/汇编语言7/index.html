@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" />
+
+    <meta name="generator" content="Hugo 0.105.0"><meta name="theme-color" content="#fff" />
+    <meta name="color-scheme" content="light dark">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>王爽「汇编语言」学习笔记（七） | f1a3h&#39;s blog</title>
+
+    <link rel="stylesheet" href="/css/meme.min.d78e62c1ab6d3ff03b6a4a4d640f1a30bed3f9f54d7fc7325ce17f91be91d5b1.css"/>
+
+    
+    
+        <script src="https://fastly.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.f0723536fd417ff0ab0dc7187f16e966f6be3c4bd6483070baf2e4b98a59c197.js"></script>
+
+    
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;family=Lato:wght@400;700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Rubik:wght@400;500;700&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&amp;family=Source&#43;Code&#43;Pro:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@700&amp;family=Lato:wght@400;700&amp;family=Noto&#43;Serif&#43;SC:wght@400;500;700&amp;family=Rubik:wght@400;500;700&amp;display=swap" /></noscript>
+
+    <meta name="author" content="f1a3h" /><meta name="description" content="Chapter.12 ~ Chapter.15" />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="f1a3h&#39;s blog" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="f1a3h&#39;s blog" />
+    <meta name="msapplication-starturl" content="../../" />
+    <meta name="msapplication-TileColor" content="#fff" />
+    <meta name="msapplication-TileImage" content="../../icons/mstile-150x150.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    
+    
+
+    
+    <link rel="canonical" href="https://blog.f1a3h.com/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%807/" />
+    
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "datePublished": "2023-09-14T21:06:08+08:00",
+        "dateModified": "2023-09-25T22:07:21+08:00",
+        "url": "https://blog.f1a3h.com/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%807/",
+        "headline": "王爽「汇编语言」学习笔记（七）",
+        "description": "Chapter.12 ~ Chapter.15",
+        "inLanguage" : "en",
+        "articleSection": "posts",
+        "wordCount":  2109 ,
+        "image": "https://blog.f1a3h.com/icons/favicon.ico",
+        "author": {
+            "@type": "Person",
+            "description": "必将无尽远征 无远弗届",
+            "email": "ihlwer@outlook.com",
+            "image": "https://blog.f1a3h.com/icons/avartar.JPG",
+            "url": "https://blog.f1a3h.com/",
+            "name": "f1a3h"
+        },
+        "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)",
+        "publisher": {
+            "@type": "Organization",
+            "name": "f1a3h's blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://blog.f1a3h.com/icons/favicon.ico"
+            },
+            "url": "https://blog.f1a3h.com/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebSite",
+            "@id": "https://blog.f1a3h.com/"
+        }
+    }
+</script>
+
+    
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:site" content="@f1a3h120925" />
+
+    
+
+
+
+<meta property="og:title" content="王爽「汇编语言」学习笔记（七）" />
+<meta property="og:description" content="Chapter.12 ~ Chapter.15" />
+<meta property="og:url" content="https://blog.f1a3h.com/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%807/" />
+<meta property="og:site_name" content="f1a3h&#39;s blog" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://blog.f1a3h.com/icons/favicon.ico" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2023-09-14T21:06:08&#43;08:00" />
+    <meta property="article:modified_time" content="2023-09-25T22:07:21&#43;08:00" />
+    
+    <meta property="article:section" content="posts" />
+
+
+
+    
+    
+
+    
+</head>
+
+    <body>
+        <div class="container">
+            
+    <header class="header">
+        
+            <div class="header-wrapper">
+                <div class="header-inner single">
+                    
+    <div class="site-brand">
+        
+            <a href="/" class="brand">f1a3h&#39;s blog</a>
+        
+    </div>
+
+                    <nav class="nav">
+    <ul class="menu" id="menu">
+        
+            
+        
+        
+        
+        
+            
+                <li class="menu-item active"><a href="/posts/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon archive"><path d="M32 448c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V160H32v288zm160-212c0-6.6 5.4-12 12-12h104c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H204c-6.6 0-12-5.4-12-12v-8zM480 32H32C14.3 32 0 46.3 0 64v48c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16V64c0-17.7-14.3-32-32-32z"/></svg><span class="menu-item-name">Posts</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/categories/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon th"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255 0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256 0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm386.667-56H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255 0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255 0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255 0-24 10.745-24 24z"/></svg><span class="menu-item-name">Categories</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/tags/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941L286.059 14.059A48 48 0 0 0 252.118 0H48C21.49 0 0 21.49 0 48v204.118a48 48 0 0 0 14.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882 0l204.118-204.118c18.745-18.745 18.745-49.137 0-67.882zM112 160c-26.51 0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882 0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397 0h48.721a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882z"/></svg><span class="menu-item-name">Tags</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/about/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class="menu-item-name">About</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item search-item">
+                        <form id="search" class="search" role="search">
+    <label for="search-input"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon search-icon"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></label>
+    <input type="search" id="search-input" class="search-input">
+</form>
+
+<template id="search-result" hidden>
+    <article class="content post">
+        <h2 class="post-title"><a class="summary-title-link"></a></h2>
+        <summary class="summary"></summary>
+        <div class="read-more-container">
+            <a class="read-more-link">Read More »</a>
+        </div>
+    </article>
+</template>
+
+                    </li>
+                
+            
+        
+    </ul>
+</nav>
+
+                    
+                </div>
+            </div>
+            
+    <input type="checkbox" id="nav-toggle" aria-hidden="true" />
+    <label for="nav-toggle" class="nav-toggle"></label>
+    <label for="nav-toggle" class="nav-curtain"></label>
+
+
+        
+    </header>
+
+
+
+
+            
+            
+    <main class="main single" id="main">
+    <div class="main-inner">
+
+        
+
+        <article class="content post h-entry" data-align="default" data-type="posts" data-toc-num="true">
+
+            <h1 class="post-title p-name">王爽「汇编语言」学习笔记（七）</h1>
+
+            
+
+            
+                <div class="post-description p-summary">Chapter.12 ~ Chapter.15</div>
+                
+            
+
+            
+                
+
+<div class="post-meta">
+    
+        
+        <time datetime="2023-09-14T21:06:08&#43;08:00" class="post-meta-item published dt-published"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>&nbsp;2023.9.14</time>
+    
+    
+    
+    
+        
+        
+        
+            
+                <span class="post-meta-item category"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>&nbsp;<a href="/categories/study-notes/" class="category-link p-category">Study Notes</a></span>
+            
+        
+    
+    
+        
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;2109</span>
+    
+    
+        
+        <span class="post-meta-item reading-time"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;5&nbsp;mins</span>
+    
+    
+    
+</div>
+
+            
+
+            <nav class="contents">
+  <h2 id="contents" class="contents-title">Contents</h2><ol class="toc">
+    <li><a id="contents:內中断" href="#內中断">內中断</a></li>
+    <li><a id="contents:lab-12" href="#lab-12">Lab 12</a></li>
+    <li><a id="contents:lab-13" href="#lab-13">Lab 13</a>
+      <ol>
+        <li><a id="contents:显示用-0-结束的字符串" href="#显示用-0-结束的字符串">显示用 0 结束的字符串</a></li>
+        <li><a id="contents:完成-loop-指令的功能" href="#完成-loop-指令的功能">完成 loop 指令的功能</a></li>
+        <li><a id="contents:显示四句英文诗" href="#显示四句英文诗">显示四句英文诗</a></li>
+      </ol>
+    </li>
+    <li><a id="contents:端口" href="#端口">端口</a>
+      <ol>
+        <li><a id="contents:in-和-out-指令" href="#in-和-out-指令">in 和 out 指令</a></li>
+        <li><a id="contents:shl-和-shr-指令" href="#shl-和-shr-指令">shl 和 shr 指令</a></li>
+      </ol>
+    </li>
+    <li><a id="contents:lab-14" href="#lab-14">Lab 14</a></li>
+    <li><a id="contents:外中断" href="#外中断">外中断</a></li>
+    <li><a id="contents:lab-15" href="#lab-15">Lab 15</a></li>
+  </ol>
+</nav><div class="post-body e-content">
+                <h2 id="內中断"><a href="#內中断" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:內中断" class="headings">內中断</a></h2>
+<p>中断类型码为 1 byte 的数据，可以表示 256 种中断信息的来源，但是实际上装载好的远少于 256 种。</p>
+<p>在 8086CPU 中，中断向量表存放在 <code>0000:0000~0000:03E8</code> 单元中，一个表项占 2 word ，偏移地址 word 存在低地址，段地址 word 存在高地址中。</p>
+<p>中断过程如下：</p>
+<ol>
+<li>取得中断类型码 N</li>
+<li><code>pushf</code></li>
+<li><code>TF = 0, IF = 0</code></li>
+<li><code>push CS</code></li>
+<li><code>push IP</code></li>
+<li><code>IP = (N * 4), CS = (N * 4 + 2)</code></li>
+</ol>
+<p>在编写中断处理程序时，需在结尾使用 <code>iret</code> 指令返回，作用与 <code>ret</code> 相似。</p>
+<p>CPU 在执行完一条指令之后，如果检测到 <code>TF = 1</code> ，就会产生类型码为 1 的单步中断，转去执行 1 号中断处理程序，从而为单步跟踪程序的执行提供了可能。</p>
+<p>但是为了避免出现 1 号中断程序的套娃现象，需要在每次进入中断程序之前需要将 TF 置为 0 。</p>
+<p><strong>特殊情况</strong>：在执行完 ss 寄存器传送数据的指令后，即便发生中断，CPU 也不会响应。
+-&gt; 我们应该将设置 ss 和 sp 的指令连续存放。</p>
+<h2 id="lab-12"><a href="#lab-12" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:lab-12" class="headings">Lab 12</a></h2>
+<p>编写 0 号中断的处理程序</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="no">offset</span> <span class="no">do0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">do0end</span> <span class="p">-</span> <span class="no">offset</span> <span class="no">do0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cld</span>
+</span></span><span class="line"><span class="cl">	<span class="na">rep</span> <span class="nf">movsb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">do0:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">jmp</span> <span class="no">short</span> <span class="no">do0start</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">db</span> <span class="err">&#34;</span><span class="no">divide</span> <span class="no">error</span><span class="p">!</span><span class="err">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">do0start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="mi">202</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span><span class="no">b800h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">12</span><span class="p">*</span><span class="mi">160</span><span class="err">+</span><span class="mi">36</span><span class="p">*</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="mi">13</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="p">[</span><span class="no">si</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">:[</span><span class="no">di</span><span class="p">],</span> <span class="no">al</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">inc</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">di</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">loop</span> <span class="no">s</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl"><span class="nl">do0end:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">nop</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="lab-13"><a href="#lab-13" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:lab-13" class="headings">Lab 13</a></h2>
+<h3 id="显示用-0-结束的字符串"><a href="#显示用-0-结束的字符串" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:显示用-0-结束的字符串" class="headings">显示用 0 结束的字符串</a></h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">data</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">db</span> <span class="err">&#34;</span><span class="no">welcome</span> <span class="no">to</span> <span class="no">masm</span><span class="p">!</span><span class="err">&#34;</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nf">data</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">dw</span> <span class="mi">8</span> <span class="no">dup</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">stack</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ss</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="no">offset</span> <span class="no">showstr</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">showstrend</span> <span class="p">-</span> <span class="no">offset</span> <span class="no">showstr</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cld</span>
+</span></span><span class="line"><span class="cl">	<span class="na">rep</span> <span class="nf">movsb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">7</span><span class="no">ch</span><span class="p">*</span><span class="mi">4</span><span class="p">],</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">7</span><span class="no">ch</span><span class="p">*</span><span class="mi">4</span><span class="err">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dh</span><span class="p">,</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dl</span><span class="p">,</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cl</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">data</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">7</span><span class="no">ch</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4</span><span class="no">c00h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">showstr:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ds</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">di</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span><span class="no">b800h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">160</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mul</span> <span class="no">dh</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dh</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">ax</span><span class="p">,</span> <span class="no">dx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="no">cl</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">s:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cl</span><span class="p">,</span> <span class="no">ds</span><span class="p">:[</span><span class="no">si</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">jcxz</span> <span class="no">se</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">:[</span><span class="no">di</span><span class="p">],</span> <span class="no">cl</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">:[</span><span class="no">di</span><span class="err">+</span><span class="mi">1</span><span class="p">],</span> <span class="no">al</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">inc</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">di</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">loop</span> <span class="no">s</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">se:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">di</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ds</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">iret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">showstrend:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">nop</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="完成-loop-指令的功能"><a href="#完成-loop-指令的功能" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:完成-loop-指令的功能" class="headings">完成 loop 指令的功能</a></h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">dw</span> <span class="mi">8</span> <span class="no">dup</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">stack</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ss</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">load</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">setIVT</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span><span class="no">b800h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">160</span><span class="p">*</span><span class="mi">12</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">s</span> <span class="p">-</span> <span class="no">offset</span> <span class="no">se</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">s:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">byte</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="no">di</span><span class="p">],</span> <span class="err">&#39;</span><span class="p">!</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">di</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">7</span><span class="no">ch</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">se:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">nop</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4</span><span class="no">c00h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">setIVT:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">7</span><span class="no">ch</span><span class="p">*</span><span class="mi">4</span><span class="p">],</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">7</span><span class="no">ch</span><span class="p">*</span><span class="mi">4</span><span class="err">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">load:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ds</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">di</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="no">offset</span> <span class="no">myloop</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">myloopend</span> <span class="p">-</span> <span class="no">offset</span> <span class="no">myloop</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cld</span>
+</span></span><span class="line"><span class="cl">	<span class="na">rep</span> <span class="nf">movsb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">di</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ds</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">myloop:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">bp</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bp</span><span class="p">,</span> <span class="no">sp</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">dec</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">jcxz</span> <span class="no">myloopret</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="p">[</span><span class="no">bp</span><span class="err">+</span><span class="mi">2</span><span class="p">],</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">myloopret:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">bp</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">iret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">myloopend:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">nop</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h3 id="显示四句英文诗"><a href="#显示四句英文诗" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:显示四句英文诗" class="headings">显示四句英文诗</a></h3>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s1:</span> <span class="nf">db</span> <span class="err">&#39;</span><span class="no">Good</span><span class="p">,</span><span class="no">better</span><span class="p">,</span><span class="no">best</span><span class="p">,</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="no">$</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s2:</span> <span class="nf">db</span> <span class="err">&#39;</span><span class="no">Never</span> <span class="no">let</span> <span class="no">it</span> <span class="no">rest</span><span class="p">,</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="no">$</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s3:</span> <span class="nf">db</span> <span class="err">&#39;</span><span class="no">Till</span> <span class="no">good</span> <span class="no">is</span> <span class="no">better</span><span class="p">,</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="no">$</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s4:</span> <span class="nf">db</span> <span class="err">&#39;</span><span class="no">And</span> <span class="no">better</span><span class="p">,</span><span class="no">best.</span><span class="err">&#39;</span><span class="p">,</span> <span class="err">&#39;</span><span class="no">$</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s:</span>  <span class="nf">dw</span> <span class="no">offset</span> <span class="no">s1</span><span class="p">,</span> <span class="no">offset</span> <span class="no">s2</span><span class="p">,</span> <span class="no">offset</span> <span class="no">s3</span><span class="p">,</span> <span class="no">offset</span> <span class="no">s4</span>
+</span></span><span class="line"><span class="cl"><span class="nl">row:</span><span class="nf">db</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ds</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">s</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="no">offset</span> <span class="no">row</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">ok:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bh</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dh</span><span class="p">,</span> <span class="no">ds</span><span class="p">:[</span><span class="no">si</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dl</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">10</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">dx</span><span class="p">,</span> <span class="no">ds</span><span class="p">:[</span><span class="no">bx</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="mi">9</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">inc</span> <span class="no">si</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">loop</span> <span class="no">ok</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4200</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="端口"><a href="#端口" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:端口" class="headings">端口</a></h2>
+<p>CPU 通过主线相连的芯片除了各种存储器之外，还有以下 3 种芯片：</p>
+<ol>
+<li>各种接口卡的芯片</li>
+<li>主板上的接口芯片，用来访问外设</li>
+<li>其他芯片，存储系统相关信息或进行相关输入输出</li>
+</ol>
+<h3 id="in-和-out-指令"><a href="#in-和-out-指令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:in-和-out-指令" class="headings">in 和 out 指令</a></h3>
+<p>CPU 使用地址线和控制线向端口发送指令，从而与芯片进行交互，间接访问芯片的存储单元。</p>
+<p>在 <code>in</code> 和 <code>out</code> 指令中，只能使用 ax 或 al 来存放端口读/写的数据，其中访问 8 位端口时用 al ，访问 16 位端口时用 ax 。</p>
+<h3 id="shl-和-shr-指令"><a href="#shl-和-shr-指令" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:shl-和-shr-指令" class="headings">shl 和 shr 指令</a></h3>
+<p>它们都是逻辑位移指令，都会将<strong>最后移出的一位写入 CF 中</strong>，如果移动位数大于 1 ，则需要将移动位数放在 cl 中。</p>
+<h2 id="lab-14"><a href="#lab-14" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:lab-14" class="headings">Lab 14</a></h2>
+<p>访问 CMOS RAM</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">db</span> <span class="mi">128</span> <span class="no">dup</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">stack</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ss</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="mi">128</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">0</span><span class="no">b800h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">160</span><span class="p">*</span><span class="mi">12</span><span class="err">+</span><span class="mi">28</span><span class="p">*</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_ymd</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="err">&#39;</span> <span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_hms</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4</span><span class="no">c00h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">show_ymd:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">9</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="err">&#39;/&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="err">&#39;/&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">show_hms:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="err">&#39;</span><span class="p">:</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="err">&#39;</span><span class="p">:</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">show_single</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">; al 存端口号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nl">show_single:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">get_char</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="no">al</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">print_char</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">; ah 存要打印的字符
+</span></span></span><span class="line"><span class="cl"><span class="c1">; es:[bx] 要打印的屏幕位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nl">print_char:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">byte</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="no">bx</span><span class="p">],</span> <span class="no">ah</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">; al 存放单元
+</span></span></span><span class="line"><span class="cl"><span class="c1">; ah 存十位数 ASCII 码
+</span></span></span><span class="line"><span class="cl"><span class="c1">; al 存个位数 ASCII 码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nl">get_char:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">out</span> <span class="mi">70</span><span class="no">h</span><span class="p">,</span> <span class="no">al</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">in</span> <span class="no">al</span><span class="p">,</span> <span class="mi">71</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ah</span><span class="p">,</span> <span class="no">al</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cl</span><span class="p">,</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">shr</span> <span class="no">ah</span><span class="p">,</span> <span class="no">cl</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">and</span> <span class="no">al</span><span class="p">,</span> <span class="mi">00001111</span><span class="no">b</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">ah</span><span class="p">,</span> <span class="mi">30</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">al</span><span class="p">,</span> <span class="mi">30</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">ret</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div><h2 id="外中断"><a href="#外中断" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:外中断" class="headings">外中断</a></h2>
+<p>外中断信息来自 CPU 外部，外中断源一共有两种：</p>
+<ol>
+<li>可屏蔽中断
+<ul>
+<li>如果 <code>IF = 0</code> ，则会禁止进入可屏蔽中断。</li>
+<li>进入内中断时会将 IF 置为 0 。</li>
+<li>如果在內中断过程中需要处理可屏蔽中断，则需要用指令将 IF 置为 1 。
+<ul>
+<li><code>sti</code> : IF = 1</li>
+<li><code>cli</code> : IF = 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不可屏蔽中断
+<ul>
+<li>中断类型码固定为 2</li>
+<li>中断过程与內中断一致，除了最后是 <code>(IP) = (8), (CS) = (0AH)</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="lab-15"><a href="#lab-15" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href="#contents:lab-15" class="headings">Lab 15</a></h2>
+<p>安装新的 int9 中断例程</p>
+<div class="highlight"><div class="chroma">
+<div class="table-container"><table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">assume</span> <span class="no">cs</span><span class="p">:</span><span class="no">code</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">db</span> <span class="mi">128</span> <span class="no">dup</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">stack</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">segment</span>
+</span></span><span class="line"><span class="cl"><span class="nl">start:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="no">stack</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ss</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">sp</span><span class="p">,</span> <span class="mi">128</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cs</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ds</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">si</span><span class="p">,</span> <span class="no">offset</span> <span class="no">int9</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">di</span><span class="p">,</span> <span class="mi">204</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="no">offset</span> <span class="no">int9end</span> <span class="p">-</span> <span class="no">offset</span> <span class="no">int9</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cld</span>
+</span></span><span class="line"><span class="cl">	<span class="na">rep</span> <span class="nf">movsb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span><span class="p">:[</span><span class="mi">9</span><span class="p">*</span><span class="mi">4</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span><span class="p">:[</span><span class="mi">200</span><span class="no">h</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span><span class="p">:[</span><span class="mi">9</span><span class="p">*</span><span class="mi">4</span><span class="err">+</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span><span class="p">:[</span><span class="mi">202</span><span class="no">h</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">cli</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">9</span><span class="p">*</span><span class="mi">4</span><span class="p">],</span> <span class="mi">204</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">word</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="mi">9</span><span class="p">*</span><span class="mi">4</span><span class="err">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">sti</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">4</span><span class="no">c00h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">int</span> <span class="mi">21</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">int9:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">push</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">in</span> <span class="no">al</span><span class="p">,</span> <span class="mi">60</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pushf</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">dword</span> <span class="no">ptr</span> <span class="no">cs</span><span class="p">:[</span><span class="mi">200</span><span class="no">h</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cmp</span> <span class="no">al</span><span class="p">,</span> <span class="mi">1</span><span class="no">eh</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">jne</span> <span class="no">int9ret</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pushf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">in</span> <span class="no">al</span><span class="p">,</span> <span class="mi">60</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pushf</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">call</span> <span class="no">dword</span> <span class="no">ptr</span> <span class="no">cs</span><span class="p">:[</span><span class="mi">200</span><span class="no">h</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">cmp</span> <span class="no">al</span><span class="p">,</span> <span class="mi">1</span><span class="no">eh</span><span class="err">+</span><span class="mi">80</span><span class="no">h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">jne</span> <span class="no">int9ret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0</span><span class="no">b800h</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">es</span><span class="p">,</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">cx</span><span class="p">,</span> <span class="mi">2000</span>
+</span></span><span class="line"><span class="cl"><span class="nl">s:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">mov</span> <span class="no">byte</span> <span class="no">ptr</span> <span class="no">es</span><span class="p">:[</span><span class="no">bx</span><span class="p">],</span> <span class="err">&#39;</span><span class="no">A</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">add</span> <span class="no">bx</span><span class="p">,</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">loop</span> <span class="no">s</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">int9ret:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">es</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">cx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">bx</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">pop</span> <span class="no">ax</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">iret</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nl">int9end:</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">nop</span>
+</span></span><span class="line"><span class="cl"><span class="nf">code</span> <span class="no">ends</span>
+</span></span><span class="line"><span class="cl"><span class="nf">end</span> <span class="no">start</span>
+</span></span></code></pre></td></tr></table></div>
+</div>
+</div>
+            </div>
+
+            
+    
+    
+        <ul class="post-copyright">
+            <li class="copyright-item author"><span class="copyright-item-text">Author</span>: <a href="https://blog.f1a3h.com/" class="p-author h-card" target="_blank" rel="noopener">f1a3h</a></li>
+            
+                
+                
+                
+                
+                <li class="copyright-item link"><span class="copyright-item-text">Link</span>: <a href="/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%807/" target="_blank" rel="noopener">https://blog.f1a3h.com/posts/汇编语言7/</a></li>
+            
+            <li class="copyright-item license"><span class="copyright-item-text">License</span>: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></li>
+            
+        </ul>
+    
+
+
+
+        </article>
+
+        
+
+        
+    <div class="updated-badge-container">
+        <span title="Updated @ 2023-09-25 22:07:21 CST" style="cursor:help">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2023-09-25</text><text x="915" y="140" textLength="650" transform="scale(.1)">2023-09-25</text></g></svg>
+        </span></div>
+
+
+
+        
+
+
+        
+
+
+        
+    
+    
+        <div class="related-posts">
+            <h2 class="related-title">See Also:<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/></svg></h2>
+            <ul class="related-list">
+                
+                    <li class="related-item">
+                        <a href="/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%806/" class="related-link">王爽「汇编语言」学习笔记（六）</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%805/" class="related-link">王爽「汇编语言」学习笔记（五）</a>
+                    </li>
+                
+                    <li class="related-item">
+                        <a href="/posts/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%804/" class="related-link">王爽「汇编语言」学习笔记（四）</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+
+        
+    
+        <div class="post-tags">
+            
+                
+                
+                
+                
+                    
+                    <a href="/tags/assembly/" rel="tag" class="post-tags-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>Assembly</a>
+                
+            
+        </div>
+    
+
+
+
+        
+
+
+        
+
+
+        
+    
+        
+        
+    
+    
+    
+    
+        <ul class="post-nav">
+            
+                <li class="post-nav-prev">
+                    <a href="/posts/gcdlcm/" rel="prev">&lt; gcd &amp;&amp; lcm 复习笔记</a>
+                </li>
+            
+            
+                <li class="post-nav-next">
+                    <a href="/posts/csapp2/" rel="next">CS:APP 第二章学习笔记 &gt;</a>
+                </li>
+            
+        </ul>
+    
+
+
+
+        
+    
+
+        
+            <div class="load-comments">
+                <div id="load-comments">Load Comments?</div>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        
+    
+
+
+
+    </div>
+</main>
+
+
+            
+    <div id="back-to-top" class="back-to-top">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+    </div>
+
+
+            
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="site-info">©&nbsp;2023–2023&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;f1a3h</div><div class="powered-by">Powered by <a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener">Hugo</a> | Theme is <a href="https://github.com/reuixiy/hugo-theme-meme" target="_blank" rel="noopener">MemE</a></div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+
+            <section class="hitokoto">
+                <p id="hitokoto">
+                    <a href="#" id="hitokoto_text">:D 获取中...</a>
+                </p>
+                <p id="hitofrom" align="center">
+                    <a href="#" id="hitokoto_text">:D 获取中...</a>
+                </p>
+                <script>
+                    fetch('https://v1.hitokoto.cn')
+                        .then(function (res) {
+                            return res.json();
+                        })
+                        .then(function (data) {
+                            var hitokoto = document.getElementById('hitokoto');
+                            hitokoto.innerText = data.hitokoto;
+                            var hitofrom = document.getElementById('hitofrom');
+                            hitofrom.innerText = "——" + data.from + '\xa0';
+                        })
+                        .catch(function (err) {
+                            console.error(err);
+                        })
+                </script>
+            </section>
+
+            
+
+
+            
+        </div>
+    </footer>
+
+
+        </div>
+        
+
+        
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css">
+<script>
+    if (typeof renderMathInElement === 'undefined') {
+        const getScript = (options) => {
+            const script = document.createElement('script');
+            script.defer = true;
+            script.crossOrigin = 'anonymous';
+            Object.keys(options).forEach((key) => {
+                script[key] = options[key];
+            });
+            document.body.appendChild(script);
+        };
+        getScript({
+            src: 'https:\/\/fastly.jsdelivr.net\/npm\/katex@0.13.0\/dist\/katex.min.js',
+            onload: () => {
+                getScript({
+                    src: 'https:\/\/fastly.jsdelivr.net\/npm\/katex@0.13.0\/dist\/contrib\/mhchem.min.js',
+                    onload: () => {
+                        getScript({
+                            src: 'https:\/\/fastly.jsdelivr.net\/npm\/katex@0.13.0\/dist\/contrib\/auto-render.min.js',
+                            onload: () => {
+                                renderKaTex();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        renderKaTex();
+    }
+    function renderKaTex() {
+        renderMathInElement(
+            document.body,
+            {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            }
+        );
+    }
+</script>
+
+
+
+
+
+
+
+
+    
+
+        
+
+        
+
+        
+
+        
+
+    
+
+
+
+    <script src="https://fastly.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js"></script>
+
+<script>
+    let imgNodes = document.querySelectorAll('div.post-body img');
+    imgNodes = Array.from(imgNodes).filter(node => node.parentNode.tagName !== "A");
+
+    mediumZoom(imgNodes, {
+        background: 'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'
+    })
+</script>
+
+
+
+
+    <script src="https://fastly.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>
+
+
+
+
+
+
+    </body>
+</html>
