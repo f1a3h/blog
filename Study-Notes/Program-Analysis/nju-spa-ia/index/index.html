@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>NJU「软件分析」学习笔记：Interprocedural Analysis | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Program Analysis">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Interprocedural Analysis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU「软件分析」学习笔记：Interprocedural Analysis">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ia/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Interprocedural Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231214215916.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215091655.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215093656.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094253.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094640.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140153.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140418.png">
+<meta property="article:published_time" content="2023-12-14T13:45:23.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.525Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Program Analysis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231214215916.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        NJU「软件分析」学习笔记：Interprocedural Analysis
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/12/" class="post-meta__date button">2023-12-14</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Program-Analysis/" class="button">Program Analysis</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-number">1.</span> <span class="toc-text"> Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call-graph-construction-cha"><span class="toc-number">2.</span> <span class="toc-text"> Call Graph Construction (CHA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#method-call"><span class="toc-number">2.1.</span> <span class="toc-text"> Method Call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-hierarchy-analysis"><span class="toc-number">2.2.</span> <span class="toc-text"> Class Hierarchy Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-graph-construction"><span class="toc-number">2.3.</span> <span class="toc-text"> Call Graph Construction</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interprocedural-control-flow-graph"><span class="toc-number">3.</span> <span class="toc-text"> Interprocedural Control-Flow Graph</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interprocedural-data-flow-analysis"><span class="toc-number">4.</span> <span class="toc-text"> Interprocedural Data-Flow Analysis</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-number">1.</span> <span class="toc-text"> Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call-graph-construction-cha"><span class="toc-number">2.</span> <span class="toc-text"> Call Graph Construction (CHA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#method-call"><span class="toc-number">2.1.</span> <span class="toc-text"> Method Call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-hierarchy-analysis"><span class="toc-number">2.2.</span> <span class="toc-text"> Class Hierarchy Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-graph-construction"><span class="toc-number">2.3.</span> <span class="toc-text"> Call Graph Construction</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interprocedural-control-flow-graph"><span class="toc-number">3.</span> <span class="toc-text"> Interprocedural Control-Flow Graph</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interprocedural-data-flow-analysis"><span class="toc-number">4.</span> <span class="toc-text"> Interprocedural Data-Flow Analysis</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>南京大学「<a target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html">软件分析</a>」课程 Interprocedural Analysis 部分的学习笔记。</p>
+</div></div><h2 id="motivation"><a class="markdownIt-Anchor" href="#motivation"></a> Motivation</h2>
+<p>为了处理 method calls，我们可以做最 conservative assumptions 来直接不管这个 method 的具体形态，但是这样会产生很大的 imprecision，于是，针对 method calls 这种特殊形态，我们需要一个 Interprocedural Analysis。</p>
+<h2 id="call-graph-construction-cha"><a class="markdownIt-Anchor" href="#call-graph-construction-cha"></a> Call Graph Construction (CHA)</h2>
+<p>call graph: a representation of calling relationships in the program.</p>
+<p>对于 OOPLs，call graph construction 主要有以下几种方法：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231214215916.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231214215916.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h3 id="method-call"><a class="markdownIt-Anchor" href="#method-call"></a> Method Call</h3>
+<p>在 Java 中，有 3 中 method calls，如下图所示</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215091655.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215091655.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>其中 virtual call 是最大的难点也是 call graph construction 的重点。</p>
+<p>在 run-time，virtual call 基于以下两点决定调用哪个方法：</p>
+<ul>
+<li>type of the receiver object <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">\to c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span></span></span></span></li>
+<li>method signature(identifier of a method) at the call site: <code>&lt;C: T foo(P, Q, R)&gt;</code> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">\to m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>
+<ul>
+<li>signature = class type© + method name(foo) + descriptor(T, P, Q, R)</li>
+<li>descriptor: return type + parameter types</li>
+</ul>
+</li>
+</ul>
+<p>我们使用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>i</mi><mi>s</mi><mi>p</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mo stretchy="false">(</mo><mi>c</mi><mo separator="true">,</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Dispatch(c, m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mord mathnormal">p</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">c</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span> 函数来描述 run-time 时 virtual call 的 dispatch 过程，实际就是递归向 parent 寻找对应的 method call 的过程。</p>
+<h3 id="class-hierarchy-analysis"><a class="markdownIt-Anchor" href="#class-hierarchy-analysis"></a> Class Hierarchy Analysis</h3>
+<p>class hierarchy analysis (CHA) 是一种用来解决 method call 的方法，它需要整个程序的 class hierarchy information，并基于 <em>declared type of receiver variable (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span>)</em> of call site 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span> 可能指向任意子类或父类的假设来解决 virtual call。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215093656.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215093656.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>CHA 只考虑 declared type of receiver variable<br />
+at the call-site 和它的 inheritance hierarchy，完全忽略 data- he control-flow 的信息，因此它具有 fast 的优势也有 imprecision 的劣势，它的一个运用场景就是 IDEA。</p>
+<h3 id="call-graph-construction"><a class="markdownIt-Anchor" href="#call-graph-construction"></a> Call Graph Construction</h3>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094253.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094253.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h2 id="interprocedural-control-flow-graph"><a class="markdownIt-Anchor" href="#interprocedural-control-flow-graph"></a> Interprocedural Control-Flow Graph</h2>
+<p>CFG 展示的只是一个 individual method 的 structure，而 ICFG 则是在 CFG 的基础上加入了 <em>call edges, return edges</em> 来展示整个程序的 structure。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094640.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215094640.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>可以看到图中黄色部分的边连接了 call edge 和 return edge 的起点与终点，它的作用是让当前 CFG 中的 data-flow 信息可以直接流向下一个 BB 而不是从 call edge 然后经过一大段冗余的路径才到达下一个 BB。</p>
+<h2 id="interprocedural-data-flow-analysis"><a class="markdownIt-Anchor" href="#interprocedural-data-flow-analysis"></a> Interprocedural Data-Flow Analysis</h2>
+<p>interprocedural data-flow analysis 就是基于 ICFG 对整个程序进行分析。相比于 intraprocedural 的 CFG，ICFG 加入了 call 和 return edges，相应的 transfer function 也要从 node transfer 加上 edge transfer。</p>
+<ul>
+<li>call edge transfer: transfer data flow from call site to the entry node of callee</li>
+<li>return edge: transfer: transfer data flow from the exit node of the callee to the return site</li>
+</ul>
+<p>对于 intraprocedural 的 constant propagation，interprocedural 的 node transfer function 只在 call nodes 上有所不同：相比于直接将 LHS variable 设置为 NAC，我们先将这个 variable kill 掉，然后将其 flow 到 edge transfer，最后经由 return edge transfer 进行合并。</p>
+<p>in summary:</p>
+<ul>
+<li>node transfer
+<ul>
+<li>call nodes: identity</li>
+<li>other nodes: same as intraprocedural</li>
+</ul>
+</li>
+<li>edge transfer
+<ul>
+<li>normal edges: identity</li>
+<li>call-to-return edges: kill the LHS variable, then propagate others</li>
+<li>call edges: pass argument values</li>
+<li>return edges: pass return values</li>
+</ul>
+</li>
+</ul>
+<p>以下是一个 interprocedural data-flow analysis 的 example:</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140153.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140153.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>再与 intraprocedural data-flow analysis 进行，对比，很显然 interprocedural 的结果是更 precise 的。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140418.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/20231215140418.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ia/index/">https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ia/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Program-Analysis/" class="post-tags__link button"># Program Analysis</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-pa/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：Pointer Analysis
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/CS/tai-e-assignments/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            Tai-e Assignments 踩坑记录
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

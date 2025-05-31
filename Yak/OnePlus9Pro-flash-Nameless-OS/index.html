@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>记一次 OnePlus 9 Pro 刷入 Nameless 系统 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Android">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="给 OnePlus 9 Pro 刷入原生 Android 15 系统 Nameless CLO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次 OnePlus 9 Pro 刷入 Nameless 系统">
+<meta property="og:url" content="https://blog.rbkou.me/Yak/OnePlus9Pro-flash-Nameless-OS/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="给 OnePlus 9 Pro 刷入原生 Android 15 系统 Nameless CLO">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151725562.jpg">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151755349.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151845967.jpg">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151906095.jpg">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151917662.jpg">
+<meta property="article:published_time" content="2025-03-15T20:01:01.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.454Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151725562.jpg">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        记一次 OnePlus 9 Pro 刷入 Nameless 系统
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2025/03/" class="post-meta__date button">2025-03-15</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Yak/" class="button">Yak</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text"> 准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E5%B7%A5%E5%85%B7"><span class="toc-number">2.1.</span> <span class="toc-text"> 安装所需工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text"> 下载镜像文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%94%81-bootloader"><span class="toc-number">3.</span> <span class="toc-text"> 解锁 Bootloader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E5%85%A5%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text"> 刷入镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text"> 玩机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E5%85%A5-magisk"><span class="toc-number">5.1.</span> <span class="toc-text"> 刷入 Magisk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text"> 实用开源软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#acgn-%E7%9B%B8%E5%85%B3"><span class="toc-number">5.3.</span> <span class="toc-text"> ACGN 相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text"> 参考资料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text"> 准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E5%B7%A5%E5%85%B7"><span class="toc-number">2.1.</span> <span class="toc-text"> 安装所需工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text"> 下载镜像文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%94%81-bootloader"><span class="toc-number">3.</span> <span class="toc-text"> 解锁 Bootloader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E5%85%A5%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text"> 刷入镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text"> 玩机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E5%85%A5-magisk"><span class="toc-number">5.1.</span> <span class="toc-text"> 刷入 Magisk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text"> 实用开源软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#acgn-%E7%9B%B8%E5%85%B3"><span class="toc-number">5.3.</span> <span class="toc-text"> ACGN 相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text"> 参考资料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>很久以前就知道 <a target="_blank" rel="noopener" href="https://get.pixelexperience.org/">Pixel Experience</a> 这个东西了，原生安卓 + Material Design, 看起来很香，加之当时手里只有一台从老爸那里继承来的退役 Huawei P10, 在未经同意的情况下自动升级到了 Harmony OS 系统，这导致我无法安装第三方来源的 Galgame 模拟器躺玩 Gal，一直很不爽这一点，于是想给它刷成 Pixel Experience 系统，结果华为不给解 BL 锁无法刷机，P10 遂吃灰至今。</p>
+<p>前段时间闲来无事上咸鱼看了眼 Google Pixel 的价格，再看一眼硬件配置，实在是感人，但是一直都很馋安卓上丰富的开源软件，心血来潮之下就开始考虑刷机这个方案。在酷安上了解了一番，遂锁定方案为：</p>
+<ul>
+<li>设备：OnePlus 9 Pro
+<ul>
+<li><a target="_blank" rel="noopener" href="https://khwang9883.github.io/MobileModels/">各厂商上市的手机型号与对应的宣传名汇总</a></li>
+<li>直接开放 Bootloader 解锁, 二手价格相对便宜，第三方 ROM 够丰富，硬件也够用</li>
+</ul>
+</li>
+<li>第三方 ROM: Android 15 版 Nameless CLO
+<ul>
+<li>Nameless OS 基于 氧 OS, 对一加手机支持较好</li>
+<li>艺不高但是人胆大，虽然没刷过机，但是也是小时候经常 <s>(一键)</s> Root 开作弊器打游戏的人，要刷就要刷最新的 ROM!
+<ul>
+<li><s>差点刷成了砖</s></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>电脑系统：Windows 11</li>
+</ul>
+<p>开刷！</p>
+<p>啊等等，还是先来了解一下刷机相关知识点吧（怂）：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ak-ioi.com/714-preintro-adb/">[基础预科] ADB、Android 终端、Android 用户权限</a></li>
+<li><a target="_blank" rel="noopener" href="https://ak-ioi.com/763-preintro-android-bootmode/">[基础预科] Android 分区、启动模式、Fastboot</a></li>
+</ul>
+<h2 id="准备工作"><a class="markdownIt-Anchor" href="#准备工作"></a> 准备工作</h2>
+<h3 id="安装所需工具"><a class="markdownIt-Anchor" href="#安装所需工具"></a> 安装所需工具</h3>
+<p>电脑下载 <a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip">Platform Tools</a> 以及 <a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/latest_usb_driver_windows.zip">Google USB Drivers</a> 以便 USB 连接手机使用 adb 和 fastboot 等工具，后续使用 <code>adb</code> 和 <code>fastboot</code> 等命令时需要先 <code>cd</code> 进入相应程序所在文件夹，也就是下载的 Platform Tools 文件夹内。</p>
+<p>不过我直接安装了 Android Studio 然后在 Android Studio 里面安装了这些必备工具：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scoop install android-studio</span><br></pre></td></tr></table></figure>
+<p>接着再找到 Android Studio 安装 SDK 所在目录并将其内的 platform tools (例如我的路径是：<code>C:\Users\&lt;username&gt;\AppData\Local\Android\Sdk\platform-tools</code>) 加入了环境变量，这样就不需要先 <code>cd</code> 进去才能用 <code>adb</code> 和 <code>fastboot</code> 了。</p>
+<h3 id="下载镜像文件"><a class="markdownIt-Anchor" href="#下载镜像文件"></a> 下载镜像文件</h3>
+<p>OnePlus 9/9 Pro 所需的 Android 15 版本 Nameless CLO 镜像于 2025 年 1 月 22 日制作完成，并于 1 月 23 日发布在 Nameless CLO 官方的 <a target="_blank" rel="noopener" href="https://t.me/NamelessUpdates">Telegram 频道</a>, 暂未发布于官网上。</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/nameless-clo/files/lemonade/Nameless-CLO-15.0-20250122-lemonade-Official.zip/download">OnePlus 9</a> | <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/nameless-clo/files/lemonadep/Nameless-CLO-15.0-20250122-lemonadep-Official.zip/download">OnePlus 9 Pro</a></p>
+<p>另外，刷入该版本镜像前需仔细阅读 <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Nameless-CLO/android_OTA/refs/heads/fifteen/lemonadep/changelog_2025_01_22.txt">Changelog</a>.</p>
+<h2 id="解锁-bootloader"><a class="markdownIt-Anchor" href="#解锁-bootloader"></a> 解锁 Bootloader</h2>
+<p>首先，点击 7 次 “设置” -&gt; “关于本机” -&gt; “版本信息” -&gt; “版本号” 进入开发者模式，接着进入 “设置” -&gt; “其他设置” -&gt; “开发者选项” 打开 USB 调试和 OEM 解锁。</p>
+<p>然后手机使用 USB 线连接电脑，注意在手机上弹出的询问是否同意 USB 调试的消息框选择允许，接着打开 CMD 后使用以下命令检查一下 <code>adb</code> 是否能检测到设备：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<p>若一切正常，它应该会产生类似如下的输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List of devices attached</span><br><span class="line">ab5ccfdf        device</span><br></pre></td></tr></table></figure>
+<p>然后使用命令 <code>adb reboot bootloader</code> 来重启手机进入 FastBoot。</p>
+<p>下图为 OnePlus 9 Pro 的 FastBoot 界面，其中 “START” 为重启进入系统，未解锁 Bootloader 的情况下 “DEVICE STATE” 应为 “locked”, 这里由于是我解锁之后补拍的因此显示为 “unlocked”。FastBoot 界面需要使用音量上下键进行选择，电源键进行确认。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151725562.jpg" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151725562.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="FastBoot" /><span class="image-caption">FastBoot</span></p>
+<p>需要注意的是，由于刷机过程中可能会出现失误导致无法开机，继而无法通过 USB 调试进入 FastBoot 进行修复, 因此我们仍需学习如何在关机界面通过组合键直接进入 FastBoot, 建议在刷机前先尝试该方法并成功至少一次后再进行刷机。以下操作<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>针对 OnePlus 设备，对于其他设备请自行 Google.</p>
+<p>较老设备：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组合键（长按）</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">电源 + 音量上键</td>
+<td style="text-align:center">Recovery 模式</td>
+</tr>
+<tr>
+<td style="text-align:center">电源 + 音量下键</td>
+<td style="text-align:center">FastBoot 模式</td>
+</tr>
+<tr>
+<td style="text-align:center">电源 + 音量上键 + 音量下键</td>
+<td style="text-align:center">Nothing(?)</td>
+</tr>
+</tbody>
+</table>
+<p>较新设备：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组合键（长按）</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">电源 + 音量上键</td>
+<td style="text-align:center">正常启动</td>
+</tr>
+<tr>
+<td style="text-align:center">电源 + 音量下键</td>
+<td style="text-align:center">1. Bootloader 未解锁，为 Recovery 模式<br>2. Bootloader 已解锁，为 Fastboot 模式</td>
+</tr>
+<tr>
+<td style="text-align:center">电源 + 音量上键 + 音量下键</td>
+<td style="text-align:center">FastBoot 模式</td>
+</tr>
+</tbody>
+</table>
+<p>等待手机重启成功并被电脑检测到后，使用如下命令检测 <code>fastboot</code> 是否能检测到设备：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot devices</span><br></pre></td></tr></table></figure>
+<p>若一切正常，它应该会产生类似如下的输出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab5ccfdf        fastboot</span><br></pre></td></tr></table></figure>
+<p>若这里没有任何输出，则进行如下步骤：</p>
+<ol>
+<li>在电脑上打开设备管理器；</li>
+<li>找到图标中带有黄色 ‘?’ 标识的 Android 设备，例如我的出现在 “其他设备” 这一栏，选中后右键选择“更新驱动程序”；</li>
+<li>依次选择“浏览我的电脑以查找驱动程序” -&gt; “让我从计算机的可用驱动程序列表中选取”；
+<ol>
+<li>若此处没有可用的驱动程序，说明系统缺失 ADB 驱动，对于 Windows 11 可以在电脑的设置中的 “检查 Windows 更新” -&gt; “高级选项” -&gt; “可选更新” 中查看是否存在 ADB 驱动，若有则安装即可，若没有则需要自行在网上下载安装。</li>
+</ol>
+</li>
+<li>选择 Android Composite ADB Interface 进行安装。</li>
+</ol>
+<p>完成后，在设备管理器中可以看到设备被识别为 Android Composite ADB Interface:</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151755349.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151755349.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="Android Composite ADB Interface" /><span class="image-caption">Android Composite ADB Interface</span></p>
+<p>然后再使用 <code>fastboot devices</code> 命令可以得到正常输出。</p>
+
+<div class="callout" data-callout="warning">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+</div>
+<div class="callout-title-inner">Warning</div>
+</div>
+<div class="callout-content"><p>注意刷机过程中请确保手机与电脑之间的 USB 连接完好，否则可能会出现无法开机的结果。</p>
+</div></div><p>接着，使用命令 <code>fastboot flashing unlock</code> 进行解锁，此时设备上会弹出警告信息，仔细阅读后若确认要解锁则使用音量键选中 “UNLOCK THE BOOTLOADER”, 再使用电源键确认即可解锁。</p>
+
+<div class="callout" data-callout="warning">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+</div>
+<div class="callout-title-inner">Warning</div>
+</div>
+<div class="callout-content"><p>解锁会清除所有设备中所有设备数据，请注意备份。</p>
+</div></div><p>将设备重启后再次进入 FastBoot 界面，若 “DEVICE STATE” 显示为 “unlocked” 说明解锁成功。此后，开机会出现 Orange State 警告。</p>
+
+<div class="callout" data-callout="note">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+</div>
+<div class="callout-title-inner">Note</div>
+</div>
+<div class="callout-content"><p>在某些设备上可能需要使用 <code>fastboot oem unlock</code> 命令进行解锁。</p>
+</div></div>
+<div class="callout" data-callout="note">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+</div>
+<div class="callout-title-inner">Note</div>
+</div>
+<div class="callout-content"><p>使用命令 <code>fastboot flashing relock</code> 可以重新上锁，然而若设备镜像未恢复原厂状态，重新上锁会导致无法开机。</p>
+</div></div><h2 id="刷入镜像"><a class="markdownIt-Anchor" href="#刷入镜像"></a> 刷入镜像</h2>
+<p>重启设备进入 FastBoot 界面，打开 CMD 并 <code>cd</code> 进入下载的镜像文件所在文件夹，使用下述命令刷入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fastboot flash vendor_boot vendor_boot.img <span class="comment"># 刷入供应商启动镜像</span></span><br><span class="line">fastboot flash boot boot.img               <span class="comment"># 更新内核和 ramdisk</span></span><br><span class="line">fastboot flash dtbo dtbo.img               <span class="comment"># 更新设备树</span></span><br><span class="line">fastboot wipe-super super_empty.img        <span class="comment"># 重置动态分区</span></span><br></pre></td></tr></table></figure>
+<p>镜像刷入完成后重启设备进入 Recovery, 可以选择使用 <code>adb reboot recovery</code> 或者关机界面按组合键进入 FastBoot 后使用音量键选择进入。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151845967.jpg" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151845967.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="Recovery mode 界面" /><span class="image-caption">Recovery mode 界面</span></p>
+<p>依次选择 “Install Update” -&gt; “ADB Sideload” 开启侧载，然后打开 CMD 使用下述命令推送 Nameless CLO 的 ROM 包：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb sideload &lt;filename&gt;.zip</span><br></pre></td></tr></table></figure>
+<p>若出现 <code>adb cannot read '&lt;filename&gt;.zip'</code> 错误，则将 ROM 包移动到与 <code>adb</code> 程序同一路径（例如 <code>C:\Android</code>）下<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>，再次使用上述命令进行侧载即可成功。</p>
+<p>耐心等待侧载完成，当设备左下角显示进度为 47% 时电脑上会停住，同时设备中会提示是否现在 format data, 此时先不 format 而是等待 sideload 完成。</p>
+<p>最后再次进入 Recovery, 依次选择 “Factory reset” -&gt; “Format data/factory reset” -&gt; “Format data” 格式化数据后，重启设备进入系统即可看到成功刷入 Nameless CLO 系统。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151906095.jpg" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151906095.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="Welcom to Nameless CLO!" /><span class="image-caption">Welcom to Nameless CLO!</span></p>
+
+<div class="callout" data-callout="note">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+</div>
+<div class="callout-title-inner">Note</div>
+</div>
+<div class="callout-content"><p>第一次进入系统等待时间会比较长。</p>
+</div></div><h2 id="玩机"><a class="markdownIt-Anchor" href="#玩机"></a> 玩机</h2>
+<h3 id="刷入-magisk"><a class="markdownIt-Anchor" href="#刷入-magisk"></a> 刷入 Magisk</h3>
+<p>在手机上安装好 Magisk APP, 然后连接电脑将之前刷入的 boot.img 文件传入手机中，再在手机中打开 Magisk, 选择 “Install” -&gt; “Select and Patch a File”, 并选择文件为电脑传入的 boot.img 文件，等待 Magisk 完成镜像修补后会得到修补后的镜像文件，将其传入电脑以便后续刷入。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151917662.jpg" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503151917662.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="修补镜像" /><span class="image-caption">修补镜像</span></p>
+<p>在新系统中若需要使用 USB 调试功能，同样需要先启用开发者模式并 enable USB debugging, Nameless CLO 系统启用开发者模式的方式为点击 7 次 “Settings” -&gt; “About phone” -&gt; “Build number”.</p>
+<p>接着重启系统进入 FastBoot 再使用命令 <code>fastboot flash boot &lt;patched_boot&gt;.img</code> 刷入修补后的镜像再重启进入系统即完成刷入，在实际刷入前可以先使用命令 <code>fastboot boot &lt;patched_boot&gt;.img</code> 对新的镜像进行试用。</p>
+
+<div class="callout" data-callout="note">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+</div>
+<div class="callout-title-inner">Note</div>
+</div>
+<div class="callout-content"><p><code>fastboot flash boot</code> 是实际刷入镜像文件，而 <code>fastboot boot</code> 则是临时以该镜像文件启动。</p>
+</div></div><p>此后打开 Magisk APP, 若 “Magisk” 下 “Install” 项显示为 Magisk 的版本号则说明刷入成功。</p>
+<p>对于一些实用的 Magisk + Xposed 模块可以参考文章 <a target="_blank" rel="noopener" href="https://blog.hikarilan.life/thinking/1909/%E5%9F%BA%E4%BA%8E-hyperos-2-0-%E5%92%8C-android-15-%E7%9A%84%E4%B8%AA%E4%BA%BA-magisk-xposed-%E6%A8%A1%E5%9D%97%E5%88%86%E4%BA%AB/">基于 HyperOS 2.0 和 Android 15 的个人 Magisk + Xposed 模块分享 - HikariLan’s Blog</a>.</p>
+<h3 id="实用开源软件"><a class="markdownIt-Anchor" href="#实用开源软件"></a> 实用开源软件</h3>
+<ul>
+<li>Android FOSS (Free and Open Source Software) 收集：<a target="_blank" rel="noopener" href="https://f-droid.org/">F-Droid</a></li>
+<li>YouTube: <a target="_blank" rel="noopener" href="https://github.com/libre-tube/LibreTube">LibreTube</a></li>
+<li>Bilibili: <a target="_blank" rel="noopener" href="https://github.com/orz12/PiliPalaX">PiliPalaX</a> 或 <a target="_blank" rel="noopener" href="https://github.com/10miaomiao/bilimiao2">bilimiao</a></li>
+<li>视频播放器：<a target="_blank" rel="noopener" href="https://gitee.com/lntls/reex">Reex</a></li>
+<li>Pixiv: <a target="_blank" rel="noopener" href="https://github.com/Notsfsssf/pixez-flutter">PixEz Flutter</a></li>
+<li>阅读 3.0：<a target="_blank" rel="noopener" href="https://github.com/gedoor/legado">Legado</a></li>
+<li>知乎：<a target="_blank" rel="noopener" href="https://github.com/Xmader/hydrogen">Hydrogen</a></li>
+<li>RSS 阅读器：<a target="_blank" rel="noopener" href="https://github.com/Ashinch/ReadYou">Read You</a></li>
+<li>V2EX: <a target="_blank" rel="noopener" href="https://github.com/hanai/vvex">VVEX</a></li>
+<li>酷安：<a target="_blank" rel="noopener" href="https://github.com/bggRGjQaUbCoE/c001apk">c001apk</a></li>
+<li>贴吧：<a target="_blank" rel="noopener" href="https://github.com/HuanCheng65/TiebaLite">贴吧 Lite</a></li>
+<li>音频播放器：<a target="_blank" rel="noopener" href="https://github.com/MuntashirAkon/Metro">Metro</a></li>
+<li>视频/音频下载器：<a target="_blank" rel="noopener" href="https://github.com/JunkFood02/Seal">Seal</a></li>
+<li>游戏串流：<a target="_blank" rel="noopener" href="https://github.com/LizardByte/Sunshine">Sunshine</a></li>
+</ul>
+<h3 id="acgn-相关"><a class="markdownIt-Anchor" href="#acgn-相关"></a> ACGN 相关</h3>
+<p>漫画：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/niuhuan/pikapika">pikapika</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mihonapp/mihon">Mihon</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/KotatsuApp/Kotatsu">Kotatsu</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/fumiama/copymanga">copymanga</a></li>
+</ul>
+<p>番剧：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/aniyomiorg/aniyomi">Aniyomi</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/miru-project/miru-app">Miru</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Predidit/Kazumi">Kazumi</a></li>
+</ul>
+<p>轻小说：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/LNReader/lnreader">LNReader</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dmzz-yyhyy/LightNovelReader">LightNovelReader</a></li>
+</ul>
+<p>Bangumi:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/xiaoyvyv/bangumi">Bangumi for Android</a></li>
+</ul>
+<p>Galgame 模拟器：</p>
+<ul>
+<li>Tyranor</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zeas2/Kirikiroid2">Kirikiroid2</a></li>
+<li><a target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.onscripter.plus&amp;hl=en_NZ">ONScripter Plus</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brunodev85/winlator">winlator</a>
+<ul>
+<li>需手动安装下列工具才可愉快游玩大部分汉化版 Gal<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> :
+<ul>
+<li>Chs Fonts(zh_CN).exe: 显示中文字体</li>
+<li>main.1.com.winlator.obb: obb数据包</li>
+<li>setup.exe: 微软运行库</li>
+</ul>
+</li>
+<li>亦可选择下载大佬整合好的 mod 版开机即用，例如 <a target="_blank" rel="noopener" href="https://github.com/afeimod/winlator-mod">Winlator-Amod</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h2>
+<p>参考资料？致谢！</p>
+<ul>
+<li>著名搞机论坛 <a target="_blank" rel="noopener" href="https://xdaforums.com/">XDA</a></li>
+<li>官方 Wiki <a target="_blank" rel="noopener" href="https://www.nameless.wiki/getting-started/flash-instructions/oneplus/lemonadep">Nameless CLO | OnePlus 9 Pro</a> 作为主要参考，由于 Android 15 版镜像包与官网上 (Android 14) 的不太一样，因此 <code>fastboot flash</code> 部分命令也参考了 <a target="_blank" rel="noopener" href="https://www.nameless.wiki/getting-started/flash-instructions/oneplus/salami">Nameless CLO | OnePlus 11</a></li>
+<li>Android 大佬 yezhiyi9670 的博客 <a target="_blank" rel="noopener" href="https://ak-ioi.com/1003-oneplus-flash-root">[搞机] 一加（OnePlus）手机刷机 Root</a> 帮我解决了 <code>fastboot devices</code> 检测不到设备的问题，另外也学到了很多了刷机知识，甚至这篇博客的完善也很大部分参考自 yezhiyi9670 大佬的博客</li>
+<li>浅笑一夏 up 主的视频 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18o4y1D7hP">一加9、一加9pro的twrp刷入及root和刷机教程</a> 以及相应的博客文章 <a target="_blank" rel="noopener" href="https://yuanfangblog.xyz/technology/425.html">oneplus 9 pro 一加9pro第三方系统刷机包及教程集合+救砖教程</a> 是最开始找的资料，带我了解到了刷机的大致流程，虽然我实际刷机时遇到了很多 UP 主没有遇到的错误，尤其是在功能太过强大的 TWRP 中遇到报错导致我一番乱搞差点把手机刷成了砖呜呜</li>
+<li>HikariLan 大佬的博客 <a target="_blank" rel="noopener" href="https://blog.hikarilan.life/thinking/1909/%E5%9F%BA%E4%BA%8E-hyperos-2-0-%E5%92%8C-android-15-%E7%9A%84%E4%B8%AA%E4%BA%BA-magisk-xposed-%E6%A8%A1%E5%9D%97%E5%88%86%E4%BA%AB/">基于 HyperOS 2.0 和 Android 15 的个人 Magisk + Xposed 模块分享 - HikariLan’s Blog</a> 让我知道了 Magisk 下适用于 Android 15 的 Lsposed 模块，以及很多实用的模块和软件</li>
+<li>还有当火龙 888 发怒时及时为我安抚机魂的 <a target="_blank" rel="noopener" href="https://zh.touhouwiki.net/index.php?title=%E7%90%AA%E9%9C%B2%E8%AF%BA&amp;variant=zh">琪露诺老师</a>，琪老师成功让我的寝室免于 N 场可怕的火灾，是真正的圣 Baka !
+<ul>
+<li>在琪老师的强烈要求下，仔细观察可以看到本文 OnePlus 9 Pro (火龙 888) 的几乎每一张照片中都映出了琪老师神圣的影子 (ᗜ‿ᗜ)</li>
+</ul>
+</li>
+<li>最后感谢强大的 <a target="_blank" rel="noopener" href="https://www.deepseek.com/">D 老师</a>, 刷机方案最后敲定是在 D 老师的淳淳教导下完成的，并且解决了不少我在实际刷机过程中的疑问</li>
+</ul>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">参考自: <a target="_blank" rel="noopener" href="https://ak-ioi.com/1003-oneplus-flash-root/#toc-head-11">确认如何从关机状态进入 Fastboot</a></span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">参考自: <a target="_blank" rel="noopener" href="https://xdaforums.com/t/q-adb-cant-read-sideload.1990405/post-38001753">[Q] ADB Can't Read Sideload</a></span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">参考自：<a target="_blank" rel="noopener" href="https://galgame.dev/topic/37/%E6%89%8B%E6%9C%BA%E6%B8%B8%E7%8E%A9-galgame-%E6%A8%A1%E6%8B%9F%E5%99%A8%E7%9A%84%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-winlator">手机游玩 galgame 模拟器的终极解决方案: winlator</a></span><a href="#fnref:3" rev="footnote"> ↩</a></li></ol></div></div>
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Yak/OnePlus9Pro-flash-Nameless-OS/">https://blog.rbkou.me/Yak/OnePlus9Pro-flash-Nameless-OS/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Android/" class="post-tags__link button"># Android</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/ACG/rewrite/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Rewrite?
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Approx-Alg/tdaa-ch3/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            The Design of Approximation Algorithms 第三章学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

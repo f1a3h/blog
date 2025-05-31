@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>CNATDA 第四章学习笔记 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Computer Network, CNATDA">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="The Network Layer: Data Plane">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNATDA 第四章学习笔记">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch4/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="The Network Layer: Data Plane">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/IPv4.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-11-05_17.21.02.png">
+<meta property="article:published_time" content="2023-11-08T13:58:08.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.503Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Computer Network">
+<meta property="article:tag" content="CNATDA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/IPv4.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CNATDA 第四章学习笔记
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-08</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/CNATDA/" class="button">CNATDA</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview-of-network-layer"><span class="toc-number">1.</span> <span class="toc-text"> Overview of Network Layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-inside-a-router"><span class="toc-number">2.</span> <span class="toc-text"> What’s Inside a Router?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#input-port-processing-and-destination-based-forwarding"><span class="toc-number">2.1.</span> <span class="toc-text"> Input Port Processing and Destination-Based Forwarding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switching"><span class="toc-number">2.2.</span> <span class="toc-text"> Switching</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#input-queuing"><span class="toc-number">2.3.</span> <span class="toc-text"> Input Queuing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#output-queueing"><span class="toc-number">2.4.</span> <span class="toc-text"> Output Queueing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#how-much-buffer-is-enough"><span class="toc-number">2.5.</span> <span class="toc-text"> How Much Buffer Is “Enough” ?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#packet-scheduling"><span class="toc-number">2.6.</span> <span class="toc-text"> Packet Scheduling</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-internet-protocol-ip"><span class="toc-number">3.</span> <span class="toc-text"> The Internet Protocol (IP)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv4-datagram-format"><span class="toc-number">3.1.</span> <span class="toc-text"> IPv4 Datagram Format</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv4-addressing"><span class="toc-number">3.2.</span> <span class="toc-text"> IPv4 Addressing</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#obtaining-addresses"><span class="toc-number">3.2.1.</span> <span class="toc-text"> Obtaining Addresses</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#obtaining-a-block-of-addresses"><span class="toc-number">3.2.1.1.</span> <span class="toc-text"> Obtaining a Block of Addresses</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#obtaining-a-host-address-dhcp"><span class="toc-number">3.2.1.2.</span> <span class="toc-text"> Obtaining a Host Address: DHCP</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-address-translation-nat"><span class="toc-number">3.3.</span> <span class="toc-text"> Network Address Translation (NAT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6"><span class="toc-number">3.4.</span> <span class="toc-text"> IPv6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generalized-forwarding-and-sdn"><span class="toc-number">4.</span> <span class="toc-text"> Generalized Forwarding and SDN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#middleboxes"><span class="toc-number">5.</span> <span class="toc-text"> Middleboxes</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview-of-network-layer"><span class="toc-number">1.</span> <span class="toc-text"> Overview of Network Layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whats-inside-a-router"><span class="toc-number">2.</span> <span class="toc-text"> What’s Inside a Router?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#input-port-processing-and-destination-based-forwarding"><span class="toc-number">2.1.</span> <span class="toc-text"> Input Port Processing and Destination-Based Forwarding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switching"><span class="toc-number">2.2.</span> <span class="toc-text"> Switching</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#input-queuing"><span class="toc-number">2.3.</span> <span class="toc-text"> Input Queuing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#output-queueing"><span class="toc-number">2.4.</span> <span class="toc-text"> Output Queueing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#how-much-buffer-is-enough"><span class="toc-number">2.5.</span> <span class="toc-text"> How Much Buffer Is “Enough” ?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#packet-scheduling"><span class="toc-number">2.6.</span> <span class="toc-text"> Packet Scheduling</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-internet-protocol-ip"><span class="toc-number">3.</span> <span class="toc-text"> The Internet Protocol (IP)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv4-datagram-format"><span class="toc-number">3.1.</span> <span class="toc-text"> IPv4 Datagram Format</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv4-addressing"><span class="toc-number">3.2.</span> <span class="toc-text"> IPv4 Addressing</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#obtaining-addresses"><span class="toc-number">3.2.1.</span> <span class="toc-text"> Obtaining Addresses</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#obtaining-a-block-of-addresses"><span class="toc-number">3.2.1.1.</span> <span class="toc-text"> Obtaining a Block of Addresses</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#obtaining-a-host-address-dhcp"><span class="toc-number">3.2.1.2.</span> <span class="toc-text"> Obtaining a Host Address: DHCP</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-address-translation-nat"><span class="toc-number">3.3.</span> <span class="toc-text"> Network Address Translation (NAT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipv6"><span class="toc-number">3.4.</span> <span class="toc-text"> IPv6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#generalized-forwarding-and-sdn"><span class="toc-number">4.</span> <span class="toc-text"> Generalized Forwarding and SDN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#middleboxes"><span class="toc-number">5.</span> <span class="toc-text"> Middleboxes</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>你口安计网怎么内容又多课时又少考的还早啊（恼）</p>
+<p><s>第三章讲的太快没来及看书，就先咕咕咕了。</s></p>
+<p>现在补完第三章了</p>
+<h2 id="overview-of-network-layer"><a class="markdownIt-Anchor" href="#overview-of-network-layer"></a> Overview of Network Layer</h2>
+<p>Network layer 可以细分成两个部分：data plane 和 control plane。</p>
+<p>data plane 的主要功能是 <em>forwarding</em>（也叫做 <em>switching</em> ），也就是由 router 决定将 input link 收到的数据转发到哪个 output link。</p>
+<p>router 中使用一个 forwarding table，根据 packet header 中的某些 fields 来 index forwarding table，从而得到 outgoing link interface。</p>
+<p>control plane 的主要功能是 <em>routing</em>，即决定从 sending host 到 receiving host 到路径。</p>
+<p>计算 forwarding table 也是 control plane 的任务，它有两种实现方式：</p>
+<ul>
+<li>the traditional approach：router 之间通过 router protocol 进行通信，然后使用 routing algorithm 计算得到 forwarding table。</li>
+<li>the SDN approach：router 只进行 forwarding，routing 由一个 remote controller 完成——router 向 remote controller 发送信息，由 remote controller 计算得到 forwarding table 发送给 router。这个 remote controller 通常由软件实现，这种方法称为 <em>software-defined networking</em>。</li>
+</ul>
+<h2 id="whats-inside-a-router"><a class="markdownIt-Anchor" href="#whats-inside-a-router"></a> What’s Inside a Router?</h2>
+<p>router  包含以下几个部分：</p>
+<ul>
+<li>input ports:
+<ul>
+<li>incoming link 的 physical layer 和 link layer</li>
+<li>look up:
+<ul>
+<li>从 forwarding table 查找对应的 output port</li>
+<li>将 control packets forward 到 routing processor</li>
+</ul>
+</li>
+<li>存在 input queue</li>
+</ul>
+</li>
+<li>switching fabric: 连接 input ports 和 output ports</li>
+<li>output ports:
+<ul>
+<li>outgoing link 的 physical layer 和 link layer</li>
+<li>存在 output queue</li>
+</ul>
+</li>
+<li>routing processor: 执行 control-plane 的功能，计算 forwarding table，进行 network management
+<ul>
+<li>traditional: 执行 routing protocols</li>
+<li>SDN: 与 remote controller 进行通信</li>
+</ul>
+</li>
+</ul>
+<p>input ports、output ports 和 switching fabric 通常使用硬件实现，这样使得 forwarding 的速率在 ns 级从而保证通信速率。而 control plane 的功能一般只需保持在 ms 或 s 级，可以用软件实现。</p>
+<h3 id="input-port-processing-and-destination-based-forwarding"><a class="markdownIt-Anchor" href="#input-port-processing-and-destination-based-forwarding"></a> Input Port Processing and Destination-Based Forwarding</h3>
+<p>forwarding table 一般由 routing processors 更新或者接收自一个 remote SDN controller。</p>
+<p>多个 input ports 可以合并在一个 line card 上，forwarding table 会从 routing processor 给每个 line card 复制一份，从而可以在每个局部分别计算。</p>
+<p>destination-based forwarding 的 forwarding table 一般以 IP 地址前缀为 index，link interface 为 value 进行 longest prefix matching。</p>
+<p>lookup 需要在 ns 级别实现，而 forwarding table 一般很大，因此还需要使用特殊的算法或存储器。</p>
+<p>input ports 的 processing 还需要包括 physical-layer 和 link-layer processing，对 packets 的 version number、checksum、TTL 的检查与更改，对 network management 的 couters 进行更新。</p>
+<h3 id="switching"><a class="markdownIt-Anchor" href="#switching"></a> Switching</h3>
+<p>switching 有多种形式：</p>
+<ul>
+<li>via memory: 从 input port 复制到 memory 再复制到 output port，如果使用集中的 memory 而不是每个 line card 单独的 memory 会导致传输速率收到 memory 的速率限制，而且一次只能传输一个 packet</li>
+<li>via a bus: 将 packet 加上一个 label 然后通过 bus 传输到所有的 output port，根据 label 决定是否留下，传输速率收到 bus 的速率限制，一次只能传输一个 packet</li>
+<li>via an interconnection network: 每个 input port 对应一个 bus，每个 output port 对应一个 bus，每对 input port bus 和 output port bus 之间都有 crosspoint，通过控制 crosspoint 来控制从哪传到哪。这是 non-blocking 的，只要两个 pakcet 的 output port 不同就能同时传输。</li>
+</ul>
+<h3 id="input-queuing"><a class="markdownIt-Anchor" href="#input-queuing"></a> Input Queuing</h3>
+<p>如果 switching fabric 的速率大于所有 input port 的速率之和，则一般不会发生 input queuing，但是如果它们的 output port 都相同的话还是会存在 queuing。</p>
+<p>以 switching via interconnection network 为例，一个 packet 即使没有和它 output port 相同的 packet 也可能因为 input queue 中在它前面的其他 packet 而被 block，即 HOL blocking。</p>
+<h3 id="output-queueing"><a class="markdownIt-Anchor" href="#output-queueing"></a> Output Queueing</h3>
+<p>如果 packet 到达 output port 的速率超过了 output line 的速率则会发生 output queuing。</p>
+<p>当 packet 到达 output port 的时候 buffer 满了则需要考虑丢弃哪个 packet。在 buffer 满之前进行 pakcet dropping 或者 marking 称为 active queue management (AQM)。</p>
+<h3 id="how-much-buffer-is-enough"><a class="markdownIt-Anchor" href="#how-much-buffer-is-enough"></a> How Much Buffer Is “Enough” ?</h3>
+<p>存在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 个 TCP connection flow 经过一个带宽为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span> 的 link 时，需要的 buffer 大小为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">B</mi><mo>=</mo><mi mathvariant="normal">R</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">T</mi><mo>⋅</mo><mi mathvariant="normal">C</mi><mi mathvariant="normal">/</mi><msqrt><mi mathvariant="normal">N</mi></msqrt></mrow><annotation encoding="application/x-tex">\mathrm{B=RTT\cdot C/\sqrt{N}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.176665em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">R</span><span class="mord mathrm">T</span><span class="mord mathrm">T</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathrm">C</span><span class="mord mathrm">/</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9266650000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathrm">N</span></span></span><span style="top:-2.886665em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.11333499999999996em;"><span></span></span></span></span></span></span></span></span></span>。</p>
+<p>拥有更大的 buffer 虽然能减少 loss，但是也会带来更大的 queuing delay。TCP 可能会使得 buffer 一直不被清空，从而导致 queuing delay 是 constant 且 persistent 的，这被称为是 <em>bufferfloat</em>，可以通过采取 AQM 来减缓。</p>
+<h3 id="packet-scheduling"><a class="markdownIt-Anchor" href="#packet-scheduling"></a> Packet Scheduling</h3>
+<p>主要有以下几种：</p>
+<ul>
+<li>FIFO (First In First Out)</li>
+<li>priority queuing: 优先级高的先开始传输</li>
+<li>weight fair queuing (WFQ): 给每个 class 一个权重来依次传输，保证这个 class 的传输频率是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>w</mi><mi>i</mi></msub><mrow><mo>∑</mo><mi>w</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{w_i}{\sum w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.231499em;vertical-align:-0.520007em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7114919999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop op-symbol small-op mtight" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace mtight" style="margin-right:0.19516666666666668em;"></span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.02691em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.520007em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+</ul>
+<h2 id="the-internet-protocol-ip"><a class="markdownIt-Anchor" href="#the-internet-protocol-ip"></a> The Internet Protocol (IP)</h2>
+<p>现在使用最多的 Internet protocol 是 IPv4 ，同时 IPv6 也在逐渐取代 IPv4 。</p>
+<h3 id="ipv4-datagram-format"><a class="markdownIt-Anchor" href="#ipv4-datagram-format"></a> IPv4 Datagram Format</h3>
+<p>IPv4 的 datagram 格式如下。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/IPv4.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/IPv4.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<ul>
+<li>version number: 长度为 4 bit ，表示 IP 协议的版本。</li>
+<li>header length: 由于非定长的 options field 的存在，需要用 header length 表示 header 的长度，但是一般 options 为空，所以 header length 一般为 20 byte 。</li>
+<li>type of service (TOS) : 用来区分不同类别的 datagram 。</li>
+<li>datagram length: header + data 的长度。</li>
+<li>identifier、flags、fragmentation offset: 较大的 datagram 会被分成一些较小的 datagram 并分别 forward ，这些是用来识别它们的。</li>
+<li>time-to-live: 每被一个 router 加工就会减少 1 ，成为 0 的时候就会被丢弃，用来防止死循环。</li>
+<li>protocol: 只会在到达终点的 network layer 时使用，表明应该交给哪个 transport layer 的协议。</li>
+<li>header checksum: 检验 bit errors ，header 部分每 2 bytes 累加，得到的结果再取反，检查是否与存储在这个 field 的值相同。若不同，则直接丢弃。</li>
+<li>source and destination IP address: 起点与终点的 IP 地址。</li>
+<li>options: 允许 IP header 得以拓展，但是很少被使用到。</li>
+<li>data (payload): 包括 transport layer 的 segment ，也可以是其他类型的 data ，如 ICMP messages 。</li>
+</ul>
+<p>如果 options 为空，则一个 IP header 长度是 20 bytes ，如果使用 TCP 协议，则这个 datagram 的总的 header 长度为 40 bytes 。</p>
+<h3 id="ipv4-addressing"><a class="markdownIt-Anchor" href="#ipv4-addressing"></a> IPv4 Addressing</h3>
+<p>一个 host 和他的 physical link 之间的边界就是 <em>interface</em> ，类似的，一个 router 和它每一个连接的 link 之间的边界也是一个 interface 。也就是说，其实相比于一个 IP 地址识别的是一个 host ，它识别的是一个 interface 的说法更准确。</p>
+<p>IP 地址长度为 32 bits ，用 <em>dotted-decimal notation</em> 表示。</p>
+<p>host interfaces 和它们连接的 router 的 interface 共同组成一个 <em>subnet</em> ，也称为 <em>network</em> 。</p>
+<p>IP 地址按照 <code>223.1.1.0/24</code> 的形式分配给 subnet ，其中 <code>24</code> 称为 <em>subnet mask</em> ，是 IP 地址匹配过程中至少需要匹配的 prefix 的长度，而 <code>223.1.1.0</code> 的前 24 bits 就是这个 subnet 的地址。</p>
+<p>Internet 分配 IP 地址的策略是 <em>Classless Interdomain Routing (CIDR)</em> 。在 CIDR 被采用之前，最常采用的是 <em>classful addressing</em> ，subnet mask length 只能为 8、16、24 bits ，分别称为 class A, B, C network ，导致不同 subnet 可分配地址数量差异过大，难以按需分配。</p>
+<p>longest prefix matching 使得 address aggregation 成为可能：拥有相同 prefix 的 subnet 可以合并成一个更大的 subnet 。</p>
+<p><code>255.255.255.255</code> 是一个特殊的 IP 地址，表示 broadcast 地址。destination address 为 broadcast 地址的 datagram 会被发送给 subnet 内的所有 host ，也可能发送给 neighboring subnet 。</p>
+<h4 id="obtaining-addresses"><a class="markdownIt-Anchor" href="#obtaining-addresses"></a> Obtaining Addresses</h4>
+<h5 id="obtaining-a-block-of-addresses"><a class="markdownIt-Anchor" href="#obtaining-a-block-of-addresses"></a> Obtaining a Block of Addresses</h5>
+<p>IP address block 由 ICANN 管理并分配给 ISP 和一些 organizations ，它们得到之后还可以将 IP address block 更细分然后分配给用户。</p>
+<h5 id="obtaining-a-host-address-dhcp"><a class="markdownIt-Anchor" href="#obtaining-a-host-address-dhcp"></a> Obtaining a Host Address: DHCP</h5>
+<p>router 的 IP 地址一般是手动设置的，而 host 的地址则是通过 Dynamic Host Configuration Protocol (DHCP) 获得的。</p>
+<p>每个 subnet 都会有至少一个 DHCP server 或者一个知道 DHCP server address 的 DHCP relay agent (一个 router ) ，由它们来给 host 提供<strong>临时</strong>的 IP 地址。</p>
+<p>DHCP 获取 IP 地址的步骤如下：</p>
+<ul>
+<li>DHCP server discovery: 新来的 host 通过 UDP 发送给 <code>255.255.255.255</code> ，port 67 ，使用 transaction ID 作为 identifier 。</li>
+<li>DHCP server offer(s): DHCP server 收到 discover message 后发送 offer message 给 <code>255.255.255.255</code> ，port 68 ，包含 yiaddr 、transaction IP 、DHCP server IP 、Lifetime 。</li>
+<li>DHCP request: host 收到 DHCP offer 后选择其中一个作为 IP 地址，然后以 broadcast 的方式发送 DHCP request，与 DHCP offer 具有相似的结构。</li>
+<li>DHCP ACK: DHCP server 收到 DHCP request 后发送 DHCP ACK 。</li>
+</ul>
+<h3 id="network-address-translation-nat"><a class="markdownIt-Anchor" href="#network-address-translation-nat"></a> Network Address Translation (NAT)</h3>
+<p>subnet 需要一段连续的 IP 地址，如果设备数量超过了原先分配的 IP address block 的数量就难以分配新的地址，于是引入了 Network Address Translation (NAT) 的方法来解决这个问题。</p>
+<p>使用 NAT 时，subnet 内部使用 IP address space reserved for private network （10.0.0.0/8、172.168.0.0/16、192.168.0.0/16），用一个 router 与外界连接并进行 NAT ，这个 router 对外界表现为 a single device with a single IP address，通过 NAT translation table 在 private address + port 与 WAN-side address + port 之间进行转换（给每个 host 以及 application port 分配一个 NAT port 进行区分）。这个 router 的 public address 从 ISP 获得，同时它作为 DHCP server 为 subnet 内部提供 private address 。</p>
+<p>NAT 同时也带来了一些问题，比如 subnet 内的 port 一般会变，而某些时候需要特定的不变的 port ，这个问题可以通过 NAT traversal 来解决。</p>
+<h3 id="ipv6"><a class="markdownIt-Anchor" href="#ipv6"></a> IPv6</h3>
+<p>为了解决 IPv4 地址即将被耗尽的问题，人们发明了 IPv6 ，除了将地址长度从 32 bits 扩展到了 128 bits ，IPv6 还解决了 IPv4 中其他一些问题。</p>
+<p>IPv6 datagram 的主要格式如下：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-11-05_17.21.02.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-11-05_17.21.02.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>主要变化有：</p>
+<ul>
+<li>在 unicast 和 broadcast 的基础上引入了 anycast address，允许了向多个地址之一发送 datagram。</li>
+<li>使用定长为 40 bytes 的 header。</li>
+<li>引入 flow table 使得 router 可以对 flow 进行特殊处理。</li>
+<li>删除 fragmentation 提高性能，如果 datagram 太大则直接丢弃并发送相应的 ICMP error message。</li>
+<li>删除 header checksum 冗余功能提高了效率。</li>
+<li>删除 options ，其中 next header 不一定是 transport layer protocol ，也可以是 option。</li>
+<li>TOS 改为 traffic class ，TTL 改为 hop limit ，datagram length 改为 payload length（不包含 header length），protocol 改为 next header。</li>
+</ul>
+<p>由于 IPv4 到 IPv6 的转换仍在进行中，为了兼容旧的设备，采用 <em>tunneling</em> 将 IPv6 的 datagram 作为 IPv4 的 payload 进行传输，其中两个 IPv6 router 之间的 IPv4 router 被称为 <em>tunnel</em> 。</p>
+<h2 id="generalized-forwarding-and-sdn"><a class="markdownIt-Anchor" href="#generalized-forwarding-and-sdn"></a> Generalized Forwarding and SDN</h2>
+<p>Generalized Forwarding 基于 “match-plus-action” 的原则，相对于 destination-based forwarding，“match” 时还可以考虑 IP header field 中 destination 以外的 fields ，也可以考虑 link-layer header、transport-layer header 等，而 “action” 除了 forward 还可以 drop、修改 header field 等。</p>
+<p>OpenFlow 是一个 generalized forwarding 的协议，规定了 match 时可以/不能使用哪些 field，以及可以采取哪些 action。</p>
+<h2 id="middleboxes"><a class="markdownIt-Anchor" href="#middleboxes"></a> Middleboxes</h2>
+<p>network 中除了 forwarding 之外用来实现一些其他功能的设备称为 <em>middlebox</em>，它们主要提供一下几种功能：</p>
+<ul>
+<li>NAT translation</li>
+<li>security services，如 firewall</li>
+<li>performance enhancement，如 Web cache</li>
+</ul>
+<p>middlebox 在一定程度上破坏了 network 层的 layered architecture ，也就是 abstraction 的概念。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch4/index/">https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch4/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Computer-Network/" class="post-tags__link button"># Computer Network</a><a href="/tags/CNATDA/" class="post-tags__link button"># CNATDA</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch6/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第六章学习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/CS/cs61a/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CS61A 通关感想
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

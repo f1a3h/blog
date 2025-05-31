@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>王爽「汇编语言」学习笔记（七） | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Assembly">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Chapter.12 ~ Chapter.15">
+<meta property="og:type" content="article">
+<meta property="og:title" content="王爽「汇编语言」学习笔记（七）">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Assembly/asm7/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Chapter.12 ~ Chapter.15">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-09-14T13:06:08.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.501Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Assembly">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        王爽「汇编语言」学习笔记（七）
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/09/" class="post-meta__date button">2023-09-14</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Assembly/" class="button">Assembly</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A7%E4%B8%AD%E6%96%AD"><span class="toc-number">1.</span> <span class="toc-text"> 內中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-12"><span class="toc-number">2.</span> <span class="toc-text"> Lab 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-13"><span class="toc-number">3.</span> <span class="toc-text"> Lab 13</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%94%A8-0-%E7%BB%93%E6%9D%9F%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">3.1.</span> <span class="toc-text"> 显示用 0 结束的字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%88%90-loop-%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">3.2.</span> <span class="toc-text"> 完成 loop 指令的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%9B%9B%E5%8F%A5%E8%8B%B1%E6%96%87%E8%AF%97"><span class="toc-number">3.3.</span> <span class="toc-text"> 显示四句英文诗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-number">4.</span> <span class="toc-text"> 端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#in-%E5%92%8C-out-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text"> in 和 out 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shl-%E5%92%8C-shr-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.2.</span> <span class="toc-text"> shl 和 shr 指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-14"><span class="toc-number">5.</span> <span class="toc-text"> Lab 14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E4%B8%AD%E6%96%AD"><span class="toc-number">6.</span> <span class="toc-text"> 外中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-15"><span class="toc-number">7.</span> <span class="toc-text"> Lab 15</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A7%E4%B8%AD%E6%96%AD"><span class="toc-number">1.</span> <span class="toc-text"> 內中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-12"><span class="toc-number">2.</span> <span class="toc-text"> Lab 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-13"><span class="toc-number">3.</span> <span class="toc-text"> Lab 13</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%94%A8-0-%E7%BB%93%E6%9D%9F%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">3.1.</span> <span class="toc-text"> 显示用 0 结束的字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%88%90-loop-%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">3.2.</span> <span class="toc-text"> 完成 loop 指令的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%9B%9B%E5%8F%A5%E8%8B%B1%E6%96%87%E8%AF%97"><span class="toc-number">3.3.</span> <span class="toc-text"> 显示四句英文诗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-number">4.</span> <span class="toc-text"> 端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#in-%E5%92%8C-out-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text"> in 和 out 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shl-%E5%92%8C-shr-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.2.</span> <span class="toc-text"> shl 和 shr 指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-14"><span class="toc-number">5.</span> <span class="toc-text"> Lab 14</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E4%B8%AD%E6%96%AD"><span class="toc-number">6.</span> <span class="toc-text"> 外中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-15"><span class="toc-number">7.</span> <span class="toc-text"> Lab 15</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="內中断"><a class="markdownIt-Anchor" href="#內中断"></a> 內中断</h2>
+<p>中断类型码为 1 byte 的数据，可以表示 256 种中断信息的来源，但是实际上装载好的远少于 256 种。</p>
+<p>在 8086CPU 中，中断向量表存放在 <code>0000:0000~0000:03E8</code> 单元中，一个表项占 2 word ，偏移地址 word 存在低地址，段地址 word 存在高地址中。</p>
+<p>中断过程如下：</p>
+<ol>
+<li>取得中断类型码 N</li>
+<li><code>pushf</code></li>
+<li><code>TF = 0, IF = 0</code></li>
+<li><code>push CS</code></li>
+<li><code>push IP</code></li>
+<li><code>IP = (N * 4), CS = (N * 4 + 2)</code></li>
+</ol>
+<p>在编写中断处理程序时，需在结尾使用 <code>iret</code> 指令返回，作用与 <code>ret</code> 相似。</p>
+<p>CPU 在执行完一条指令之后，如果检测到 <code>TF = 1</code> ，就会产生类型码为 1 的单步中断，转去执行 1 号中断处理程序，从而为单步跟踪程序的执行提供了可能。</p>
+<p>但是为了避免出现 1 号中断程序的套娃现象，需要在每次进入中断程序之前需要将 TF 置为 0 。</p>
+<p><strong>特殊情况</strong>：在执行完 ss 寄存器传送数据的指令后，即便发生中断，CPU 也不会响应。<br />
+-&gt; 我们应该将设置 ss 和 sp 的指令连续存放。</p>
+<h2 id="lab-12"><a class="markdownIt-Anchor" href="#lab-12"></a> Lab 12</h2>
+<p>编写 0 号中断的处理程序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">  mov ax, cs</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov si, offset do0</span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 200h</span><br><span class="line">  mov cx, offset do0end - offset do0</span><br><span class="line">  cld</span><br><span class="line">  rep movsb</span><br><span class="line"></span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov word ptr es:[0], 200h</span><br><span class="line">  mov word ptr es:[2], 0</span><br><span class="line"></span><br><span class="line">  mov ax, 4200h</span><br><span class="line">  int 21h</span><br><span class="line"></span><br><span class="line">do0:</span><br><span class="line">  jmp short do0start</span><br><span class="line">  db &quot;divide error!&quot;</span><br><span class="line"></span><br><span class="line">do0start:</span><br><span class="line">  mov ax, cs</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov si, 202h</span><br><span class="line"></span><br><span class="line">  mov ax, 0b800h</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 12*160+36*2</span><br><span class="line"></span><br><span class="line">  mov cx, 13</span><br><span class="line">s:</span><br><span class="line">  mov al, [si]</span><br><span class="line">  mov es:[di], al</span><br><span class="line">  inc si</span><br><span class="line">  add di, 2</span><br><span class="line">  loop s</span><br><span class="line"></span><br><span class="line">  mov ax, 4200h</span><br><span class="line">  int 21h</span><br><span class="line">do0end:</span><br><span class="line">  nop</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h2 id="lab-13"><a class="markdownIt-Anchor" href="#lab-13"></a> Lab 13</h2>
+<h3 id="显示用-0-结束的字符串"><a class="markdownIt-Anchor" href="#显示用-0-结束的字符串"></a> 显示用 0 结束的字符串</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">data segment</span><br><span class="line">  db &quot;welcome to masm!&quot;, 0</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">  dw 8 dup (0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">  mov ax, stack</span><br><span class="line">  mov ss, ax</span><br><span class="line">  mov sp, 16</span><br><span class="line"></span><br><span class="line">  mov ax, cs</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov si, offset showstr</span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 200h</span><br><span class="line">  mov cx, offset showstrend - offset showstr</span><br><span class="line">  cld</span><br><span class="line">  rep movsb</span><br><span class="line"></span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov word ptr es:[7ch*4], 200h</span><br><span class="line">  mov word ptr es:[7ch*4+2], 0</span><br><span class="line"></span><br><span class="line">  mov dh, 10</span><br><span class="line">  mov dl, 10</span><br><span class="line">  mov cl, 2</span><br><span class="line">  mov ax, data</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov si, 0</span><br><span class="line">  int 7ch</span><br><span class="line">  </span><br><span class="line">  mov ax, 4c00h</span><br><span class="line">  int 21h</span><br><span class="line"></span><br><span class="line">showstr:</span><br><span class="line">  push ax</span><br><span class="line">  push bx</span><br><span class="line">  push cx</span><br><span class="line">  push ds</span><br><span class="line">  push es</span><br><span class="line">  push di</span><br><span class="line">  push si</span><br><span class="line"></span><br><span class="line">  mov ax, 0b800h</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov ah, 0</span><br><span class="line">  mov al, 160</span><br><span class="line">  mul dh</span><br><span class="line">  mov dh, 0</span><br><span class="line">  add ax, dx</span><br><span class="line">  mov di, ax</span><br><span class="line"></span><br><span class="line">  mov al, cl</span><br><span class="line">  mov cx, 0</span><br><span class="line"></span><br><span class="line">s:</span><br><span class="line">  mov cl, ds:[si]</span><br><span class="line">  jcxz se</span><br><span class="line">  mov es:[di], cl</span><br><span class="line">  mov es:[di+1], al</span><br><span class="line">  inc si</span><br><span class="line">  add di, 2</span><br><span class="line">  loop s</span><br><span class="line"></span><br><span class="line">se:</span><br><span class="line">  pop si</span><br><span class="line">  pop di</span><br><span class="line">  pop es</span><br><span class="line">  pop ds</span><br><span class="line">  pop cx</span><br><span class="line">  pop bx</span><br><span class="line">  pop ax</span><br><span class="line">  iret</span><br><span class="line"></span><br><span class="line">showstrend:</span><br><span class="line">  nop</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h3 id="完成-loop-指令的功能"><a class="markdownIt-Anchor" href="#完成-loop-指令的功能"></a> 完成 loop 指令的功能</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">  dw 8 dup (0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">  mov ax, stack</span><br><span class="line">  mov ss, ax</span><br><span class="line">  mov sp, 16</span><br><span class="line"></span><br><span class="line">  call load</span><br><span class="line">  call setIVT</span><br><span class="line"></span><br><span class="line">  mov ax, 0b800h</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 160*12</span><br><span class="line">  mov bx, offset s - offset se</span><br><span class="line">  mov cx, 80</span><br><span class="line"></span><br><span class="line">s:</span><br><span class="line">  mov byte ptr es:[di], &#x27;!&#x27;</span><br><span class="line">  add di, 2</span><br><span class="line">  int 7ch</span><br><span class="line"></span><br><span class="line">se:</span><br><span class="line">  nop</span><br><span class="line">  mov ax, 4c00h</span><br><span class="line">  int 21h</span><br><span class="line"></span><br><span class="line">setIVT:</span><br><span class="line">  push ax</span><br><span class="line">  push es</span><br><span class="line"></span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov word ptr es:[7ch*4], 200h</span><br><span class="line">  mov word ptr es:[7ch*4+2], 0</span><br><span class="line"></span><br><span class="line">  pop es</span><br><span class="line">  pop ax</span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">load:</span><br><span class="line">  push ax</span><br><span class="line">  push cx</span><br><span class="line">  push ds</span><br><span class="line">  push es</span><br><span class="line">  push di</span><br><span class="line">  push si</span><br><span class="line"></span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 200h</span><br><span class="line">  mov ax, cs</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov si, offset myloop</span><br><span class="line">  mov cx, offset myloopend - offset myloop</span><br><span class="line">  cld</span><br><span class="line">  rep movsb</span><br><span class="line"></span><br><span class="line">  pop si</span><br><span class="line">  pop di</span><br><span class="line">  pop es</span><br><span class="line">  pop ds</span><br><span class="line">  pop cx</span><br><span class="line">  pop ax</span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">myloop:</span><br><span class="line">  push bp</span><br><span class="line">  mov bp, sp</span><br><span class="line">  dec cx</span><br><span class="line">  jcxz myloopret</span><br><span class="line">  add [bp+2], bx</span><br><span class="line"></span><br><span class="line">myloopret:</span><br><span class="line">  pop bp</span><br><span class="line">  iret</span><br><span class="line"></span><br><span class="line">myloopend:</span><br><span class="line">  nop</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h3 id="显示四句英文诗"><a class="markdownIt-Anchor" href="#显示四句英文诗"></a> 显示四句英文诗</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">s1: db &#x27;Good,better,best,&#x27;, &#x27;$&#x27;</span><br><span class="line">s2: db &#x27;Never let it rest,&#x27;, &#x27;$&#x27;</span><br><span class="line">s3: db &#x27;Till good is better,&#x27;, &#x27;$&#x27;</span><br><span class="line">s4: db &#x27;And better,best.&#x27;, &#x27;$&#x27;</span><br><span class="line">s:  dw offset s1, offset s2, offset s3, offset s4</span><br><span class="line">row:db 2, 4, 6, 8</span><br><span class="line"></span><br><span class="line">start:</span><br><span class="line">  mov ax, cs</span><br><span class="line">  mov ds, ax</span><br><span class="line">  mov bx, offset s</span><br><span class="line">  mov si, offset row</span><br><span class="line">  mov cx, 4</span><br><span class="line"></span><br><span class="line">ok:</span><br><span class="line">  mov bh, 0</span><br><span class="line">  mov dh, ds:[si]</span><br><span class="line">  mov dl, 0</span><br><span class="line">  mov ah, 2</span><br><span class="line">  int 10h</span><br><span class="line"></span><br><span class="line">  mov dx, ds:[bx]</span><br><span class="line">  mov ah, 9</span><br><span class="line">  int 21h</span><br><span class="line">  inc si</span><br><span class="line">  add bx, 2</span><br><span class="line">  loop ok</span><br><span class="line"></span><br><span class="line">  mov ax, 4200h</span><br><span class="line">  int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h2 id="端口"><a class="markdownIt-Anchor" href="#端口"></a> 端口</h2>
+<p>CPU 通过主线相连的芯片除了各种存储器之外，还有以下 3 种芯片：</p>
+<ol>
+<li>各种接口卡的芯片</li>
+<li>主板上的接口芯片，用来访问外设</li>
+<li>其他芯片，存储系统相关信息或进行相关输入输出</li>
+</ol>
+<h3 id="in-和-out-指令"><a class="markdownIt-Anchor" href="#in-和-out-指令"></a> in 和 out 指令</h3>
+<p>CPU 使用地址线和控制线向端口发送指令，从而与芯片进行交互，间接访问芯片的存储单元。</p>
+<p>在 <code>in</code> 和 <code>out</code> 指令中，只能使用 ax 或 al 来存放端口读/写的数据，其中访问 8 位端口时用 al ，访问 16 位端口时用 ax 。</p>
+<h3 id="shl-和-shr-指令"><a class="markdownIt-Anchor" href="#shl-和-shr-指令"></a> shl 和 shr 指令</h3>
+<p>它们都是逻辑位移指令，都会将<strong>最后移出的一位写入 CF 中</strong>，如果移动位数大于 1 ，则需要将移动位数放在 cl 中。</p>
+<h2 id="lab-14"><a class="markdownIt-Anchor" href="#lab-14"></a> Lab 14</h2>
+<p>访问 CMOS RAM</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">  db 128 dup (0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">  mov ax, stack</span><br><span class="line">  mov ss, ax</span><br><span class="line">  mov sp, 128</span><br><span class="line"></span><br><span class="line">  mov bx, 0b800h</span><br><span class="line">  mov es, bx</span><br><span class="line">  mov bx, 160*12+28*2</span><br><span class="line"></span><br><span class="line">  call show_ymd</span><br><span class="line">  mov ah, &#x27; &#x27;</span><br><span class="line">  call print_char</span><br><span class="line">  call show_hms</span><br><span class="line"></span><br><span class="line">  mov ax, 4c00h</span><br><span class="line">  int 21h</span><br><span class="line"></span><br><span class="line">show_ymd:</span><br><span class="line">  push ax</span><br><span class="line">  push cx</span><br><span class="line"></span><br><span class="line">  mov al, 9</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  mov ah, &#x27;/&#x27;</span><br><span class="line">  call print_char</span><br><span class="line"></span><br><span class="line">  mov al, 8</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  mov ah, &#x27;/&#x27;</span><br><span class="line">  call print_char</span><br><span class="line">  </span><br><span class="line">  mov al, 7</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  pop cx</span><br><span class="line">  pop ax</span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">show_hms:</span><br><span class="line">  push ax</span><br><span class="line">  push cx</span><br><span class="line"></span><br><span class="line">  mov al, 4</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  mov ah, &#x27;:&#x27;</span><br><span class="line">  call print_char</span><br><span class="line"></span><br><span class="line">  mov al, 2</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  mov ah, &#x27;:&#x27;</span><br><span class="line">  call print_char</span><br><span class="line">  </span><br><span class="line">  mov al, 0</span><br><span class="line">  call show_single</span><br><span class="line"></span><br><span class="line">  pop cx</span><br><span class="line">  pop ax</span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">; al 存端口号</span><br><span class="line">show_single:</span><br><span class="line">  call get_char</span><br><span class="line">  call print_char</span><br><span class="line">  mov ah, al</span><br><span class="line">  call print_char</span><br><span class="line"></span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">; ah 存要打印的字符</span><br><span class="line">; es:[bx] 要打印的屏幕位置</span><br><span class="line">print_char:</span><br><span class="line">  mov byte ptr es:[bx], ah</span><br><span class="line">  add bx, 2</span><br><span class="line"></span><br><span class="line">  ret</span><br><span class="line"></span><br><span class="line">; al 存放单元</span><br><span class="line">; ah 存十位数 ASCII 码</span><br><span class="line">; al 存个位数 ASCII 码</span><br><span class="line">get_char:</span><br><span class="line">  push cx</span><br><span class="line"></span><br><span class="line">  out 70h, al</span><br><span class="line">  in al, 71h</span><br><span class="line">  mov ah, al</span><br><span class="line">  mov cl, 4</span><br><span class="line">  shr ah, cl</span><br><span class="line">  and al, 00001111b</span><br><span class="line"></span><br><span class="line">  add ah, 30h</span><br><span class="line">  add al, 30h</span><br><span class="line">  </span><br><span class="line">  pop cx</span><br><span class="line">  ret</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h2 id="外中断"><a class="markdownIt-Anchor" href="#外中断"></a> 外中断</h2>
+<p>外中断信息来自 CPU 外部，外中断源一共有两种：</p>
+<ol>
+<li>可屏蔽中断
+<ul>
+<li>如果 <code>IF = 0</code> ，则会禁止进入可屏蔽中断。</li>
+<li>进入内中断时会将 IF 置为 0 。</li>
+<li>如果在內中断过程中需要处理可屏蔽中断，则需要用指令将 IF 置为 1 。
+<ul>
+<li><code>sti</code> : IF = 1</li>
+<li><code>cli</code> : IF = 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不可屏蔽中断
+<ul>
+<li>中断类型码固定为 2</li>
+<li>中断过程与內中断一致，除了最后是 <code>(IP) = (8), (CS) = (0AH)</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="lab-15"><a class="markdownIt-Anchor" href="#lab-15"></a> Lab 15</h2>
+<p>安装新的 int9 中断例程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">stack segment</span><br><span class="line">  db 128 dup (0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">  mov ax, stack</span><br><span class="line">  mov ss, ax</span><br><span class="line">  mov sp, 128</span><br><span class="line"></span><br><span class="line">  push cs</span><br><span class="line">  pop ds</span><br><span class="line">  mov si, offset int9</span><br><span class="line"></span><br><span class="line">  mov ax, 0</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov di, 204h</span><br><span class="line"></span><br><span class="line">  mov cx, offset int9end - offset int9</span><br><span class="line">  cld</span><br><span class="line">  rep movsb</span><br><span class="line"></span><br><span class="line">  push es:[9*4]</span><br><span class="line">  pop es:[200h]</span><br><span class="line">  push es:[9*4+2]</span><br><span class="line">  pop es:[202h]</span><br><span class="line"></span><br><span class="line">  cli</span><br><span class="line">  mov word ptr es:[9*4], 204h</span><br><span class="line">  mov word ptr es:[9*4+2], 0</span><br><span class="line">  sti</span><br><span class="line"></span><br><span class="line">  mov ax, 4c00h</span><br><span class="line">  int 21h</span><br><span class="line"></span><br><span class="line">int9:</span><br><span class="line">  push ax</span><br><span class="line">  push bx</span><br><span class="line">  push cx</span><br><span class="line">  push es</span><br><span class="line"></span><br><span class="line">  in al, 60h</span><br><span class="line">  pushf</span><br><span class="line">  call dword ptr cs:[200h]</span><br><span class="line">  cmp al, 1eh</span><br><span class="line">  jne int9ret</span><br><span class="line">  pushf</span><br><span class="line"></span><br><span class="line">  in al, 60h</span><br><span class="line">  pushf</span><br><span class="line">  call dword ptr cs:[200h]</span><br><span class="line">  cmp al, 1eh+80h</span><br><span class="line">  jne int9ret</span><br><span class="line"></span><br><span class="line">  mov ax, 0b800h</span><br><span class="line">  mov es, ax</span><br><span class="line">  mov bx, 0</span><br><span class="line">  mov cx, 2000</span><br><span class="line">s:</span><br><span class="line">  mov byte ptr es:[bx], &#x27;A&#x27;</span><br><span class="line">  add bx, 2</span><br><span class="line">  loop s</span><br><span class="line"></span><br><span class="line">int9ret:</span><br><span class="line">  pop es</span><br><span class="line">  pop cx</span><br><span class="line">  pop bx</span><br><span class="line">  pop ax</span><br><span class="line">  iret</span><br><span class="line"></span><br><span class="line">int9end:</span><br><span class="line">  nop</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Assembly/asm7/index/">https://blog.rbkou.me/Study-Notes/Assembly/asm7/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Assembly/" class="post-tags__link button"># Assembly</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Algorithm/gcdlcm/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            gcd &amp;&amp; lcm 复习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/CS-APP/CSAPP2/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CS:APP 第二章学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>CS61A 通关感想 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="CS61A">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="CS61A, Summer 2020">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61A 通关感想">
+<meta property="og:url" content="https://blog.rbkou.me/CS/cs61a/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="CS61A, Summer 2020">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-05T04:58:14.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.504Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="CS61A">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CS61A 通关感想
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-05</a>
+        
+    <span class="separate-dot"></span><a href="/categories/CS/" class="button">CS</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>从 8 月初到现在，历时将近 3 个月，我才终于通关了 <a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61a/su20/">CS61A, Summer 2020</a> ，因为 8 月时过于怠惰，开学之后又有丰富多彩的课程表（不愧是你啊，HUST），导致战线拉的这么长（碎碎念）。</p>
+<p>在 CS61A 这门课中，收获的远远不止是 Python、Scheme、SQL 语法，它通过一个个精心设计的 lab、hw、proj，让我能切身实际的感受到编程的魅力，另外，认真完成这些任务后，我对 CS 领域中的不少理念，如 “abstraction” 等，有了更深刻的理解，这绝对是乖乖跟着 HUST 答辩课程学习所得不到的，更重要的是，CS61A 为我打开了 CS 的第一扇门，尽管它不是我看的第一个国外优质课程。</p>
+<p>不仅仅是 CS 本身的乐趣，教授这门课的 John DeNero 教授也是幽默风趣，能传授人生哲理的老师。比如万圣节时 DeNero 教授倾心录制的视频，带着搞怪南瓜帽子的教授着实有趣，但是更值得注意的是他的话：我们不应该为 GPA 所困扰，CS 的学习本身是一件很有趣的事情。</p>
+<iframe width="680" height="427" src="https://www.youtube.com/embed/9DyfRMlyxfg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<blockquote>
+<p>Computers and science, how did they meet?</p>
+<p>Computers are cool, and science is neat.</p>
+<p>But then, one day, they must have teamed up on the street.</p>
+<p>And created this course, in which I have a seat.</p>
+<p>And it’s hard, the projects are tough to complete,</p>
+<p>And Scheme seems more like a trick than a treat.</p>
+<p>And the tests, the tests are the very worst part.</p>
+<p>I study, I practise, and I’m really smart.</p>
+<p>And I know all the rules of assignment by heart.</p>
+<p>But the day of the midterm, the TA says start,</p>
+<p>And all of my test taking plans fall apart,</p>
+<p>Because the problems are even more abstract than art,</p>
+<p>Sometimes I can’t even solve problem one,</p>
+<p>And why is problem named some stupid pun?</p>
+<p>And that jerk Fibonacci, he’s so overdone.</p>
+<p>Computers and science has teamed up and won.</p>
+<p>But hold on…, courses aren’t lost, they aren’t won,</p>
+<p>And learning to program is suppose to be fun.</p>
+<p>So don’t let these tests and these points get the best of you,</p>
+<p>Grades in your major count less than you think they do.</p>
+<p>I’ve never heard them come up in an interview.</p>
+<p>And the faculty I know really likes students who might not aced every test, but don’t quit</p>
+<p>They focus on learning, improvement, and grit</p>
+<p>And soon they have learned about more than a few things</p>
+<p>And all their hard work made them able to do things</p>
+<p>And doing things, that’s what the world cares for.</p>
+<p>What you can do matters more than your score.</p>
+</blockquote>
+<p>也是因为看过了 CS61A ，这更加坚定了我一定要申请到 PhD 的想法，希望大三的时候能有机会报名 UCB 的 BGA 项目，拿一封份量足够的推荐信（做梦也想去四大😭</p>
+<p>好了，回归正题，说说 CS61A 究竟讲了些啥。</p>
+<p>首先，当然是基础的 Python 语法了，但是和国内教学 C 语言语法不同，CS61A 通过 Python 还讲授了 CS 领域重要的概念——abstraction，另外，通过他的 lab、hw ，你能对递归有一个更深刻的理解。</p>
+<p>其次，Python 作为著名的 OOP (Object-Oriented-Programming) 例子，当然要讲讲 OOP 究竟是个啥玩意了。我之前对面向过程、面向对象的理解纯粹来自于廖雪峰的 Java 教程中提到的「建造凳子」的例子，可以说并没有完全理解，但是被问到可以用这个例子糊弄过去（捂脸）。在看过 John DeNero 教授对 OOP 的解释并且做完了相应的编程练习之后，我还是挺有自信应该理解了 OOP 的概念的，相比于面向过程，OOP 考虑的是一个个的 object ，它属于一个 class ，可以继承这个 class 的 attributes ，它作为一个独立的个体也可以拥有属于自己的 attributes ，同时，object 的所谓的「函数」更准确的说法是 methods，它的作用并不是解决某一个问题，而是对这个 object 做某种操作的「方法」，语言的表达能力终究有限，要实际理解 OOP ，还是得看看 DeNero 教授的讲解，然后做完对应的练习，get your hands dirty 永远是学习 CS 亘古不变的真理。</p>
+<p>之后是 scheme——lisp 的一种方言，用来学习 functional programming 函数式编程的优秀的样例。函数式编程的思想和另外两种编程有很大的不同，最大的感受是你不得不把每一个步骤考虑清楚才能动手 coding ，不像我写 Python 和 C++ ，总是没想清楚实现细节就开始写代码。还有很重要的一点就是 recursion，在 scheme 的练习中需要大量用到 recursion，这可以说是在逼迫你加深对 recursion、abstraction 的理解与运用了。另外，tail- recursion 也是一个很神奇的东西，这玩意让我明白了当年搞 OI 时听到的“开不开无限栈？”中的无限栈到底是啥，同时思考把一个浪费一堆 frame 的 recursion 通过多设置几个带的变量变成了只有线性大小的 frame 的 tail-recursion 也很有意思。</p>
+<p>最后是以 SQL 作为 declarative programming language 的例子讲了 SQL 的基础语法以及 declarative programming language 的概念，这对之后数据库的学习能带来不少帮助。</p>
+<p>总而言之，CS61A 一定是一门优秀的 CS 入门课，无论是大一还是大二，抑或是研究生，甚至是博士生，我都相信 CS61A 是值得花时间认真刷完的一门课，毕竟，它可是能点燃对 CS 的热情的一把火啊！（暴论）</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/CS/cs61a/">https://blog.rbkou.me/CS/cs61a/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/CS61A/" class="post-tags__link button"># CS61A</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch4/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第四章学习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/cs229-linear-regression/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CS229 Linear Regression
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

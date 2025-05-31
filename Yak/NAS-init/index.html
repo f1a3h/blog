@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>NAS Is All You Need: 初见 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="NAS, Anime">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="是 NAS，好耶！😆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NAS Is All You Need: 初见">
+<meta property="og:url" content="https://blog.rbkou.me/Yak/NAS-init/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="是 NAS，好耶！😆">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281102053.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503191437538.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281818688.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281829313.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281833443.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281835065.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281845806.png">
+<meta property="article:published_time" content="2024-12-28T20:28:17.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.454Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="Anime">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281102053.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        NAS Is All You Need: 初见
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/12/" class="post-meta__date button">2024-12-28</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Yak/" class="button">Yak</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 前情提要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E8%83%BD%E9%A2%84%E8%AD%A6"><span class="toc-number">2.</span> <span class="toc-text"> 高能预警</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%90%9E"><span class="toc-number">3.</span> <span class="toc-text"> 开搞！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="toc-number">3.1.</span> <span class="toc-text"> 科学上网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E7%BD%91%E8%AE%BF%E9%97%AE"><span class="toc-number">3.2.</span> <span class="toc-text"> 公网访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netbar"><span class="toc-number">3.3.</span> <span class="toc-text"> NetBar</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 前情提要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E8%83%BD%E9%A2%84%E8%AD%A6"><span class="toc-number">2.</span> <span class="toc-text"> 高能预警</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%90%9E"><span class="toc-number">3.</span> <span class="toc-text"> 开搞！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="toc-number">3.1.</span> <span class="toc-text"> 科学上网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E7%BD%91%E8%AE%BF%E9%97%AE"><span class="toc-number">3.2.</span> <span class="toc-text"> 公网访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#netbar"><span class="toc-number">3.3.</span> <span class="toc-text"> NetBar</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>是 NAS，好耶！😆</p>
+<h2 id="前情提要"><a class="markdownIt-Anchor" href="#前情提要"></a> 前情提要</h2>
+<p>前一段时间租了个丐版 VPS 跑了 Alist、Nginx Proxy Manager、WeWeRSS 等服务，但是内存太小、CPU 核心太少，而随着跑的服务越来越多，flash 的野心也逐渐膨胀😈，加上之前在 Win 本本地跑了个 Jellyfin Server 看番但是不便在别的电脑上用感觉还是不够爽，于是趁着这几天没课回家整了台 NAS.</p>
+<p>明确需求后，经过一番对比选择了极空间 Z4Pro，原因如下：</p>
+<ul>
+<li>也许会跑 <a target="_blank" rel="noopener" href="https://immich.app/">immich</a>, 带得动的群晖价格太高接受不了</li>
+<li>给家里人用的话，国产 NAS 貌似挺合适</li>
+<li>不想花太多时间折腾，所以最便宜的自组方案也不行</li>
+<li>绿联的系统风评不行，懒得弄绿群晖，所以 reject</li>
+</ul>
+<p>由于不清楚硬盘声究竟有多吵，所以没有买矿盘 HC550，暂时先只买了一块希捷酷狼 4T 将就着用。</p>
+<p>Z4Pro.jpg（<s>假装拍了图</s>）</p>
+<p>回家装好 Z4Pro 后发现客厅的网速极慢，完全无法正常使用，而客厅用的路由器是一个很老的 TP Link 路由器，我房间的路由器是一台刷了老毛子固件的小米 AC2100 与客厅的路由器接的是同一个光猫但是网速却好得多，猜测是路由器导致网速过慢，于是出门买了个小米 AX3000 回来装上，弄好后网速果然快多了。</p>
+<h2 id="高能预警"><a class="markdownIt-Anchor" href="#高能预警"></a> 高能预警</h2>
+<p>在花了一整天的时间折腾各种东西之后因为手动按电源键重启了一次 Z4Pro，之后就再也检测不到硬盘了，4 个盘位都检测不能，当然首先怀疑的是 PDD 上买的硬盘踩雷了，于是拿去电脑城随便找了个维修店检测一下，结果老板不仅不认识 NAS 还二话不说把硬盘重置了。。。。仕方ない😮‍💨，里面还没有装什么很重要的数据，只能算了，至少硬盘是没有问题的，因此只能是 Z4Pro 的问题了。</p>
+<p>硬件这块 flash 真是小白，只能求助客服，咨询了半天拍了各种照片以及 N 次重启后，客服让等工程师来解决。本以为是硬件出了问题，结果第二天工程师发了一个约 10G 的镜像让我手动升级（实际是降级）系统，升级完了确实能用了，只是很可惜硬盘数据没了一切都得重来。</p>
+<p>可以看出极空间的系统并不是很稳定，网上冲浪时也发现不止我一个人遇到了无法识别硬盘的问题，所以要求稳的话还是上白群吧，总之后悔买极空间了。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281102053.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281102053.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="v2ex 论坛（没保存原贴链接私密马赛）" /><span class="image-caption">v2ex 论坛（没保存原贴链接私密马赛）</span></p>
+
+<div class="callout" data-callout="danger">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+</div>
+<div class="callout-title-inner">Danger</div>
+</div>
+<div class="callout-content"><p></p>
+<p>寒假回家后给 NAS 上了块固态，再次启动 Z4Pro 后又出现了无法识别硬盘的问题，和客服沟通并由极空间的工程师远程 SSH 后还是和上次一样只能手动刷旧系统，但是总不能每次关机后都让我重新安装一遍系统吧，而且安装完后硬盘无法识别为旧盘只能格式化回到最初的起点，于是询问客服能否换机，客服永远不正面回答这个问题，并且告诉我工程师反馈我有开启过 SSH …</p>
+<p>无奈之下只能认命，果然还是应该直接白群或者买个小主机自己折腾的…</p>
+<p>不过想到刚刷完系统后一会儿关机再开机并不会出现不认盘的问题，猜测可能真是因为 SSH 导致的。我在上一次刷完系统后使用 SSH 并没有用过 docker-compose 这一类工具，仅仅只是用 <code>apt</code> 安装使用了 <code>screen</code> 这个软件 + 命令行运行 <code>mihomo</code> + <code>touch</code> 创建过几个文件 + <code>chmod</code> 修改过一个 docker 容器用的文件夹权限，在这一次刷系统后我改成了在极空间自带的 docker 界面使用 <code>mihomo</code> 的 docker 容器而不是在终端安装运行，也就是避开了前两个行为，这一次过了几天后断电重启并没有出现不认盘的问题。</p>
+<p>不认盘应该是驱动出了问题，而导致这个问题的可能性最大的原因应该是为了安装 <code>screen</code> 而使用过 <code>sudo apt update</code> 与 <code>sudo apt upgrade</code>, 会因为这个掉驱动我也是头一回见…</p>
+<p>极空间使用的是 ZOS 系统，带情绪的评价只能说是拿 Ubuntu 乱改的一坨屎。国产 NAS 系统还是看看远方的 fn-OS 吧！</p>
+
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>更新于 2025/03/19: ZOS 应该是基于 Debian 的。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503191437538.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202503191437538.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="cat /etc/os-release" /><span class="image-caption">cat /etc/os-release</span></p>
+</div></div></div></div><h2 id="开搞"><a class="markdownIt-Anchor" href="#开搞"></a> 开搞！</h2>
+<p>上来当然是先弄 docker 了，搜了几个 image 都搜索不到，自行 pull 连不上 <code>docker.io</code>，于是先解决上网问题。</p>
+<h3 id="科学上网"><a class="markdownIt-Anchor" href="#科学上网"></a> 科学上网</h3>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://windowbr.top/2024/09/17/fnos-mihomo/">手把手教你如何在飞牛 OS 中使用网络代理 - windowBR</a>.</li>
+</ul>
+<p>第一件事当然是获取 SSH 权限了，在获取之后用终端连接，Z4Pro 的硬盘位于 <code>/data_s00x</code>, 其中 <code>x</code> 是硬盘所在盘位，用户在硬盘中的文件夹路径为 <code>/data_s00x/data/udata/real/username/</code>.</p>
+<p>本机先在 <a target="_blank" rel="noopener" href="https://github.com/MetaCubeX/mihomo/releases">mihomo - release</a> 下参照 <a target="_blank" rel="noopener" href="https://github.com/MetaCubeX/mihomo/wiki/FAQ">我应该下载哪个文件? / Which file should I download?</a> 下载好对应的包，Z4Pro 是 x86 架构则下载 <code>mihomo-linux-amd64-alpha-89dfabe.deb</code>, 然后通过极空间 APP 上传到用户目录下，接着终端 <code>cd</code> 进去，使用下列命令进行安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dpkg -i mihomo-linux-amd64-alpha-89dfabe.deb</span><br></pre></td></tr></table></figure>
+<p>然后 docker 安装 metacubexd 作为 mihomo 的 web 管理界面：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run -d --restart always -p 9097:80 --name metacubexd ghcr.io/metacubex/metacubexd</span><br></pre></td></tr></table></figure>
+<p>如果下载不动的话可以用国内的 <a target="_blank" rel="noopener" href="http://ghcr.io">ghcr.io</a> 镜像源，例如南大的镜像源，对应的镜像地址为 <code>ghcr.nju.edu.cn/metacubex/metacubexd</code>.</p>
+<p>如果在命令行直接使用 <code>docker run</code> 或是 <code>docker compose</code> 的话，在极空间的 docker 应用中是无法查看对应 container 的详情的，因此方便起见，在极空间的 docker 应用中 <code>自定义拉取</code> 部分输入 <code>ghcr.nju.edu.cn/metacubex/metacubexd</code>, 拉取完成后双击运行，修改名称为 <code>metacubexd</code>, 端口号中将容器端口 80 对应的本地端口改为 9097（对应上方的命令），其余保持默认即可。</p>
+<p>接着在随便找一个你喜欢的地方建立 <code>mihomo</code> 文件夹用于存放 mihomo 的配置，将本机的科学上网软件里你所使用的配置文件 <code>config.yaml</code> 上传至 <code>mihomo</code> 文件夹，命令行 <code>cd</code> 进去使用 <code>sudo mihomo -d .</code> 即可运行 mihomo 并将 <code>config.yaml</code> 作为代理的配置文件。</p>
+<p>如果遇到类似下列的报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">can&#x27;t initial geoip: can&#x27;t download mmdb: get &quot;https://github.com/metacubex/meta-rules-dat/releases/download/latest/geoip.metadb&quot;</span><br></pre></td></tr></table></figure>
+<p>说明 NAS 网络下不动 Github 上的这个文件 <code>geoip.metadb</code> ，直接本机去 <a target="_blank" rel="noopener" href="https://github.com/MetaCubeX/meta-rules-dat">mata-rules-dat</a> 下载好相应的文件上传至 <code>mihomo</code> 文件夹下即可。</p>
+<p>接着安装 <code>screen</code> 软件便于后台运行 mihomo，否则退出 SSH 后 mihomo 进程也会退出：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt upgrade</span><br><span class="line"><span class="built_in">sudo</span> apt install screen</span><br></pre></td></tr></table></figure>
+<p>然后创建名为 <code>mihomo</code> 的窗口：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen -R mihomo</span><br></pre></td></tr></table></figure>
+<p>进入窗口后可能需要重新 <code>cd</code> 进 <code>mihomo</code> 文件夹，接着运行 mihomo:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mihomo -d .</span><br></pre></td></tr></table></figure>
+<p>再使用 <code>Ctrl+A+D</code> 退出窗口，最后便可安全退出 SSH 了。</p>
+<h3 id="公网访问"><a class="markdownIt-Anchor" href="#公网访问"></a> 公网访问</h3>
+<p>第一次弄的时候是用的 Cloudflare tunnel 进行免费内网穿透，但是看番这种流量大的场景 Cloudflare 的速度实在没法用，又不想找运营商要公网 IPv4，于是一番搜索之后锁定了 IPv6 + DDNS 的方案。</p>
+<p>因为在家里的时候没有成功用外网访问 IPv6 地址，所以没有给光猫和路由器的设置界面截图，DDNS 的设置用的是极空间自带的 DDNS + 阿里云，这个纯傻瓜式操作就懒得截图放上来了，当时着急要回学校了不方便折腾家里的网络所以直接上了个 <a target="_blank" rel="noopener" href="https://www.natfrp.com/">Sakura frp</a>, 极空间的设置可以结合官方文档中的 <a target="_blank" rel="noopener" href="https://doc.natfrp.com/app/fnos.html">飞牛 OS</a> 和 <a target="_blank" rel="noopener" href="https://doc.natfrp.com/app/synology.html">群晖</a> 的教程看，官方文档也很详细了所以 flash 不再记录。</p>
+<p>后面回到学校时突然发现 NAS 的 IPv6 能用了于是终于开启公网看番的大时代，不过用的还是 域名+端口号 访问的方案，如果你觉得这样不够酷也可以用 <a target="_blank" rel="noopener" href="https://nginxproxymanager.com/">Nginx Proxy Manager</a> 设置一下反代，但是近期 DDL 以及考试密集（我有考试密集恐惧症.jpg）所以就先不折腾了。</p>
+<p>如果你想折腾 Cloudflare tunnel，可以参考下列文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hackfang.me/nas-cloudflare-tunnel">黑群晖服务使用 Cloudflare tunnel 进行内网穿透教程 - hack-fang</a></li>
+<li><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/ao9vdw8n/">极空间无公网IP搭建Cloudflared免费隧道内网穿透，部署docker教程 - 没事随便写写</a></li>
+</ul>
+<p>对于 IPv6 + DDNS，因为在家里的时候不成功所以参考了一大堆相关文章，也不太好评价最终哪些文章起到了作用，所以就不放上来了。</p>
+<h3 id="netbar"><a class="markdownIt-Anchor" href="#netbar"></a> NetBar</h3>
+<p>这部分就是实现自动化看番 + Jellyfin/Plex Server 的配置了，起这个标题是因为给它们的 docker 网络起名叫 netbar 😎。</p>
+<p>这部分主要参考的是 mikusa 的文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.himiku.com/archives/ani-rss.html">ANI-RSS：自动追番新姿势！- 初之音</a></li>
+</ul>
+<p>首先为创建名为 <code>netbar</code> 的 docker 网络，然后开始实现自动化看番，先拉取 <code>superng6/qbittorrentee:latest</code> 容器，配置时修改如下部分（使用 <code>|</code> 作为分隔符）：</p>
+<ul>
+<li>基本设置：
+<ul>
+<li>容器名称：qb</li>
+<li>取消启用性能限制</li>
+</ul>
+</li>
+<li>文件夹路径：
+<ul>
+<li><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281818688.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281818688.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></li>
+</ul>
+</li>
+<li>网络：
+<ul>
+<li>更换为前面添加的 <code>netbar</code></li>
+</ul>
+</li>
+<li>端口：
+<ul>
+<li>添加 <code>8989</code> | <code>8989</code> | <code>TCP</code> 作为 web UI 的访问端口</li>
+</ul>
+</li>
+<li>环境：
+<ul>
+<li>修改 <code>WEBUIPORT</code> 的值为 <code>8989</code></li>
+<li>添加 <code>PUID</code> | <code>0</code> 和 <code>PGID</code> | <code>0</code>, 这里使用 root 的 PUID 和 PGID 是因为 flash 使用用户的 PUID 和 PGID 时会在日志里报错</li>
+</ul>
+</li>
+</ul>
+<p>然后直接应用并访问 web UI 就可以了，qb 设置直接抄 mikusa 的作业。</p>
+<p>ani-rss 的容器配置则做以下修改：</p>
+<ul>
+<li>基本设置：
+<ul>
+<li>容器名称：ani-rss</li>
+<li>取消启用性能限制</li>
+</ul>
+</li>
+<li>文件夹路径：
+<ul>
+<li><code>你的番剧下载路径</code> | <code>/bangumi</code></li>
+<li><code>/SATA存储11/docker/ani-rss</code> | <code>/config</code></li>
+</ul>
+</li>
+<li>网络：
+<ul>
+<li><code>netbar</code></li>
+</ul>
+</li>
+<li>端口：
+<ul>
+<li><code>7789</code> | <code>7789</code> | <code>TCP</code></li>
+</ul>
+</li>
+<li>环境：
+<ul>
+<li><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281829313.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281829313.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></li>
+</ul>
+</li>
+</ul>
+<p>同样进入 web UI 然后抄 mikusa 的作业。</p>
+<p>再是 Plex Server, 使用的镜像是 <code>linuxserver/plex:latest</code>, 配置修改如下：</p>
+<ul>
+<li>基本设置：
+<ul>
+<li>容器名称：plex</li>
+<li>取消启用性能限制</li>
+<li>开启特权模式</li>
+<li>开启调用核心显卡</li>
+</ul>
+</li>
+<li>文件夹路径：
+<ul>
+<li><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281833443.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281833443.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></li>
+</ul>
+</li>
+<li>网络：
+<ul>
+<li><code>netbar</code></li>
+</ul>
+</li>
+<li>端口：
+<ul>
+<li>将容器端口为 <code>32400</code> 对应的本地端口修改为 <code>32400</code> 方便访问，其余空着等自动分配即可</li>
+</ul>
+</li>
+<li>环境：
+<ul>
+<li><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281835065.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281835065.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="这个码好像没有必要打呢 qwq" /><span class="image-caption">这个码好像没有必要打呢 qwq</span></li>
+</ul>
+</li>
+</ul>
+<p>其中 <code>PLEX_CLAIM</code> 的内容需要在 <a target="_blank" rel="noopener" href="https://www.plex.tv/claim/">Plex | Claim</a> 获取，第一次进入 Plex 网页时需要在路径中加上 <code>/web</code>, 例如 <code>http://ip:32400/web</code>, 进去之后的设置可以参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/opus/854238758610927685">【群晖 Synology】使用 Docker 搭建 Plex Media Server - 哔哩哔哩</a></li>
+</ul>
+<p>如果你希望在公网其他服务中（例如 Infuse 添加 Plex 服务器）添加 Plex Server 使用你公网访问用的域名，就在你的 Plex 网页端 <code>Settings - Remote Access</code> 中 disable remote access，如果你有公网 IPv4 的话就可以不用 disable，然后在 <code>Settings - Network</code> 中的 <code>Custom server access URLs</code> 填入你的域名（+端口号）。</p>
+<p>本来是打算润到 Plex 的（Plex 的刮削是真强），但是碍于用了 Anime4K 就回不去了，而 <a target="_blank" rel="noopener" href="https://github.com/iwalton3/plex-mpv-shim">plex-mpv-shim</a> 连不上我的 Plex Server，遂用回 Jellyfin.</p>
+<p>配置参考 mikusa：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.himiku.com/archives/deploy-a-more-comfortable-animation-library-with-jellyfin-and-bangumi.html">利用 Jellyfin + Bangumi 打造更舒适的动画媒体库 - 初之音</a></li>
+</ul>
+<p>容器配置修改为：</p>
+<ul>
+<li>基本设置：
+<ul>
+<li>容器名称：jellyfin</li>
+<li>取消启用性能限制</li>
+<li>开启特权模式</li>
+<li>开启调用核心显卡</li>
+</ul>
+</li>
+<li>文件夹路径：
+<ul>
+<li><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281845806.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412281845806.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></li>
+</ul>
+</li>
+<li>网络：
+<ul>
+<li><code>netbar</code></li>
+</ul>
+</li>
+<li>端口：
+<ul>
+<li><code>8096</code> | <code>8096</code> | <code>TCP</code></li>
+</ul>
+</li>
+<li>环境：
+<ul>
+<li>添加 <code>PUID</code> | <code>0</code> 和 <code>PGID</code> | <code>0</code></li>
+<li>你也可以参照 mikusa 的文章在此处添加代理</li>
+</ul>
+</li>
+</ul>
+<p>然后可以调用 <a target="_blank" rel="noopener" href="https://github.com/jellyfin/jellyfin-mpv-shim">jellyfin-mpv-shim</a> 配合 <a target="_blank" rel="noopener" href="https://github.com/bloc97/Anime4K">Anime4K</a> 爽看番了。</p>
+<p>当然，这时又会遇到一个问题：观看 BD 资源的番时，NAS 没有安装外挂字幕需要的字体怎么办？这里依然抄的 mikusa 的作业，使用 AssFont 在 Window 笔记本上子集化字体嵌入 ASS 文件再上传至 NAS，详细的参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.himiku.com/archives/my-solution-for-perfect-anime-subtitle-fonts.html">我的动画字幕字体解决方案 - 初之音</a></li>
+</ul>
+<p>不过当我子集化 <a target="_blank" rel="noopener" href="https://bgm.tv/subject/269090">Hello World</a> 的字体时发现 <code>方正悠宋 GBK 509R</code> 字体无法被子集化，但是好像<a target="_blank" rel="noopener" href="https://github.com/wyzdwdz/assfonts/issues/6">暂时没有比较好的解决方案</a>。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Yak/NAS-init/">https://blog.rbkou.me/Yak/NAS-init/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/NAS/" class="post-tags__link button"># NAS</a><a href="/tags/Anime/" class="post-tags__link button"># Anime</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Yak/plex-on-tv/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            海信电视安装 Plex
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Operating-Systems/ostep-p2/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            OSTEP: Concurrency 学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

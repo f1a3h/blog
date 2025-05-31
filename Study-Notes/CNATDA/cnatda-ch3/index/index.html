@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>CNATDA 第三章学习笔记 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Computer Network, CNATDA">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Transport Layer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNATDA 第三章学习笔记">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch3/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Transport Layer">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/rdt3.JPG">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_seqnum.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_sender.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_receiver.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/sr.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_segment.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_congestion_control.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_reno_vs_cubic.jpeg">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_fairness.jpeg">
+<meta property="article:published_time" content="2023-11-22T01:01:20.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.503Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Computer Network">
+<meta property="article:tag" content="CNATDA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/rdt3.JPG">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CNATDA 第三章学习笔记
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-22</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/CNATDA/" class="button">CNATDA</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-and-transport-layer-services"><span class="toc-number">1.</span> <span class="toc-text"> Introduction and Transport-Layer Services</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiplexing-and-demultiplexing"><span class="toc-number">2.</span> <span class="toc-text"> Multiplexing and Demultiplexing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#connectionless-transport-udp"><span class="toc-number">3.</span> <span class="toc-text"> Connectionless Transport: UDP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-reliable-data-transfer"><span class="toc-number">4.</span> <span class="toc-text"> Principles of Reliable Data Transfer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#stop-and-wait"><span class="toc-number">4.1.</span> <span class="toc-text"> Stop-And-Wait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipelined-reliable-data-transfer"><span class="toc-number">4.2.</span> <span class="toc-text"> Pipelined Reliable Data Transfer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#go-back-n-gbn"><span class="toc-number">4.3.</span> <span class="toc-text"> Go-Back-N (GBN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selective-repeat-sr"><span class="toc-number">4.4.</span> <span class="toc-text"> Selective Repeat (SR)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#connection-oriented-transport-tcp"><span class="toc-number">5.</span> <span class="toc-text"> Connection-Oriented Transport: TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-tcp-connection"><span class="toc-number">5.1.</span> <span class="toc-text"> The TCP Connection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-segment-structure"><span class="toc-number">5.2.</span> <span class="toc-text"> TCP Segment Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sequence-numbers-and-acknowledgment-numbers"><span class="toc-number">5.3.</span> <span class="toc-text"> Sequence Numbers and Acknowledgment Numbers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#round-trip-time-estimation-and-timeout"><span class="toc-number">5.4.</span> <span class="toc-text"> Round-Trip Time Estimation and Timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reliable-data-transfer"><span class="toc-number">5.5.</span> <span class="toc-text"> Reliable Data Transfer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flow-control"><span class="toc-number">5.6.</span> <span class="toc-text"> Flow Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-connection-management"><span class="toc-number">5.7.</span> <span class="toc-text"> TCP Connection Management</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-congestion-control"><span class="toc-number">6.</span> <span class="toc-text"> Principles of Congestion Control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp-congestion-control"><span class="toc-number">7.</span> <span class="toc-text"> TCP Congestion Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#classic-tcp-congestion-control"><span class="toc-number">7.1.</span> <span class="toc-text"> Classic TCP Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-assisted-explicit-congestion-notification-and-delayed-based-congestion-control"><span class="toc-number">7.2.</span> <span class="toc-text"> Network-Assisted Explicit Congestion Notification and Delayed-based Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delayed-based-congestion-control"><span class="toc-number">7.3.</span> <span class="toc-text"> Delayed-based Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fairness"><span class="toc-number">7.4.</span> <span class="toc-text"> Fairness</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#evolution-of-transport-layer-functionality"><span class="toc-number">8.</span> <span class="toc-text"> Evolution of Transport-Layer Functionality</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-and-transport-layer-services"><span class="toc-number">1.</span> <span class="toc-text"> Introduction and Transport-Layer Services</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiplexing-and-demultiplexing"><span class="toc-number">2.</span> <span class="toc-text"> Multiplexing and Demultiplexing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#connectionless-transport-udp"><span class="toc-number">3.</span> <span class="toc-text"> Connectionless Transport: UDP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-reliable-data-transfer"><span class="toc-number">4.</span> <span class="toc-text"> Principles of Reliable Data Transfer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#stop-and-wait"><span class="toc-number">4.1.</span> <span class="toc-text"> Stop-And-Wait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipelined-reliable-data-transfer"><span class="toc-number">4.2.</span> <span class="toc-text"> Pipelined Reliable Data Transfer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#go-back-n-gbn"><span class="toc-number">4.3.</span> <span class="toc-text"> Go-Back-N (GBN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selective-repeat-sr"><span class="toc-number">4.4.</span> <span class="toc-text"> Selective Repeat (SR)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#connection-oriented-transport-tcp"><span class="toc-number">5.</span> <span class="toc-text"> Connection-Oriented Transport: TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-tcp-connection"><span class="toc-number">5.1.</span> <span class="toc-text"> The TCP Connection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-segment-structure"><span class="toc-number">5.2.</span> <span class="toc-text"> TCP Segment Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sequence-numbers-and-acknowledgment-numbers"><span class="toc-number">5.3.</span> <span class="toc-text"> Sequence Numbers and Acknowledgment Numbers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#round-trip-time-estimation-and-timeout"><span class="toc-number">5.4.</span> <span class="toc-text"> Round-Trip Time Estimation and Timeout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reliable-data-transfer"><span class="toc-number">5.5.</span> <span class="toc-text"> Reliable Data Transfer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flow-control"><span class="toc-number">5.6.</span> <span class="toc-text"> Flow Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-connection-management"><span class="toc-number">5.7.</span> <span class="toc-text"> TCP Connection Management</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-congestion-control"><span class="toc-number">6.</span> <span class="toc-text"> Principles of Congestion Control</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcp-congestion-control"><span class="toc-number">7.</span> <span class="toc-text"> TCP Congestion Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#classic-tcp-congestion-control"><span class="toc-number">7.1.</span> <span class="toc-text"> Classic TCP Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#network-assisted-explicit-congestion-notification-and-delayed-based-congestion-control"><span class="toc-number">7.2.</span> <span class="toc-text"> Network-Assisted Explicit Congestion Notification and Delayed-based Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delayed-based-congestion-control"><span class="toc-number">7.3.</span> <span class="toc-text"> Delayed-based Congestion Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fairness"><span class="toc-number">7.4.</span> <span class="toc-text"> Fairness</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#evolution-of-transport-layer-functionality"><span class="toc-number">8.</span> <span class="toc-text"> Evolution of Transport-Layer Functionality</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="introduction-and-transport-layer-services"><a class="markdownIt-Anchor" href="#introduction-and-transport-layer-services"></a> Introduction and Transport-Layer Services</h2>
+<p>transport layer 将 application layer messages 封装成 <em>segments</em>，然后交给 network layer 进行传输，将 network layer 提供的 logical communication between hosts 扩展为 logical communication between processes。</p>
+<p>最主要的两个 transport layer protocol 是 TCP 和 UDP，其中 UDP unreliable、connectionless 的，TCP reliable、connection-oriented 的。</p>
+<p>UDP 仅仅提供 data delivery 和 error checking 的服务，不保证 datagram 是否送达、是否有序，是否完整、正确，也不会控制传输速度。</p>
+<p>TCP 则提供 reliable data transfer、flow control、保证 datagram 正确、有序送达，还会提供 congestion control。</p>
+<p>而 network layer protocol 最重要的 IP protocol 提供的是一个 best-effort delivery (unreliable) 服务。</p>
+<h2 id="multiplexing-and-demultiplexing"><a class="markdownIt-Anchor" href="#multiplexing-and-demultiplexing"></a> Multiplexing and Demultiplexing</h2>
+<p>在 transport layer 中，<em>multiplexing</em> 指 sender 的 transport layer 将不同 socket 的 message 收集并发送给 network layer 的过程，而 <em>demultiplexing</em> 指 receiver 的  transport layer 将 network layer 发送来的 datagrams 拆分后传递给对应的 socket 的过程。</p>
+<p>multiplexing 和 demultiplexing 需要每个 socket 有 unique identifier。</p>
+<p>UDP socket 的 identifier 为二元组 <code>(dest IP addr, dest port num)</code> ，它也会存有 source port number 等其他 field，但是不作为 identifier。</p>
+<p>TCP socket 的 identifier 为四元组 <code>(src IP addr, src port num, dest IP addr, dest port num)</code>。</p>
+<h2 id="connectionless-transport-udp"><a class="markdownIt-Anchor" href="#connectionless-transport-udp"></a> Connectionless Transport: UDP</h2>
+<p>UDP 仅提供 multiplexing/demultiplexing 和 error checking。一些 application 选择 UDP 主要基于以下几点原因：</p>
+<ul>
+<li>更好地控制发送什么数据、什么时候发送：TCP 有 congestion control，可以会延迟发送数据，而且会错误重传导致发送较慢。</li>
+<li>不需要建立连接：建立连接的过程会产生 delay。</li>
+<li>无连接状态：可以减小系统资源消耗。</li>
+<li>较小的 header：TCP segment header 长度通常为 20 bytes，而 UDP 只有 8 bytes。</li>
+</ul>
+<p>但是，在使用 UDP 传输大量数据时，会导致 packet overflow at routers，UDP 丢包严重，TCP 传输过慢。</p>
+<p>UDP datagram header 共有 4 个 fields，每个长度都是 2 bytes。</p>
+<ul>
+<li>length：记录 UDP segment 的总长度。</li>
+<li>checksum：对所有 16-bit 的数据求和后使用 1s complement 检测是否全为 1。</li>
+<li>source port</li>
+<li>destination port</li>
+</ul>
+<p>UDP 的 checksum 仅仅进行 error detecting，不会进行 error correcting，当检测到错误时可以选择丢弃/通知 application。</p>
+<p>尽管很多 link layer protocol 也提供了 error checking，但是不能保证路上所有的 link layer 都提供了，同时 error 也不一定是 link-to-link 的过程中产生的，因此 UDP 仍然需要提供 checksum 的服务。</p>
+<h2 id="principles-of-reliable-data-transfer"><a class="markdownIt-Anchor" href="#principles-of-reliable-data-transfer"></a> Principles of Reliable Data Transfer</h2>
+<h3 id="stop-and-wait"><a class="markdownIt-Anchor" href="#stop-and-wait"></a> Stop-And-Wait</h3>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/rdt3.JPG" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/rdt3.JPG" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>在 stop-and-wait 中，sender 每次需要收到 receiver 发送的对应的 ACK/NAK 才会发送下一个 packet。</p>
+<ul>
+<li>checksum：传输过程可能出错，需要进行 error detection。</li>
+<li>acknowledgment：receiver 需要告知 sender 是否丢包、出现错误。</li>
+<li>retransmission：丢包（超时）或者收到 NAK 时需要重传。</li>
+<li>timeout：出现丢包现象需要使用 timeout 来进行判断。timeout 的时间太长会影响性能，所以一般设置为有可能丢包但是不能完全确定是否是丢包的值。</li>
+<li>sequence number：sender 发送的 packet 与 receiver 发送的 ACK 都有相应的 sequence number。在传输过程中，ACK 也有可能出错，从而导致 duplicate packet，因此加上 sequence number 来识别 duplicate packet。另外，在 stop-and-wait 中，sequence number 仅由 0/1 组成，因此又被称为 <em>alternating-bit protocol</em>。</li>
+</ul>
+<h3 id="pipelined-reliable-data-transfer"><a class="markdownIt-Anchor" href="#pipelined-reliable-data-transfer"></a> Pipelined Reliable Data Transfer</h3>
+<p>由于是 stop-and-wait 的机制，所以性能不高。</p>
+<p>定义 sender 的 <em>utilization</em> 的大小为 sender 实际在传输的时间与总时间的比值，在 stop-and-wait protocol 中，大小约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi></mrow></msub><mo>=</mo><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>L</mi><mi mathvariant="normal">/</mi><mi>R</mi></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi mathvariant="normal">/</mi><mi>R</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">U_{\mathrm{sender}}=\dfrac{L/R}{RTT+L/R}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">s</span><span class="mord mathrm mtight">e</span><span class="mord mathrm mtight">n</span><span class="mord mathrm mtight">d</span><span class="mord mathrm mtight">e</span><span class="mord mathrm mtight">r</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">L</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> ，实际值非常小。</p>
+<p>解决这个问题的办法就是让 sender 无需等待即可一次传输多个 packets，这种方法也叫 <em>pipelining</em>，使用这种办法也意味着：</p>
+<ul>
+<li>sequence number 数量增大。</li>
+<li>sender 和 receiver 都需要 buffer 更多的 packets。</li>
+</ul>
+<p>有两种基础的实现方法：Go-Back-N 和 selective repeat。</p>
+<h3 id="go-back-n-gbn"><a class="markdownIt-Anchor" href="#go-back-n-gbn"></a> Go-Back-N (GBN)</h3>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_seqnum.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_seqnum.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>window 的大小收到 packet 中 sequence number 的 field 的限制，若 sequence number field 的长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>，则 window size 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span>，sequence number 范围为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0,2^k-1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.099108em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_sender.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_sender.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>sender:</p>
+<ul>
+<li>使用一个 sliding window 表示当前有效的 sequence number 的范围。</li>
+<li>如果 window 内所有 sequence number 都被使用了就不能发送新的 packet。</li>
+<li>收到的 ACK 被称为 <em>cumulative acknowledgement</em>，即 sequence number 小于当前 ACK 的 number 的未被 ACK 的 packets 也会被视为 ACK’d 。</li>
+<li>收到一个 ACK 就会将 window 滑到它对应 sequence number 后面。</li>
+<li>所有的未被 ACK 的 packets 共用一个 timer。</li>
+<li>retransmit 时会重发所有未被 ACK 的 packets。</li>
+</ul>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_receiver.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/gbn_receiver.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>receiver: 只接收顺序正确的 packet，否则会直接丢弃，而如果是顺序正确但是出现错误的 packet 则会通过发送上一个 packet 的 ACK 进行 NAK。</p>
+<p>GBN 相对 selective repeat 的优势在于 receiver 不需要 buffer，但是相应的，一个 packet 出错就要重发所有未被 ACK 的 packets，造成了很多浪费。</p>
+<h3 id="selective-repeat-sr"><a class="markdownIt-Anchor" href="#selective-repeat-sr"></a> Selective Repeat (SR)</h3>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/sr.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/sr.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>sender:</p>
+<ul>
+<li>window 除了第一个一定是未被 ACK 的其余都有可能是 ACK 或者未被 ACK 的。</li>
+<li>每个 packet 的 ACK，timer，retransmission 都是独立的。</li>
+<li>收到开头的 ACK 时 window 滑动到第一个未被 ACK 处。</li>
+</ul>
+<p>receiver：</p>
+<ul>
+<li>同样维护一个 sliding window，window size 可能与 sender 不同，第一个是尚未收到的最小的 packet。</li>
+<li>收到非 window 开头的会 buffer 下来。</li>
+<li>收到 window 开头的会将其与 buffer 中存储的连续的一整段传给 application layer，然后滑动 window。</li>
+<li>收到比 window 开头小的 packet 时说明之前的 ACK 传输出了问题，仍然需要发送 ACK。</li>
+<li>如果收到 packet 存在 error，则丢弃不管</li>
+</ul>
+<p>需要注意的是 sender 和 receiver 的 window size 不一定相同，但是都不能超过 sequence number 大小范围的一半。</p>
+<p>不管是 GBN 还是 SR，sequence number 的范围都是有限的，所以是循环使用的，如果一个 duplicate packet/ACK 的传输耗时过久导致占用了现有的 sequence number，实践中的解决办法是认定一个 packet/ACK 在传输几分钟之后就没了。</p>
+<h2 id="connection-oriented-transport-tcp"><a class="markdownIt-Anchor" href="#connection-oriented-transport-tcp"></a> Connection-Oriented Transport: TCP</h2>
+<h3 id="the-tcp-connection"><a class="markdownIt-Anchor" href="#the-tcp-connection"></a> The TCP Connection</h3>
+<p>TCP 被称为 <em>connection-oriented</em> 是因为当两个 process 之间能够传输 data 之前需要先进行 handshake。</p>
+<p>TCP 需要先建立 connection，这个 connection 只是 logical 的，是在两个 end system 上建立一些 state variable，没有 physical 上的连接。</p>
+<p>TCP connection 是 <em>full-duplex</em> 的，即双方建立连接之后互相可以发送信息；是 <em>point-to-point</em> 的，不能进行 multicasting。</p>
+<p>TCP connection 通过 <em>three-way handshake</em> 建立，在 handshake 过程中也会建立 <em>send/receive buffer</em>，发送/收到 message 时会先放入 send/receive buffer 然后再传递给 application/link layer。</p>
+<p>TCP 会根据 MTU (maximum transmission unit，最大的能传输的 link layer frame size) 计算出合适的 MSS (maximum segment size，segment 包含 data 的最大 size) 使得 data 加上 TCP header 和 IP header 后不超过 MTU。</p>
+<h3 id="tcp-segment-structure"><a class="markdownIt-Anchor" href="#tcp-segment-structure"></a> TCP Segment Structure</h3>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_segment.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_segment.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>TCP 的 header 长度通常是 20 bytes，但是 Options 是可变长度的，所以也不一定。</p>
+<h3 id="sequence-numbers-and-acknowledgment-numbers"><a class="markdownIt-Anchor" href="#sequence-numbers-and-acknowledgment-numbers"></a> Sequence Numbers and Acknowledgment Numbers</h3>
+<p>TCP 将 data 视为一个无结构但有序的 byte stream。<em>sequence number</em> 指的是当前 segment 的 data 的第一个 byte 在 byte stream 中的序号；<em>acknowledgment number</em> 指的是期待对方下一个传送来的 segment 的 sequence number。</p>
+<p>由于 TCP 只会 acknowledge 它重新组成的 byte stream 中的第一个 missing byte，所以也被称为 cumulative acknowledgments。</p>
+<p>当 TCP 收到 out-of-order segments 时，可以选择丢弃或者将其 buffer 下来并等待 missing bytes，显然后者对于网络带宽的利用更高效，也是实践中采用的办法。</p>
+<p>为了尽可能减小收到的上一个已经关闭的 connection 中仍然留存在 network 中的 segment 的 sequence number 与现在合法的 sequence number 搞混，TCP 会随机选择一个初始的 sequence number。</p>
+<h3 id="round-trip-time-estimation-and-timeout"><a class="markdownIt-Anchor" href="#round-trip-time-estimation-and-timeout"></a> Round-Trip Time Estimation and Timeout</h3>
+<p>一个 segment 的 sample RTT (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>) 指的是从发送到收到对应的 ACK 的用时。</p>
+<p>TCP 一般在计算某个 segment 的 sample RTT 后不会再计算同时也在传输的其他 segment 的 sample RTT，而且只会计算一个就传输成功的 segment，不会计算 retransmitted segment 的 sample RTT。</p>
+<p>由于 network 的拥堵情况会变化，所以另外还需要计算这些 sample RTT 的 EWMA (exponential weighted moving average) 作为 estimated RTT (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">e</span></span></span></span>) 来平缓 RTT 的波动：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>e</mi><mo>+</mo><mi>α</mi><mo>⋅</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">e=(1-\alpha)\cdot e+\alpha\cdot s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span> 。</p>
+<p>使用 dev RTT (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>) 来衡量 RTT 的波动：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>β</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>d</mi><mo>+</mo><mi>β</mi><mo>⋅</mo><mi mathvariant="normal">∣</mi><mi>s</mi><mo>−</mo><mi>e</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">d=(1-\beta)\cdot d+\beta\cdot |s-e|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">e</span><span class="mord">∣</span></span></span></span> 。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span> 的建议取值为 0.125 和 0.25 。</p>
+<p>time interval (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span></span></span></span>) 在 estimated RTT 的基础上根据 dev RTT 提供了一定的冗余：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>e</mi><mo>+</mo><mn>4</mn><mo>⋅</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">t=e+4\cdot d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 。</p>
+<h3 id="reliable-data-transfer"><a class="markdownIt-Anchor" href="#reliable-data-transfer"></a> Reliable Data Transfer</h3>
+<p>TCP 一般只使用一个 timer，是用来给最早的未被 ACK 的 packet 计时的，并且每次 timeout 只会 retransmit 这一个 packet。</p>
+<ul>
+<li>
+<p>doubling the timeout interval：每次发生 retransmission 时，TCP 会将下一个 time interval 翻倍，而不是由 estimated RTT 和 dev RTT 计算得到。但是一旦在收到 application 传来的 data 或者收到 ACK 后重启的 timer 的 time interval 的值仍然设置为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>e</mi><mo>+</mo><mn>4</mn><mo>⋅</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">t=e+4\cdot d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span> 。</p>
+</li>
+<li>
+<p>fast retransmit：doubling the timeout interval 虽然能减小因顺序错误导致收到 duplicate ACK 的次数，但是增加了 end-to-end delay。由于多于 2 个 duplicate ACKs 可以表明错误原因不是顺序问题（较大 number 的 packet 先到达）而是丢包，因此 TCP 在收到 3 个 duplicate ACKs（相同 sequence number 的第四个 ACK）时会在 time out 前立即重发。</p>
+</li>
+</ul>
+<p>TCP 只维护最小的未被 ACK 的 sequence number (sender) 和顺序正确的 sequence number (receiver)，这点上看类似 GBN，但是 TCP 每次只会重传一个 packet，而 receiver 也会 buffer 顺序错误的 packets。</p>
+<h3 id="flow-control"><a class="markdownIt-Anchor" href="#flow-control"></a> Flow Control</h3>
+<p>sender 和 receiver 都会另外维护一个 buffer 存储 packets，sender 收到 application 的 data 会 buffer 下来不一定立即发送，receiver 收到 packet 也会 buffer 下来等待 application 读取。</p>
+<p>为了防止 sender 发送过快导致 receiver 的 buffer overflow，TCP 提供了 flow control 的服务。</p>
+<p>TCP 的 header 需要包含 <em>rwnd (receive window)</em> 用来表示 buffer 的剩余空间，sender 则需要保证发出的未被 ACK 的 packets 数量不超过 rwnd。</p>
+<p>对于 receiver：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo>=</mo><mi mathvariant="normal">R</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mo>−</mo><mo stretchy="false">[</mo><mi mathvariant="normal">l</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">d</mi><mo>−</mo><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\mathrm{rwnd=RcvBuffer-[lastByteRcvd-LastByteRead]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">r</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">R</span><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">v</span><span class="mord mathrm">B</span><span class="mord mathrm">u</span><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">e</span><span class="mord mathrm">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">[</span><span class="mord mathrm">l</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">R</span><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">v</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathrm">L</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">R</span><span class="mord mathrm">e</span><span class="mord mathrm">a</span><span class="mord mathrm">d</span><span class="mclose">]</span></span></span></span></span></p>
+<p>对于 sender：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi><mo>−</mo><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi><mo>≤</mo><mi mathvariant="normal">r</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{LastByteSent-LastByteAcked\le rwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathrm">L</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">S</span><span class="mord mathrm">e</span><span class="mord mathrm">n</span><span class="mord mathrm">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathrm">L</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">A</span><span class="mord mathrm">c</span><span class="mord mathrm">k</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">r</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span></p>
+<p>当 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mathrm{rwnd}=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">r</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 时会导致 sender 无法发送 packet 即使 receiver 之后拥有了可用 buffer，因此需要 sender 在这之后继续发送大小为 1 byte 的 segment，而 receiver 有了可用的 buffer 后会 ACK 这个 segment。</p>
+<h3 id="tcp-connection-management"><a class="markdownIt-Anchor" href="#tcp-connection-management"></a> TCP Connection Management</h3>
+<p>three-way handshake：</p>
+<ol>
+<li>client 发送 SYN bit 为 1 的 SYN segment，并且 data 为空，rand 一个 initial sequence number (client_isn) 。</li>
+<li>server 接收到 SYN segment 后分配 TCP buffer 和 variables 给这个 connection，然后发送 SYN bit 为 1，acknowledge number 为 client_isn + 1 ，data 为空的 SYNACK segment，并且 rand 一个 initial sequence number (server_isn) 。</li>
+<li>client 收到 SYNACK segment 后分配 buffer 和 variables 给这个 connection，然后发送 SYN bit 为 0，acknowledge number 为 sever_isn + 1 ，data 为空的 ACK segment，并且可以添加 data。</li>
+</ol>
+<p>断开连接时，双方都要互发 FIN bit 为 1 的 FIN segment，收到之后都需要发送对应的 ACK，并且提出断开连接的一方会等待一段时间后再断开连接来让对方有机会在 ACK 丢包时重传 FIN segment。</p>
+<p>如果尝试连接一个不接受 TCP connection 的端口，会收到 RST bit 为 1 的 RST segment。</p>
+<h2 id="principles-of-congestion-control"><a class="markdownIt-Anchor" href="#principles-of-congestion-control"></a> Principles of Congestion Control</h2>
+<p>congestion 会导致：</p>
+<ul>
+<li>large queue delay</li>
+<li>router buffer overflow 导致丢包和 retransmission</li>
+<li>large delay 导致 premature timeout 从而导致 unneeded retransmission</li>
+<li>传输过程中一个 router 出现丢包，则前面所有 router 的工作都浪费了</li>
+</ul>
+<p>congestion control 主要分为两大类：</p>
+<ul>
+<li>end-to-end: network layer 不提供任何有关 congestion 的信息，仅由 retransmission 和 delay 的增加来推断出 congestion</li>
+<li>network-assisted: router 提供 congestion feedback（例如用一个 bit 表示是否 congested，或者提供更复杂的信息，如 maximum host sending rate），可以是由 router 发送一个新的 packet，也可以是 router 修改正在传输的某个 packet 的相关 field，然后由 receiver 通知 sender。</li>
+</ul>
+<h2 id="tcp-congestion-control"><a class="markdownIt-Anchor" href="#tcp-congestion-control"></a> TCP Congestion Control</h2>
+<h3 id="classic-tcp-congestion-control"><a class="markdownIt-Anchor" href="#classic-tcp-congestion-control"></a> Classic TCP Congestion Control</h3>
+<p>sender 会使用一个 <em>congestion window (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span>)</em> 来限制发送的速率，使得 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi><mo>−</mo><mi mathvariant="normal">L</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi><mo>≤</mo><mi>min</mi><mo>⁡</mo><mo stretchy="false">{</mo><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo separator="true">,</mo><mi mathvariant="normal">r</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\mathrm{LastByteSent-LastByteAcked\le \min\{cwnd, rwnd\}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">L</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">S</span><span class="mord mathrm">e</span><span class="mord mathrm">n</span><span class="mord mathrm">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathrm">L</span><span class="mord mathrm">a</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">B</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">t</span><span class="mord mathrm">e</span><span class="mord mathrm">A</span><span class="mord mathrm">c</span><span class="mord mathrm">k</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mop">min</span><span class="mopen">{</span><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">r</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mclose">}</span></span></span></span></span>，从而发送的速率大约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">T</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd/RTT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mord mathrm">/</span><span class="mord mathrm">R</span><span class="mord mathrm">T</span><span class="mord mathrm">T</span></span></span></span></span>.</p>
+<p>classic TCP congestion control 主要有以下几个原则：</p>
+<ul>
+<li>丢包意味着 congestion，因而 sender 应该要减小 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span></li>
+<li>ACK 表明没有 congestion，因而 sender 可以增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span></li>
+<li>可以不断增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span> 来试探什么时候会发送 congestion</li>
+</ul>
+<p><em>TCP congestion-control algorithm</em> 主要有 3 个部分：</p>
+<ul>
+<li>slow start: 初始状态以及 timeout 后到达的状态。从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo>=</mo><mn>1</mn><mtext> </mtext><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd=1\,MSS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">1</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span></span></span></span></span> 开始，每收到一个 ACK 就增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{1\,MSS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">1</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span></span></span></span></span>，相当于每个 RTT <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span></span></span></span></span> 翻倍，直到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo>≥</mo><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">h</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd\ge ssthresh}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83041em;vertical-align:-0.13597em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">s</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">h</span><span class="mord mathrm">r</span><span class="mord mathrm">e</span><span class="mord mathrm">s</span><span class="mord mathrm">h</span></span></span></span></span> 进入 congestion avoidance。</li>
+<li>congestion avoidance: 每个 ACK 增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi><mo>⋅</mo><mo stretchy="false">(</mo><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{MSS\cdot (MSS/cwnd)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">(</span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span><span class="mord mathrm">/</span><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mclose">)</span></span></span></span></span>，相当于每个 RTT 增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{1\,MSS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">1</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span></span></span></span></span>。</li>
+<li>fast recovery: 收到 3 个 duplicate ACK 后会进行 fast retransmit，之后转移到 fast recovery。从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mo>=</mo><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">h</mi><mo>+</mo><mn>3</mn><mtext> </mtext><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd=ssthresh+3\, MSS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathrm">s</span><span class="mord mathrm">s</span><span class="mord mathrm">t</span><span class="mord mathrm">h</span><span class="mord mathrm">r</span><span class="mord mathrm">e</span><span class="mord mathrm">s</span><span class="mord mathrm">h</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathrm">3</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span></span></span></span></span> 开始，每次再收到一个 duplicate ACK 就增大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mi mathvariant="normal">M</mi><mi mathvariant="normal">S</mi><mi mathvariant="normal">S</mi></mrow><annotation encoding="application/x-tex">\mathrm{1\, MSS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">1</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathrm">M</span><span class="mord mathrm">S</span><span class="mord mathrm">S</span></span></span></span></span>，收到 new ACK 则转移到 congestion avoidance。</li>
+</ul>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_congestion_control.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_congestion_control.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>正常情况下会在 congestion avoidance 和 fast recovery 之间反复切换，此时 cwnd 的增长是线性的，减少则是减半，称为 <em>additive-increase, multiplicateive-decrease (AIMD)</em>，AIMD 的 congestion control 会导致 cwnd 呈现锯齿状的变化。</p>
+<p>上面描述的所有内容加起来是 <em>TCP Reno</em>，如果用 slow start 替代 fast recovery 则是更古老的 <em>TCP Tahoe</em>。</p>
+<p>TCP Reno 的上升曲线是线性的，不能快速恢复到接近 congestion 的临界值，对带宽的利用不是很高效，<em>TCP CUBIC</em> 则是在此基础上进行优化后的版本。</p>
+<p>记 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{max}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 为 TCP 检测到丢包时的 cwnd 的大小，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 为 cwnd 重新增长到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{max}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的大概时间，当当前时间距离 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 较远的时候则快速增加 cwnd，接近 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 的时候则缓慢增加，即便超过了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">W_{max}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 但是没有检测到丢包时也遵循同样的规则。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_reno_vs_cubic.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_reno_vs_cubic.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>根据 TCP Reno 的线性增长的特性可以计算出大致的平均 throughput 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mn>0.75</mn><mo>⋅</mo><mi>W</mi></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{0.75\cdot W}{RTT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.04633em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.36033em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0</span><span class="mord">.</span><span class="mord">7</span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>。</p>
+<h3 id="network-assisted-explicit-congestion-notification-and-delayed-based-congestion-control"><a class="markdownIt-Anchor" href="#network-assisted-explicit-congestion-notification-and-delayed-based-congestion-control"></a> Network-Assisted Explicit Congestion Notification and Delayed-based Congestion Control</h3>
+<p><em>Explicit Congestion Control (ECN)</em> 是一种 network-assisted congestion control，它对 TCP 和 IP 的 header 都进行了扩展。</p>
+<p>ECN 在 IP datagram header 中使用了两个 bit，一个给 router 来表示是否 congested（一般在实际发生前设置），另一个给 sender 设置来告诉 router 自己和 receiver 是否是 ECN-capable 的。</p>
+<p>当 receiver 收到 router 的 congestion 信息后，会在 ACK 中设置 ECE (explicit congestion notification echo) flag，sender 收到后会将 cwnd 减半，然后在下一个 segment 中设置 CWR (congestion window reduced) flag。</p>
+<h3 id="delayed-based-congestion-control"><a class="markdownIt-Anchor" href="#delayed-based-congestion-control"></a> Delayed-based Congestion Control</h3>
+<p>delay-based congestion control 也能在丢包发生前就检测到 congestion。</p>
+<p>TCP Vegas 会维护历史最大的 throughput (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">T</mi><mi mathvariant="normal">T</mi></mrow><annotation encoding="application/x-tex">\mathrm{cwnd/RTT}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">c</span><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">n</span><span class="mord mathrm">d</span><span class="mord mathrm">/</span><span class="mord mathrm">R</span><span class="mord mathrm">T</span><span class="mord mathrm">T</span></span></span></span></span>)，如果当前的 throughput 小于这个值，则说明发生了 congestion。</p>
+<h3 id="fairness"><a class="markdownIt-Anchor" href="#fairness"></a> Fairness</h3>
+<p>假设当前有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> 个 TCP connection 共用一个 transmission rate 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> 的 bottleneck link，并且没有其他数据传输。如果每个 connection 的平均 throughput 都是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi mathvariant="normal">/</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">R/K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>，则称使用的 congestion control mechanism 是 fair 的。</p>
+<p>在各方的 RTT 相同的情况下，AIMD 是 fair 的，如下图所示。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_fairness.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/tcp_fairness.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>但是当各方 RTT 不同时，RTT 更小的往往可以获得更大的 throughput。</p>
+<p>UDP 是没有 congestion control 的，会导致 unfairness。另外，application layer 可能会使用多个 parallel TCP connection 也会导致 unfairness。</p>
+<h2 id="evolution-of-transport-layer-functionality"><a class="markdownIt-Anchor" href="#evolution-of-transport-layer-functionality"></a> Evolution of Transport-Layer Functionality</h2>
+<p>现在有许多种不同的 TCP/UDP 版本，丢弃了某些原有的功能/新增加一些功能来适应新的环境。</p>
+<p>QUIC 是一个基于 UDP 的 application layer protocol，具有以下 feature:</p>
+<ul>
+<li>connection-oriented and secure。需要 handshake 来建立连接，并且所有数据加密。connection-establishment handshake 和 authentication and encryption handshake 被合并在了一起，从而比 TLS 更快。</li>
+<li>stream。以 stream 为单位传输 application data，而多个 stream 可以放在单个 packet 中传输。</li>
+<li>reliable, TCP-friendly congestion-controlled data transfer。其中 in-order delivery 是对每个 stream 分别保序，而一个 stream 可以放在不同的 packet 中，所以不同 stream 之间不会带来阻塞 (HOL blocking)。另外也采取了与 TCP 类似的 congestion control。</li>
+</ul>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch3/index/">https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch3/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Computer-Network/" class="post-tags__link button"># Computer Network</a><a href="/tags/CNATDA/" class="post-tags__link button"># CNATDA</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch5/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第五章学习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch6/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第六章学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

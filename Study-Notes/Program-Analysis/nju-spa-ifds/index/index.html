@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>NJU「软件分析」学习笔记：CFL-Reachability and IFDS | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Program Analysis">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="CFL-Reachability and IFDS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU「软件分析」学习笔记：CFL-Reachability and IFDS">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ifds/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="CFL-Reachability and IFDS">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261746245.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747300.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747447.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747402.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748012.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748318.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748420.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748346.png">
+<meta property="article:published_time" content="2024-01-06T14:55:54.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.531Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Program Analysis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261746245.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        NJU「软件分析」学习笔记：CFL-Reachability and IFDS
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/01/" class="post-meta__date button">2024-01-06</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Program-Analysis/" class="button">Program Analysis</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#feasible-and-realizable-paths"><span class="toc-number">1.</span> <span class="toc-text"> Feasible and Realizable Paths</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cfl-reachability"><span class="toc-number">2.</span> <span class="toc-text"> CFL-Reachability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overview-of-ifds"><span class="toc-number">3.</span> <span class="toc-text"> Overview of IFDS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mrp"><span class="toc-number">3.1.</span> <span class="toc-text"> MRP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifds"><span class="toc-number">3.2.</span> <span class="toc-text"> IFDS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#supergraph-and-flow-functions"><span class="toc-number">4.</span> <span class="toc-text"> Supergraph and Flow Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#supergraph"><span class="toc-number">4.1.</span> <span class="toc-text"> Supergraph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#design-flow-functions"><span class="toc-number">4.2.</span> <span class="toc-text"> Design Flow Functions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exploded-supergraph-and-tabulation-algorithm"><span class="toc-number">5.</span> <span class="toc-text"> Exploded Supergraph and Tabulation Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#build-exploded-supergraph"><span class="toc-number">5.1.</span> <span class="toc-text"> Build Exploded Supergraph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tabulation-algorithm"><span class="toc-number">5.2.</span> <span class="toc-text"> Tabulation Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#understanding-the-distributivity-of-ifds"><span class="toc-number">6.</span> <span class="toc-text"> Understanding the Distributivity of IFDS</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#feasible-and-realizable-paths"><span class="toc-number">1.</span> <span class="toc-text"> Feasible and Realizable Paths</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cfl-reachability"><span class="toc-number">2.</span> <span class="toc-text"> CFL-Reachability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overview-of-ifds"><span class="toc-number">3.</span> <span class="toc-text"> Overview of IFDS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mrp"><span class="toc-number">3.1.</span> <span class="toc-text"> MRP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifds"><span class="toc-number">3.2.</span> <span class="toc-text"> IFDS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#supergraph-and-flow-functions"><span class="toc-number">4.</span> <span class="toc-text"> Supergraph and Flow Functions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#supergraph"><span class="toc-number">4.1.</span> <span class="toc-text"> Supergraph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#design-flow-functions"><span class="toc-number">4.2.</span> <span class="toc-text"> Design Flow Functions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exploded-supergraph-and-tabulation-algorithm"><span class="toc-number">5.</span> <span class="toc-text"> Exploded Supergraph and Tabulation Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#build-exploded-supergraph"><span class="toc-number">5.1.</span> <span class="toc-text"> Build Exploded Supergraph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tabulation-algorithm"><span class="toc-number">5.2.</span> <span class="toc-text"> Tabulation Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#understanding-the-distributivity-of-ifds"><span class="toc-number">6.</span> <span class="toc-text"> Understanding the Distributivity of IFDS</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>南京大学「<a target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html">软件分析</a>」课程 CFL-Reachability and IFDS 部分的学习笔记。</p>
+</div></div><h2 id="feasible-and-realizable-paths"><a class="markdownIt-Anchor" href="#feasible-and-realizable-paths"></a> Feasible and Realizable Paths</h2>
+<p>infeasible paths 指的是在 CFG 并不会实际执行到的路径，例如 if 语句中某些不可能到达的分支。由于 infeasible paths 的判定与程序的 semantics 相关，所以总体上是 undecidable 的。</p>
+<p>realizable paths 指的是 “returns” 与 “call” 相对应的路径，例子参考 slides。realizable paths 不一定是 executable 的 (feasible paths)，但是 unrealizable paths 一定不是 executable 的 (infeasible paths)。</p>
+<h2 id="cfl-reachability"><a class="markdownIt-Anchor" href="#cfl-reachability"></a> CFL-Reachability</h2>
+<p>使用 context sensitive 的技术可以去除 unrealizable paths，但是这里要介绍的技术是 CFL-Reachability。</p>
+<p>CFG-reachability: A path is considered to connect two nodes A and B, or B is reachable from A, only if the concatenation of the labels on the edges of the path is a word in a specified context-free language.（懒得翻译成中文了）</p>
+<p>CFG-reachability 其实采用的就是一种括号匹配的技术来判断 A 到 B 的路径是否合法，如果合法就说 A 到 B 有一条边，有点路径压缩的感觉🤔。</p>
+<ul>
+<li>A valid sentence in language L must follow L’s grammar.（即括号匹配的规则：左括号与右括号匹配）</li>
+<li>A context-free language is a language generated by a context-free grammar (CFG).</li>
+</ul>
+<p>通过 CFL 解决 partially balanced-parenthesis problem：</p>
+<ul>
+<li>每个右括号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo stretchy="false">)</mo><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">)_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 需要相应的左括号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo stretchy="false">(</mo><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">(_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen"><span class="mopen">(</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 来平衡，但是左括号不需要，如下图中 realizable 的第二种可能所示</li>
+<li>对于 call edge 和 return edge，我们用打上标记的左右括号来标识</li>
+<li>其他的普通 edge 用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">e</span></span></span></span> 标识</li>
+</ul>
+<p>realizable 的可能形式如下图所示，matched 表示的是 fully balanced-parenthesis，可能形式如下：</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261746245.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261746245.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="CFL-Reachability" /><span class="image-caption">CFL-Reachability</span></p>
+<h2 id="overview-of-ifds"><a class="markdownIt-Anchor" href="#overview-of-ifds"></a> Overview of IFDS</h2>
+<p>IFDS<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> (Interprocedural, Finite, Distributive, Subset Problem) 使用 distributive flow functions over finite domains 来解决 interprocedural dataflow analysis。</p>
+<h3 id="mrp"><a class="markdownIt-Anchor" href="#mrp"></a> MRP</h3>
+<p>IFDS 提供了一种名为 meet-over all realizable paths (MRP) 的方法，与前面的 MOP 相似。</p>
+<blockquote>
+<p>但是 CFG 中某些 path 是 not executable 的，也会有 unbounded、not enumerable 的路径，所以显然 MOP 是 not fully precise、impractical 的。<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup></p>
+</blockquote>
+<p>由于 MRP 针对的是 realizable paths，一些没有出口的函数都显然不会是 realizable paths，这保证了 MRP 是可以终止的、more precise than MOP、practical 的，并且可以看出 MRP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">⊆</span></span></span></span> MOP。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">R</mi><msub><mi mathvariant="normal">P</mi><mi mathvariant="normal">n</mi></msub></mrow><mo>=</mo><munder><mo>⋃</mo><mrow><mi>p</mi><mo>∈</mo><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">P</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">s</mi></mrow><mo stretchy="false">(</mo><mi>s</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>t</mi><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">)</mo></mrow></munder><mi>p</mi><msub><mi>f</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi mathvariant="normal">⊥</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{MRP_n}=\bigcup_{p\in\mathrm{RPaths}(start, n)}pf_p(\bot)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathrm">M</span><span class="mord mathrm">R</span><span class="mord"><span class="mord mathrm">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.5660100000000003em;vertical-align:-1.516005em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.050005em;"><span style="top:-1.808995em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mrel mtight">∈</span><span class="mord mtight"><span class="mord mathrm mtight">R</span><span class="mord mathrm mtight">P</span><span class="mord mathrm mtight">a</span><span class="mord mathrm mtight">t</span><span class="mord mathrm mtight">h</span><span class="mord mathrm mtight">s</span></span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">t</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">n</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">⋃</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.516005em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">p</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.10764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">⊥</span><span class="mclose">)</span></span></span></span></span></p>
+<h3 id="ifds"><a class="markdownIt-Anchor" href="#ifds"></a> IFDS</h3>
+<p>给定一个 program P 和一个 dataflow analysis problem Q，IFDS 解决步骤如下：</p>
+<ul>
+<li>基于 Q 给 P 建立一个 supergraph G*，给每条边定义一个 flow function</li>
+<li>将 flow function 转换为它表示的映射关系建立一个 exploded supergraph G<sup>#</sup></li>
+<li>此时 Q 已经被转化为 graph reachability problem，通过在 G<sup>#</sup> 上应用 tabulation algorithm 来解决
+<ul>
+<li>graph reachability problem: Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> be a program point, data fact <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">R</mi><msub><mi mathvariant="normal">P</mi><mi mathvariant="normal">n</mi></msub></mrow></mrow><annotation encoding="application/x-tex">d \in  \mathrm{MRP_n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathrm">M</span><span class="mord mathrm">R</span><span class="mord"><span class="mord mathrm">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span> , iff there is a realizable path in G<sup>#</sup> from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msub><mi>s</mi><mrow><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi></mrow></msub><mo separator="true">,</mo><mn>0</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;s_{main}, 0&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>n</mi><mo separator="true">,</mo><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;n, d&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span></li>
+</ul>
+</li>
+</ul>
+<h2 id="supergraph-and-flow-functions"><a class="markdownIt-Anchor" href="#supergraph-and-flow-functions"></a> Supergraph and Flow Functions</h2>
+<h3 id="supergraph"><a class="markdownIt-Anchor" href="#supergraph"></a> Supergraph</h3>
+<p>supergraph 以 G* = (N*, E*) 的形式表示，它由多个 flowgraph G 组成，其中每个 G<sub>p</sub> 都表示了一个 procedure，在每一个 G<sub>p</sub> 中都有一个 start node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">s_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 和 exit node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">e_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，对于 procedure call，它使用一个 call node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>a</mi><mi>l</mi><msub><mi>l</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">Call_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 和一个 return-site node <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>e</mi><msub><mi>t</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">Ret_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 来表示 nodes，还使用了 call-to-return-site edge (denoted by purple)、call-to-start edge (green)、exit-to-return-site edge (blue) 表示 edges。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747300.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747300.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="supergraph" /><span class="image-caption">supergraph</span></p>
+<h3 id="design-flow-functions"><a class="markdownIt-Anchor" href="#design-flow-functions"></a> Design Flow Functions</h3>
+<p>以 Q = &quot;Possibly-uninitialized variables&quot;: for each node n ∈ N*, determine the set of variables that may be uninitialized before execution reaches n. 为例。</p>
+<p>flow functions 以 lambda 表达式的形式表示：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><msub><mi>e</mi><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi></mrow></msub><mi mathvariant="normal">.</mi><msub><mi>e</mi><mrow><mi>b</mi><mi>o</mi><mi>d</mi><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\lambda e_{param}.e_{body}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>。</p>
+<p>在 IFDS 中，我们需要针对每条边都设计一个 flow function，需要注意的是，对于 global variable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span>，在 call-to-return edge 的 flow function 中我们需要设计为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mi>S</mi><mi mathvariant="normal">.</mi><mi>S</mi><mo>−</mo><mspace linebreak="newline"></mspace><mrow><mi>g</mi><mspace linebreak="newline"></mspace></mrow></mrow><annotation encoding="application/x-tex">\lambda S.S-\\{g\\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">λ</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace newline"></span></span></span></span></span>：</p>
+<ul>
+<li>如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span> 在另一个 procedure 中被 initialize 了，那么这么做显然没问题</li>
+<li>如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span> 没有被 initialize，那么 call-to-return edge 和 exit-to-return edge 的 facts 合并后会加上 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi></mrow><annotation encoding="application/x-tex">g</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span></span></span></span></li>
+</ul>
+<p>于是这样做可以减少 false positive 从而提高 precision。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747447.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747447.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="design flow functions" /><span class="image-caption">design flow functions</span></p>
+<h2 id="exploded-supergraph-and-tabulation-algorithm"><a class="markdownIt-Anchor" href="#exploded-supergraph-and-tabulation-algorithm"></a> Exploded Supergraph and Tabulation Algorithm</h2>
+<h3 id="build-exploded-supergraph"><a class="markdownIt-Anchor" href="#build-exploded-supergraph"></a> Build Exploded Supergraph</h3>
+<p>在 exploded supergraph G<sup>#</sup> 中，G* 中的每个 node 都被拆分成 D+1 个 nodes，并且 edge <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mn>1</mn></msub><mo>→</mo><msub><mi>n</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">n_1\to n_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 也会被拆分为这条边的 flow function 的 representation relation，类似于一种函数映射关系。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747402.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261747402.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="flow function" /><span class="image-caption">flow function</span></p>
+<details>
+<ul>
+<li>default edge: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0\to 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></li>
+<li>S 表示 statement</li>
+<li>D 表示的是 flow function 的 domain</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mi>S</mi><mi mathvariant="normal">.</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">\lambda S.S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">λ</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 表示 identity function，即输出 = 输入</li>
+</ul>
+</details>
+<p>关于为什么要加一个 0 结点，个人理解是为了减少类似于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mi>S</mi><mi mathvariant="normal">.</mi><mspace linebreak="newline"></mspace><mo stretchy="false">{</mo><mi>a</mi><mspace linebreak="newline"></mspace><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\lambda S.\\\{a\\\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">λ</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord">.</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">a</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose">}</span></span></span></span> 这样的恒等函数需要多连出来的很多边，于是搞一个 default 选项 0，将这 D 条边改成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">0\to a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span> 这一条边从而减小时空复杂度，这样一来就有可能出现图不连通的情况，为了保证图的连通性所以每次必须加一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0\to 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> 的边。</p>
+<p>一个可能的 exploded supergraph 如下图所示。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748012.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748012.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="exploded supergraph" /><span class="image-caption">exploded supergraph</span></p>
+<h3 id="tabulation-algorithm"><a class="markdownIt-Anchor" href="#tabulation-algorithm"></a> Tabulation Algorithm</h3>
+<p>tabulation algorithm 可以在 exploded supergraph G<sup>#</sup> 上通过找出所有的从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msub><mi>s</mi><mrow><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi></mrow></msub><mo separator="true">,</mo><mn>0</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;s_{main}, 0&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> 开始的 realizable paths 来给出 MRP solution，时间复杂度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">O</mi><mo stretchy="false">(</mo><mi>E</mi><msup><mi>D</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{O}(ED^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.02778em;">O</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748318.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748318.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="tabulation algorithm" /><span class="image-caption">tabulation algorithm</span></p>
+<p>core working mechanism:</p>
+<ul>
+<li>在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>C</mi><mi>a</mi><mi>l</mi><msub><mi>l</mi><mi>p</mi></msub><mo separator="true">,</mo><msub><mi>d</mi><mi>m</mi></msub><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;Call_p, d_m&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>R</mi><mi>e</mi><msub><mi>t</mi><mi>p</mi></msub><mo separator="true">,</mo><msub><mi>d</mi><mi>n</mi></msub><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;Ret_p, d_n&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> 之间会有一条 summary edge (denoted by pink)，这条边用来表明 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">d_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is reachable from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">d_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，当我们走 call-to-return edge 时就可以跳过 procedure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span> 中的 redundant work 了</li>
+<li>处理 exit node (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><msup><mi>p</mi><mn>1</mn></msup></msub></mrow><annotation encoding="application/x-tex">e_{p^1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7442880000000001em;vertical-align:-0.313728em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.52238em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.313728em;"><span></span></span></span></span></span></span></span></span></span>) 时会进行 call-to-return matching: 先找出 call <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>p</mi><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">p^1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span> 的 call sites，再根据 call sites 的信息找出它们分别对应的 return sites，这一步保证了 IFDS 是 context sensitive 的</li>
+<li>在最开始，所有表示 data fact 的 circle 都是白色的，当一个 circle 变为蓝色的时候就表明 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>n</mi><mo separator="true">,</mo><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;n, d&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> is reachable from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><msub><mi>s</mi><mrow><mi>m</mi><mi>a</mi><mi>i</mi><mi>n</mi></mrow></msub><mo separator="true">,</mo><mn>0</mn><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;s_{main}, 0&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>（类似于染色法）</li>
+</ul>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748420.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748420.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="core mechanism" /><span class="image-caption">core mechanism</span></p>
+<h2 id="understanding-the-distributivity-of-ifds"><a class="markdownIt-Anchor" href="#understanding-the-distributivity-of-ifds"></a> Understanding the Distributivity of IFDS</h2>
+<p>考虑两个问题：</p>
+<ul>
+<li>IFDS 可以解决 constant propagation 吗？
+<ul>
+<li>constant propagation 的 domain 是 infinite 的，这与 IFDS 要求的 flow function 的 domain 应该是 finite 的矛盾，因此不行</li>
+</ul>
+</li>
+<li>IFDS 可以解决 pointer analysis 吗？
+<ul>
+<li>也不行，我们可以通过 IFDS 的 distributivity 来解释</li>
+</ul>
+</li>
+</ul>
+<p>用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo>∧</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>∧</mo><mi>f</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(x\land y)=f(x)\land f(y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> 可以抽象的表达 distributivity 的含义，感性理解一下吧（</p>
+<p>观察 IFDS 的 flow function，可以发现它的输入与输出是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mspace></mspace><mspace width="0.1111111111111111em"/><mo lspace="0em" rspace="0.17em"></mo><mtext> ⁣</mtext><mo lspace="0em" rspace="0em">:</mo><mspace width="0.3333333333333333em"/><mi>n</mi></mrow><annotation encoding="application/x-tex">1\colon n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace nobreak"></span><span class="mspace" style="margin-right:0.1111111111111111em;"></span><span class="mpunct"></span><span class="mspace" style="margin-right:-0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mrel">:</span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord mathnormal">n</span></span></span></span> 的关系，而 constant propagation 的 flow function 则是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mspace></mspace><mspace width="0.1111111111111111em"/><mo lspace="0em" rspace="0.17em"></mo><mtext> ⁣</mtext><mo lspace="0em" rspace="0em">:</mo><mspace width="0.3333333333333333em"/><mn>1</mn></mrow><annotation encoding="application/x-tex">n\colon 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mspace nobreak"></span><span class="mspace" style="margin-right:0.1111111111111111em;"></span><span class="mpunct"></span><span class="mspace" style="margin-right:-0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mrel">:</span></span><span class="mspace" style="margin-right:0.3333333333333333em;"></span><span class="mord">1</span></span></span></span> 的关系，显然是不行的。</p>
+<p>现在我们考虑一个简单的 pointer analysis，尝试用 IFDS 来解决这个问题，如图所示。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748346.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261748346.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="pointer analysis via IFDS" /><span class="image-caption">pointer analysis via IFDS</span></p>
+<p>从图中的红边可以看出 IFDS 会漏掉 alias information，想要包含 alias information 就必然会要有 multiple inputs，这与 IFDS 的 flow functions 的设计是不符合的，所以 standard IFDS 是不能解决 pointer analysis 的。</p>
+<p>一个简单的 rule 来判断一个问题是否能用 IFDS：对于一个 statement <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span></span></span></span>，如果我们需要考虑 multiple input data facts 来得到正确的 output data facts，那么这个问题就不能采用 IFDS。</p>
+<p>另外，IFDS 还有以下两个特点：</p>
+<ul>
+<li>无后效性：每个 data fact (circle) 和它的 propagation (edges) 都可以被独立解决，也就是说，上一个 circle 或者 edge 的分析结果不会对当前这个 circle 或 edge 的分析造成影响</li>
+<li>另一种意义上的「单射」：representation relation 的 rule 保证了每个 output node 最多只会被一个 input node 指向<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">Thomas Reps, Susan Horwitz, and Mooly Sagiv, <em>&quot;Precise Interprocedural Dataflow Analysis via Graph Reachability&quot;</em>. POPL’95</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;"><a target="_blank" rel="noopener" href="https://blog.f1a3h.com/posts/nju-spa-dfa/#mop-and-distributivity">NJU「软件分析」学习笔记：Data Flow Analysis</a></span><a href="#fnref:2" rev="footnote"> ↩</a></li></ol></div></div></li>
+</ul>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ifds/index/">https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-ifds/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Program-Analysis/" class="post-tags__link button"># Program Analysis</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-soudiness/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：Soundness and Soundiness
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-datalog/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：Datalog-Based Program Analysis
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

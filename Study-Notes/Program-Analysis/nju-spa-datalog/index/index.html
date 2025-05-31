@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>NJU「软件分析」学习笔记：Datalog-Based Program Analysis | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Program Analysis">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Datalog-Based Program Analysis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU「软件分析」学习笔记：Datalog-Based Program Analysis">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-datalog/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Datalog-Based Program Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261738973.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739620.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739720.png">
+<meta property="article:published_time" content="2024-01-01T06:01:19.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.523Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Program Analysis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261738973.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        NJU「软件分析」学习笔记：Datalog-Based Program Analysis
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/01/" class="post-meta__date button">2024-01-01</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Program-Analysis/" class="button">Program Analysis</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-number">1.</span> <span class="toc-text"> Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-to-datalog"><span class="toc-number">2.</span> <span class="toc-text"> Introduction to Datalog</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#predicates-data"><span class="toc-number">2.1.</span> <span class="toc-text"> Predicates (Data)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datalog-rules-logic"><span class="toc-number">2.2.</span> <span class="toc-text"> Datalog Rules (Logic)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#execution-of-datalog-programs"><span class="toc-number">2.3.</span> <span class="toc-text"> Execution of Datalog Programs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pointer-analysis-via-datalog"><span class="toc-number">3.</span> <span class="toc-text"> Pointer Analysis via Datalog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taint-analysis-via-datalog"><span class="toc-number">4.</span> <span class="toc-text"> Taint Analysis via Datalog</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-number">1.</span> <span class="toc-text"> Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-to-datalog"><span class="toc-number">2.</span> <span class="toc-text"> Introduction to Datalog</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#predicates-data"><span class="toc-number">2.1.</span> <span class="toc-text"> Predicates (Data)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#datalog-rules-logic"><span class="toc-number">2.2.</span> <span class="toc-text"> Datalog Rules (Logic)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#execution-of-datalog-programs"><span class="toc-number">2.3.</span> <span class="toc-text"> Execution of Datalog Programs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pointer-analysis-via-datalog"><span class="toc-number">3.</span> <span class="toc-text"> Pointer Analysis via Datalog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taint-analysis-via-datalog"><span class="toc-number">4.</span> <span class="toc-text"> Taint Analysis via Datalog</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>南京大学「<a target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html">软件分析</a>」课程 Datalog-Based Program Analysis 部分的学习笔记。</p>
+</div></div><h2 id="motivation"><a class="markdownIt-Anchor" href="#motivation"></a> Motivation</h2>
+<ul>
+<li>imperative: how to do (~implementation)
+<ul>
+<li>E.g. C. 需要告诉机器要如何去实现</li>
+</ul>
+</li>
+<li>declarative: what to do (~specification)
+<ul>
+<li>E.g. SQL. 仅仅需要指明你想要什么，如何实现则交给程序（DBMS）自行选择</li>
+</ul>
+</li>
+</ul>
+<p>在 program analysis 中，我们指明对于不同的 statement 对应不同的 rule，这就是一种 specification，而在 algorithm 中，我们则指明了每一步具体要怎么做，在实际的代码实现里更是要考虑更多的 implementation details。可以看出，前面所学的 program analysis 即是 declarative 也是 imperative 的。</p>
+<p>在 tai-e assignments 中，我们使用 imperative 的方式实现 program analysis，同样的，我们也可以通过 declarative 的方式来实现。(via Datalog)</p>
+<h2 id="introduction-to-datalog"><a class="markdownIt-Anchor" href="#introduction-to-datalog"></a> Introduction to Datalog</h2>
+<p>datalog 最早是以 database language 的身份出现的<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>，现在有了更广泛的应用。</p>
+<ul>
+<li>Datalog = Data + Logic (and, or, not)
+<ul>
+<li>no side-effects</li>
+<li>no control flows</li>
+<li>no functions</li>
+<li>not turing-complete</li>
+</ul>
+</li>
+</ul>
+<h3 id="predicates-data"><a class="markdownIt-Anchor" href="#predicates-data"></a> Predicates (Data)</h3>
+<p>在 datalog 中，一个 predicate (relation) 就是值一系列的 statemetns，本质上其实是 a table of data。而 fact 则是指这个 table 中某个 tuple。</p>
+<p>atoms 是 datalog 的 basic elements。</p>
+<p><code>P(X1, X2, ..., Xn)</code> 的形式表示一个 relation atom，其中 P 是 predicate 的名字，Xi 则是 arguments， 它的值可以是一个 variable 也可以是 constant。一个 relation atom 的值为 true 当且仅当 P 中存在 <code>(X1, X2, ..., Xn)</code> 这个 tuple。</p>
+<p>除了 relation atoms，datalog 还有 arithmetic atoms。</p>
+<h3 id="datalog-rules-logic"><a class="markdownIt-Anchor" href="#datalog-rules-logic"></a> Datalog Rules (Logic)</h3>
+<p>rule 用来表示 logic inferences，并且表明 facts 是如何被 deduced 的，它的形式为 <code>H &lt;- B1, B2, ,,,, Bn</code> ，其中 head 和 body 中的每一项都是 atom，<code>Bi</code> 也被称为 subgoal。</p>
+<p>一个 datalog program 由 facts 和 rules 组成。更多的语法直接看 slides 吧，懒得写了（</p>
+<p>datalog 的 predicates 被分为 EDB 和 IDB 两种：</p>
+<ol>
+<li>EDB (extensional database)
+<ul>
+<li>提前定义好的 predicates</li>
+<li>relations are immutable</li>
+<li>可以看作 input relations</li>
+</ul>
+</li>
+<li>IDB (intensional database)
+<ul>
+<li>由 rules 推导出的 predicates</li>
+<li>可以看作是 output relations</li>
+</ul>
+</li>
+</ol>
+<p>datalog 支持 recursive rules，从而可以从自身进行 deduce。</p>
+<p>考虑以下两条 rules：</p>
+<ul>
+<li><code>A(x) &lt;- B(y), x &gt; y.</code></li>
+<li><code>A(x) &lt;- B(y), !C(x, y).</code></li>
+</ul>
+<p>可以发现它们都有可能使得 A 称为一个 infinite relation，但是这并不是我们使用 datalog 想要得到的结果，所以我们要避免 infinite relation，也就因此引入了 rule safety 的概念。</p>
+<p>注意到 EDB 的元素是有限个的，因此对于一个 non-negated realtion atom，它能 deduce 的元素也会是有限的，所以我们只需要保证 head 中的每一个 variable 至少被一个 non-negated atom relation 给限制住了即可。在 datalog 中，只有满足 safe rules 是被允许的。</p>
+<p>再考虑这条 rule：</p>
+<ul>
+<li><code>A(x) &lt;- B(x), !A(x)</code></li>
+</ul>
+<p>显然这是一条自相矛盾的 rule，但是它满足了 safe rule 的条件，因此我们需要另外添加限制。观察可以发现这种 contradictory rule 必然也是 recursive 的形式，并且是在 body 中对 head 进行 negate，因此，在 datalog 中，我们规定 recursion and negation of an atom must be separated。</p>
+<h3 id="execution-of-datalog-programs"><a class="markdownIt-Anchor" href="#execution-of-datalog-programs"></a> Execution of Datalog Programs</h3>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261738973.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261738973.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="execution" /><span class="image-caption">execution</span></p>
+<ul>
+<li>datalog 使用 datalog engine 根据 EDB 和 rules 进行 deduce 并输出 IDB</li>
+<li>monotonicity: facts 只会从 rules 中产生而不会因为 deduction 而减少</li>
+<li>termination: 通过 rule safety 保证了能被 deduce 的 facts 必然是 finite 的，因此 datalog program 必然是可以终止的</li>
+</ul>
+<h2 id="pointer-analysis-via-datalog"><a class="markdownIt-Anchor" href="#pointer-analysis-via-datalog"></a> Pointer Analysis via Datalog</h2>
+<p>其实只要用 datalog 的语言描述出前面 pointer analysis 的 rules 即可，同样也需要考虑一些细节以及每个 atom 的 arguments 要如何设计。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739620.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739620.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="pointer analysis" /><span class="image-caption">pointer analysis</span></p>
+<h2 id="taint-analysis-via-datalog"><a class="markdownIt-Anchor" href="#taint-analysis-via-datalog"></a> Taint Analysis via Datalog</h2>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739720.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411261739720.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="taint analysis" /><span class="image-caption">taint analysis</span></p>
+<p>使用 datalog 来实现 program analysis 有以下优点和缺点：</p>
+<ul>
+<li>pros
+<ul>
+<li>简洁、可读性高</li>
+<li>容易实现，写 bug 的概率也小很多</li>
+<li>off-the-shelf optimized datalog engines 可以让你少考虑一些优化上的细节，make your life easier</li>
+</ul>
+</li>
+<li>cons
+<ul>
+<li>表达能力有限，某些 logics 很难用 datalog 表示甚至根本表示不了</li>
+<li>datalog engine 作为一个 black box 的存在使得我们很难用更优秀、更有针对性的 algorithm 来实现更优越的性能<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">David Maier, K. Tuncay Tekle, Michael Kifer, and David S. Warren, <em>&quot;Datalog: Concepts, History, and Outlook&quot;</em>. Chapter, 2018.</span><a href="#fnref:1" rev="footnote"> ↩</a></li></ol></div></div></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-datalog/index/">https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-datalog/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Program-Analysis/" class="post-tags__link button"># Program Analysis</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-ifds/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：CFL-Reachability and IFDS
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-security/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：Static Analysis for Security
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

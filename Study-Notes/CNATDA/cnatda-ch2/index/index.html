@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>CNATDA 第二章学习笔记 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Computer Network, CNATDA">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Principles of Network Applications">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNATDA 第二章学习笔记">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch2/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Principles of Network Applications">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20143658.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20144001.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20170537.png">
+<meta property="article:published_time" content="2023-10-29T08:08:19.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.503Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Computer Network">
+<meta property="article:tag" content="CNATDA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20143658.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CNATDA 第二章学习笔记
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/10/" class="post-meta__date button">2023-10-29</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/CNATDA/" class="button">CNATDA</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-network-applications"><span class="toc-number">1.</span> <span class="toc-text"> Principles of Network Applications</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-web-and-http"><span class="toc-number">2.</span> <span class="toc-text"> The Web and HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#electronic-mail-in-the-internet"><span class="toc-number">3.</span> <span class="toc-text"> Electronic Mail in the Internet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dnsthe-internets-directory-service"><span class="toc-number">4.</span> <span class="toc-text"> DNS——The Internet’s Directory Service</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#services-provided-by-dns"><span class="toc-number">4.1.</span> <span class="toc-text"> Services Provided by DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#overview-of-how-dns-works"><span class="toc-number">4.2.</span> <span class="toc-text"> Overview of How DNS Works</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dns-records-and-messages"><span class="toc-number">4.3.</span> <span class="toc-text"> DNS Records and Messages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#peer-to-peer-file-distribution"><span class="toc-number">5.</span> <span class="toc-text"> Peer-to-Peer File Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#video-streaming-and-content-distribution-networks"><span class="toc-number">6.</span> <span class="toc-text"> Video Streaming and Content Distribution Networks</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#principles-of-network-applications"><span class="toc-number">1.</span> <span class="toc-text"> Principles of Network Applications</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-web-and-http"><span class="toc-number">2.</span> <span class="toc-text"> The Web and HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#electronic-mail-in-the-internet"><span class="toc-number">3.</span> <span class="toc-text"> Electronic Mail in the Internet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dnsthe-internets-directory-service"><span class="toc-number">4.</span> <span class="toc-text"> DNS——The Internet’s Directory Service</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#services-provided-by-dns"><span class="toc-number">4.1.</span> <span class="toc-text"> Services Provided by DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#overview-of-how-dns-works"><span class="toc-number">4.2.</span> <span class="toc-text"> Overview of How DNS Works</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dns-records-and-messages"><span class="toc-number">4.3.</span> <span class="toc-text"> DNS Records and Messages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#peer-to-peer-file-distribution"><span class="toc-number">5.</span> <span class="toc-text"> Peer-to-Peer File Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#video-streaming-and-content-distribution-networks"><span class="toc-number">6.</span> <span class="toc-text"> Video Streaming and Content Distribution Networks</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>「Computer Networking: A Top Down Approach」(8th Edition)</p>
+<p>因为老师讲的太快没办法细读书上的内容，也很难有时间认真思考写一下一篇有深度的（虽然 CNATDA 好像介绍的深度也不是很大）学习笔记，所以这篇笔记很大程度上借鉴了 <a target="_blank" rel="noopener" href="https://ouuan.moe/post/2023/06/cnatda-2">ouuan</a> dalao 的笔记。</p>
+</div></div><h2 id="principles-of-network-applications"><a class="markdownIt-Anchor" href="#principles-of-network-applications"></a> Principles of Network Applications</h2>
+<p>现代主要使用的 application architecture 有两种：client-server 和 peer-to-peer (P2P) .</p>
+<p><em>process</em> 可以认为是一个在 end system 上运行的 program ，不同 end system 上的 process 通过在网络上交换 <em>messages</em> (application layer packets) 进行通信。</p>
+<p>process 与 transport layer 之间的 API 是 socket 。</p>
+<p>host 使用 IP address 识别，process (socket) 之间通过 IP + port number 识别。</p>
+<p>transport layer 中最主要的两个 protocol 是 TCP 和 UDP 。TCP 提供 connection-oriented service (通过 handshaking 建立 connection) 、reliable data transfer (data sent without error and in order) 、congestion-control (控制 sending rate 来减少 network layer 的拥塞以减少丢包重传) ，而 UDP 则是 connectionless (no handshaking) 、unreliable (不保证 message 送到和是否有序) ，并且 sending rate 是很随意的，也可以说 UDP 提供的是「best effort」service 。</p>
+<p>application layer 在选择 transport layer protocol 的时候需要根据自身是否 loss-tolerant 、time-sensitive 来考虑。</p>
+<p>application-layer protocol 决定了 process 之间交换的 messages 的 type, syntax, semantics, rules 。需要注意的是，application-layer protocols 只是 network application 中的一个部分。</p>
+<h2 id="the-web-and-http"><a class="markdownIt-Anchor" href="#the-web-and-http"></a> The Web and HTTP</h2>
+<p>HTTP (Hyper Text Transfer Protocol) 是 Web 的 application-layer protocol 。</p>
+<p>HTTP 不维护 client 的信息，是一个 <em>stateless protocol</em> 。</p>
+<p>HTTP/1.0 、HTTP/1.1 、HTTP/2 使用的都是 TCP ，而 HTTP/3 使用的是 UDP 。</p>
+<p>由于 TCP 是 connection-oriented ，所以需要考虑每一对 req/res 需要建立在不同还是相同的 connection 上，从而分为了 <em>non-persistent connection</em> 和 <em>persistent connection</em> 两种。</p>
+<ul>
+<li>non-persistent: 每一次 req/res 都会建立一个新的 TCP connection ，结束之后都会关闭 connection 。需要的时间是 RTT * 2 (handshaking + req/res) + 文件传输用时。</li>
+<li>persistent: 同一对 client-server 之间的所有 req/res 共用一个 TCP connection ，并且 client 在收到 response 之前可以一次性发送多个 request (<em>pipelining</em>) ，省下了多次建立 TCP connection 的时间。</li>
+</ul>
+<p>HTTP/1.0 使用的是 non-persistent connection ，HTTP/1.1 和 HTTP/2 使用的是 persistent connection 。</p>
+<p>HTTP message 是 ASCII text 。</p>
+<p>HTTP request:</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20143658.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20143658.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/somedir/page.html</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>www.someschool.edu</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">User-agent</span><span class="punctuation">: </span>Mozilla/5.0</span><br><span class="line"><span class="attribute">Accept-language</span><span class="punctuation">: </span>fr</span><br></pre></td></tr></table></figure>
+<p>HTTP response:</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20144001.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20144001.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Tue, 18 Aug 2015 15:44:04 GMT</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>Apache/2.2.3 (CentOS)</span><br><span class="line"><span class="attribute">Last-Modified</span><span class="punctuation">: </span>Tue, 18 Aug 2015 15:11:03 GMT</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>6821</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html</span><br><span class="line">(data data data data data ...)</span><br></pre></td></tr></table></figure>
+<p>server 可以通过 cookies 来识别用户，通过在 response 的 header lines 中加入 <code>Set-cookie</code> 来发送用户的 cookies，之后 client 每次发送 request 则在 header lines 中加入 <code>cookie: 1678</code> 。</p>
+<p>ISP 可以设置 Web Cache ，用户先向 Web Cache 发送 request ，如果 cache hit 则直接发送 response ，否则就由 web cache 先向 origin server 发送 request 然后再向用户发送 response 。Web Cache 的存在可以减少延迟，降低带宽压力。</p>
+<p>client 通过在 header 中加入 <code>If-Modified-Since:&lt;date&gt;</code> 进行 <em>conditional GET</em> ，如果 server 检查对应的文件在 <code>&lt;date&gt;</code> 之前没有更改过，就发送 body 为空的 304 Not Modified 。</p>
+<p>HTTP/2 使用了 request and response multiplexing、prioritization、server push 来提高 server 端发送的灵活性。</p>
+<ul>
+<li>multiplexing: 使用 persistent connection 虽然减小了 RTT 的次数，但是带来了 Head of Line (HOL) blocking (较小的文件需要花费大量时间等待较大文件传输完成才能传输) 。HTTP/1.1 尽管使用 persistent connection ，但是还是建立了多个 TCP connection 来避免 HOL ，而 HTTP/2 则是将文件分成较小的 <em>frames</em> ，交替发送不同文件的 frame (interleaving) 从而减少了小文件的等待时间。</li>
+<li>prioritization: client 发送多次 request 时，可以为不同的 response 设置优先级，server 通过优先级调整 response 的发送顺序，另外，client 还可以设置 response 之间的依赖关系。</li>
+<li>push: server 可以对一个 request 发送多个 response ，将当前页面引用的但是 unrequested 的其他资源也 push 过去。</li>
+</ul>
+<p>HTTP/3 使用基于 UDP 的 QUIC protocol 替代了 TCP 。</p>
+<h2 id="electronic-mail-in-the-internet"><a class="markdownIt-Anchor" href="#electronic-mail-in-the-internet"></a> Electronic Mail in the Internet</h2>
+<p>mail system 主要由 user agent、mail servers 和 SMTP 组成。</p>
+<p>当 Alice 发送 email 给 Bob 时，会将写好的邮件通过她的 user agent 传递给她的 mail server ，再由 mail server 发送给 Bob 的 mail server ，Bob 通过他的 user agent 从 mail server 中取出邮件进行阅读。</p>
+<p>发送端的 mail server 会维护一个 message queue ，如果要发送的 mail server 在当时不可用，则会隔一段时间重新发送，多次失败后则会退回邮件。</p>
+<p>发送端的 mail server 即为 SMTP client ，接收端的 mail server 则是 SMTP server 。</p>
+<p>SMTP 是一个上古协议，因此整个 message 都只能是 7bit-ASCII 格式，同时，它使用的也是 TCP 协议，默认端口是 25 。</p>
+<figure class="highlight plaintext"><figcaption><span>text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">S: 220 smtp.example.com ESMTP Postfix</span><br><span class="line">C: HELO relay.example.org</span><br><span class="line">S: 250 Hello relay.example.org, I am glad to meet you</span><br><span class="line">C: MAIL FROM:&lt;bob@example.org&gt;</span><br><span class="line">S: 250 Ok</span><br><span class="line">C: RCPT TO:&lt;alice@example.com&gt;</span><br><span class="line">S: 250 Ok</span><br><span class="line">C: RCPT TO:&lt;theboss@example.com&gt;</span><br><span class="line">S: 250 Ok</span><br><span class="line">C: DATA</span><br><span class="line">S: 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</span><br><span class="line">C: From: &quot;Bob Example&quot; &lt;bob@example.org&gt;</span><br><span class="line">C: To: &quot;Alice Example&quot; &lt;alice@example.com&gt;</span><br><span class="line">C: Cc: theboss@example.com</span><br><span class="line">C: Date: Tue, 15 Jan 2008 16:02:43 -0500</span><br><span class="line">C: Subject: Test message</span><br><span class="line">C:</span><br><span class="line">C: Hello Alice.</span><br><span class="line">C: This is a test message with 5 header fields and 4 lines in the message body.</span><br><span class="line">C: Your friend,</span><br><span class="line">C: Bob</span><br><span class="line">C: .</span><br><span class="line">S: 250 Ok: queued as 12345</span><br><span class="line">C: QUIT</span><br><span class="line">S: 221 Bye</span><br></pre></td></tr></table></figure>
+<p>SMTP 在建立完 TCP connection (handshaking) 之后会先自我介绍一遍 (<code>HELO</code>) 再传输数据，他们之间的连接使用的是同一个 TCP connection 。</p>
+<p>email 的传递是 user agent -&gt; mail server -&gt; mail server -&gt; user agent ，多一个 mail server 作为中间媒介是因为 user agent 经常不在线，一个 mail server 的存在可以提高在线率并实现失败重发。</p>
+<p>user agent 发送到 mail server 的过程可以使用 SMTP/HTTP ，mail server 到 mail server 使用 SMTP ，而从 mail server 拉取邮件到 user agent 使用的是 HTTP/IMAP ，不能使用 SMTP 是因为 SMTP 是一个 <em>push protocol</em> 。</p>
+<h2 id="dnsthe-internets-directory-service"><a class="markdownIt-Anchor" href="#dnsthe-internets-directory-service"></a> DNS——The Internet’s Directory Service</h2>
+<p>host 可以由 hostname 和 IP 识别，其中 hostname 对人类更友好，而 IP 则对 routers 更友好。</p>
+<p>DNS (Domain Name System) 的主要任务就是将 hostname 翻译成 IP 。</p>
+<h3 id="services-provided-by-dns"><a class="markdownIt-Anchor" href="#services-provided-by-dns"></a> Services Provided by DNS</h3>
+<p>DNS 是由不同层级的 DNS servers 共同构成的一个 distributed database ，也是一个让 hosts 可以请求这个 distributed database 的 application-layer protocol 。</p>
+<p>DNS 使用 UDP 协议，默认端口为 53 .</p>
+<p>DNS 在提供 hostname 到 IP 的翻译之外，还提供了以下功能：</p>
+<ul>
+<li>host aliasing: 一个 host 在拥有 canonical hostname 之外还能拥有多个 alias 。</li>
+<li>mail server aliasing: 同一个 hostname 在作为 Web server 和 mail server 时可以分别指向不同的 host 。</li>
+<li>load distribution: 同一个 hostname 可以指向多个 host ，返回查询结果的时候 rotate addresses 的顺序。</li>
+</ul>
+<h3 id="overview-of-how-dns-works"><a class="markdownIt-Anchor" href="#overview-of-how-dns-works"></a> Overview of How DNS Works</h3>
+<p>单点式的 DNS 会面临以下问题：</p>
+<ul>
+<li>a single point of failure</li>
+<li>traffic volume</li>
+<li>distant centralized database</li>
+<li>maintainance</li>
+</ul>
+<p>因此，DNS 必须是分布式、多层级的。</p>
+<p>DNS 一般分为以下几层：</p>
+<ul>
+<li>root DNS server: 分布在全球的 13 个 root servers 一共有超过 1000 个 copy ，用来查询 TLD server。</li>
+<li>top-level domain (TLD) servers: 每个 TLD 都有自己的 TLD server ，用来查询 authoritative DNS servers。</li>
+<li>authoritative DNS servers: 每个 subdomain 都有自己的 authoritative DNS server ，用来查询 hostname 到 IP 的映射。</li>
+</ul>
+<p>除此之外，TLD servers 和 authoritative DNS servers 之间还可能有 intermediate DNS server (IXP) 。</p>
+<p>另外，ISP 一般都会有一个 local DNS server (default name server) ，作为 proxy 代替 host 向 DNS server 进行查询。</p>
+<p>在向 DNS server 查询时，分为 iterative query (分别向不同的 DNS server 查询) 和 recursive query (由当前查询的 DNS server 替你向其他 DNS server 查询) ，实际中，requesting host 到 local DNS server 的查询是 recursive 的，而 local DNS server 从 root DNS server 开始向下查询是 iterative 的。</p>
+<p>为了减少查询的数量，DNS 采用了 caching 的办法。每个查询的发起者都会将查询结果保存一段时间，直到 cache miss 才会发起查询。</p>
+<h3 id="dns-records-and-messages"><a class="markdownIt-Anchor" href="#dns-records-and-messages"></a> DNS Records and Messages</h3>
+<p>DNS distributed database 的存储单元是 RR (resource record) 。</p>
+<p>RR 是一个四元组 (Name, Value, Type, TTL) ，TTL 表示 cache 多久过期，Name 和 Value 的含义由 Type 决定。常见的 Type 有以下几种：</p>
+<ul>
+<li>A: name = hostname, value = IP address, 代表一个 hostname 到 IP 地址的映射。</li>
+<li>NS: name = domain, value = name server 的 hostname ，代表可以在这个 name server 进行这个 domain 的下一步查询。</li>
+<li>CNAME: name = alias hostname, value = canonical hostname ，用来使用 host aliasing 。</li>
+<li>MX: name = alias hostname, value = canonical hostname ，用来使用 mail server aliasing 。</li>
+</ul>
+<p>hostname 对应的 authoritative DNS server 会包含对应的 A record ，而其他的 authoritative DNS servers 则会包含它的 NS record 。</p>
+<p>下面的例子来自 <a target="_blank" rel="noopener" href="https://ouuan.moe/post/2023/06/cnatda-2#video-streaming-and-content-distribution-networks">ouuan’s blog</a> 。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">type</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center"><code>.</code></td>
+<td style="text-align:center"><code>a.root-servers.net.</code></td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center"><code>a.root-servers.net.</code></td>
+<td style="text-align:center"><code>198.41.0.4</code></td>
+</tr>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center"><code>moe.</code></td>
+<td style="text-align:center"><code>ns1.dns.nic.moe.</code></td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center"><code>ns1.dns.nic.moe.</code></td>
+<td style="text-align:center"><code>156.154.144.114</code></td>
+</tr>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center"><code>ouuan.moe.</code></td>
+<td style="text-align:center"><code>amos.ns.cloudflare.com.</code></td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center"><code>amos.ns.cloudflare.com.</code></td>
+<td style="text-align:center"><code>172.64.35.120</code></td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center"><code>ouuan.moe.</code></td>
+<td style="text-align:center"><code>172.67.181.123</code></td>
+</tr>
+</tbody>
+</table>
+<p>DNS 最早只能通过更改配置文件等方式静态更新，现在可以使用 DDNS 通过 DNS message 进行动态更新。</p>
+<p>DNS message 格式如下：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20170537.png" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-10-29%20170537.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>identification 表示这是 query 还是 reply ，由 client 设置。</p>
+<p>flags 包括：</p>
+<ul>
+<li>query/reply: 表示这条 message 是 query 还是 reply 。</li>
+<li>authoritative or not: 表示返回的结果是否是最终结果。</li>
+<li>recursion desired: client 是否希望 server 进行 recursive query 。</li>
+<li>recursion available: 表示 server 是否可以进行 recursive query 。</li>
+</ul>
+<h2 id="peer-to-peer-file-distribution"><a class="markdownIt-Anchor" href="#peer-to-peer-file-distribution"></a> Peer-to-Peer File Distribution</h2>
+<p>P2P 架构的优势在于它是 self-scalable 的。</p>
+<p>最流行的 P2P file distribution protocol 是 BitTorrent ，它以 chunk 为基本下载单位。在一个 peer 刚加入 torrent 时只能从其他 peer 下载 chunk，获取到一些 trunk 后就会上传给其他 peer 。</p>
+<p>每个 torrent 都会有一个 tracker ，peer 的加入和离开都会通知 tracker ，并且会在过程中定期告知 tracker 自己仍在活动，tracker 会给每个 peer 其他 peer 的 IP 地址与端口。</p>
+<h2 id="video-streaming-and-content-distribution-networks"><a class="markdownIt-Anchor" href="#video-streaming-and-content-distribution-networks"></a> Video Streaming and Content Distribution Networks</h2>
+<p>上课的时候老师没讲，虽然我后来还是把这部分内容看完了，但是时间原因，学习笔记就先咕了，后面有空的时候再写。</p>
+<p><s>CDN 还是挺重要的为什么不讲？</s></p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch2/index/">https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch2/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Computer-Network/" class="post-tags__link button"># Computer Network</a><a href="/tags/CNATDA/" class="post-tags__link button"># CNATDA</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/cs229-linear-regression/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CS229 Linear Regression
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/CS/cs144-lab1/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CS144 Lab 1
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

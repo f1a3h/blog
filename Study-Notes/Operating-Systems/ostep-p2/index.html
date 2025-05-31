@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>OSTEP: Concurrency 学习笔记 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="OSTEP">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="「Operating Systems: Three Easy Pieces」第二部分 Concurrency 学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSTEP: Concurrency 学习笔记">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Operating-Systems/ostep-p2/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="「Operating Systems: Three Easy Pieces」第二部分 Concurrency 学习笔记">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412051059720.png">
+<meta property="article:published_time" content="2024-12-10T21:46:17.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.542Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="OSTEP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412051059720.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        OSTEP: Concurrency 学习笔记
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/12/" class="post-meta__date button">2024-12-10</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Operating-Systems/" class="button">Operating Systems</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#concurrency-an-introduction"><span class="toc-number">1.</span> <span class="toc-text"> Concurrency: An Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interlude-thread-api"><span class="toc-number">2.</span> <span class="toc-text"> Interlude: Thread API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#locks"><span class="toc-number">3.</span> <span class="toc-text"> Locks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#interrupt-based-locks"><span class="toc-number">3.1.</span> <span class="toc-text"> Interrupt-Based Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spin-locks"><span class="toc-number">3.2.</span> <span class="toc-text"> Spin Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locks-with-yield-queue"><span class="toc-number">3.3.</span> <span class="toc-text"> Locks With Yield, Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#two-phase-locks"><span class="toc-number">3.4.</span> <span class="toc-text"> Two-Phase Locks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lock-based-concurrent-data-structures"><span class="toc-number">4.</span> <span class="toc-text"> Lock-based Concurrent Data Structures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-counters"><span class="toc-number">4.1.</span> <span class="toc-text"> Concurrent Counters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-linked-lists"><span class="toc-number">4.2.</span> <span class="toc-text"> Concurrent Linked Lists</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-queues"><span class="toc-number">4.3.</span> <span class="toc-text"> Concurrent Queues</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-hash-table"><span class="toc-number">4.4.</span> <span class="toc-text"> Concurrent Hash Table</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#condition-variables"><span class="toc-number">5.</span> <span class="toc-text"> Condition Variables</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-producerconsumer-bounded-buffer-problem"><span class="toc-number">5.1.</span> <span class="toc-text"> The Producer&#x2F;Consumer (Bounded Buffer) Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#covering-conditions"><span class="toc-number">5.2.</span> <span class="toc-text"> Covering Conditions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#semaphores"><span class="toc-number">6.</span> <span class="toc-text"> Semaphores</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#binary-semaphores-locks"><span class="toc-number">6.1.</span> <span class="toc-text"> Binary Semaphores (Locks)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#semaphore-for-ordering"><span class="toc-number">6.2.</span> <span class="toc-text"> Semaphore For Ordering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-producerconsumer-bounded-buffer-problem-2"><span class="toc-number">6.3.</span> <span class="toc-text"> The Producer&#x2F;Consumer (Bounded Buffer) Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#readerwriter-locks"><span class="toc-number">6.4.</span> <span class="toc-text"> Reader&#x2F;Writer Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-dining-philosophers"><span class="toc-number">6.5.</span> <span class="toc-text"> The Dining Philosophers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#thread-throttling"><span class="toc-number">6.6.</span> <span class="toc-text"> Thread Throttling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#how-to-implement-semaphores"><span class="toc-number">6.7.</span> <span class="toc-text"> How to Implement Semaphores</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-concurrency-problems"><span class="toc-number">7.</span> <span class="toc-text"> Common Concurrency Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#non-deadlock-bugs"><span class="toc-number">7.1.</span> <span class="toc-text"> Non-Deadlock Bugs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deadlock-bugs"><span class="toc-number">7.2.</span> <span class="toc-text"> Deadlock Bugs</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#concurrency-an-introduction"><span class="toc-number">1.</span> <span class="toc-text"> Concurrency: An Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#interlude-thread-api"><span class="toc-number">2.</span> <span class="toc-text"> Interlude: Thread API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#locks"><span class="toc-number">3.</span> <span class="toc-text"> Locks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#interrupt-based-locks"><span class="toc-number">3.1.</span> <span class="toc-text"> Interrupt-Based Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spin-locks"><span class="toc-number">3.2.</span> <span class="toc-text"> Spin Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locks-with-yield-queue"><span class="toc-number">3.3.</span> <span class="toc-text"> Locks With Yield, Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#two-phase-locks"><span class="toc-number">3.4.</span> <span class="toc-text"> Two-Phase Locks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lock-based-concurrent-data-structures"><span class="toc-number">4.</span> <span class="toc-text"> Lock-based Concurrent Data Structures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-counters"><span class="toc-number">4.1.</span> <span class="toc-text"> Concurrent Counters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-linked-lists"><span class="toc-number">4.2.</span> <span class="toc-text"> Concurrent Linked Lists</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-queues"><span class="toc-number">4.3.</span> <span class="toc-text"> Concurrent Queues</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrent-hash-table"><span class="toc-number">4.4.</span> <span class="toc-text"> Concurrent Hash Table</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#condition-variables"><span class="toc-number">5.</span> <span class="toc-text"> Condition Variables</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-producerconsumer-bounded-buffer-problem"><span class="toc-number">5.1.</span> <span class="toc-text"> The Producer&#x2F;Consumer (Bounded Buffer) Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#covering-conditions"><span class="toc-number">5.2.</span> <span class="toc-text"> Covering Conditions</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#semaphores"><span class="toc-number">6.</span> <span class="toc-text"> Semaphores</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#binary-semaphores-locks"><span class="toc-number">6.1.</span> <span class="toc-text"> Binary Semaphores (Locks)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#semaphore-for-ordering"><span class="toc-number">6.2.</span> <span class="toc-text"> Semaphore For Ordering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-producerconsumer-bounded-buffer-problem-2"><span class="toc-number">6.3.</span> <span class="toc-text"> The Producer&#x2F;Consumer (Bounded Buffer) Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#readerwriter-locks"><span class="toc-number">6.4.</span> <span class="toc-text"> Reader&#x2F;Writer Locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-dining-philosophers"><span class="toc-number">6.5.</span> <span class="toc-text"> The Dining Philosophers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#thread-throttling"><span class="toc-number">6.6.</span> <span class="toc-text"> Thread Throttling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#how-to-implement-semaphores"><span class="toc-number">6.7.</span> <span class="toc-text"> How to Implement Semaphores</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#common-concurrency-problems"><span class="toc-number">7.</span> <span class="toc-text"> Common Concurrency Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#non-deadlock-bugs"><span class="toc-number">7.1.</span> <span class="toc-text"> Non-Deadlock Bugs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deadlock-bugs"><span class="toc-number">7.2.</span> <span class="toc-text"> Deadlock Bugs</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p><a target="_blank" rel="noopener" href="https://pages.cs.wisc.edu/~remzi/OSTEP/">「Operating Systems: Three Easy Pieces」</a>第二部分 Concurrency 学习笔记.</p>
+<hr />
+<h2 id="concurrency-an-introduction"><a class="markdownIt-Anchor" href="#concurrency-an-introduction"></a> Concurrency: An Introduction</h2>
+<p>本章介绍 process 的一个新的 abstraction: <em>thread</em>. 一个 <em>multi-threaded</em> program 可以拥有多个执行点, 与多个 process 不同, 多个 thread 之间的 address space 是共享的.</p>
+<p>在 thread 之间切换执行也需要 context switch, 将 process 的 state 存储到 <em>process control block (PCB)</em>, 单个 process 内的 threads 的 state 则分别存储到多个 <em>thread control blocks (TCBs)</em> 内.</p>
+<p><em>single-threaded</em> process 的 address space 中只有一个 stack, 而 <em>multi-threaded</em> process 则会有多个 stack, 称为 <em>thread-local</em> storage, 一个 heap 被多个 threads 共享.</p>
+<p><em>parallelism</em> 和避免因为 slow I/O 而导致 program 被 block 是使用 thread 的两大需求:</p>
+<ul>
+<li>将 single-threaded program 转化为能在 multiple CPUs 上并行计算的过程称为 <em>parallelization</em>.</li>
+<li>threads 允许 single program 内 I/O 与其他活动的 overlap, 类似 <em>multiprogramming</em>.</li>
+</ul>
+<p>thread 可以通过 <code>Pthread_create</code> 创建, <code>Pthread_join</code> 等待 thread 完成, thread 的运行先后也是有 scheduler 决定的, 因而无法确定某个时间是哪个 thread 在运行.</p>
+<p>由于 uncontrolled scheduling, 同时 thread 之间共享 address space, 就会产生 <em>race condition</em> (也称为 <em>data race</em>), 即某个共享的 data 的结果会由代码的执行时间决定, 具体而言, 当一个 thread 利用某个 register 完成 <code>counter += 1</code> 还未将数据 <code>mov</code> 回 <code>counter</code> 变量的地址时切换到了另一个 thread 来执行这一段代码并完成了写入, 之后切换回旧的 thread 完成 <code>mov</code>, 本应 <code>+2</code> 的 counter 最终只 <code>+1</code>, 称这样无法确定结果的计算过程为 <em>indeterminate</em>, 可能导致多个 multiple threads 出现 race condition 的代码段称为 <em>critical section</em>.</p>
+<p>为了避免这样的情况, 我们需要 <em>mutual exclusion</em> 来保证某个 thread 执行 critical section 中的代码时禁止其他 thread 执行这段代码.</p>
+<p>一种方法是 <em>atomicity</em>, 即在硬件层面上实现单个 instruction 完成 critical section 需要完成的工作, 但是对于 critical section 描述的是复杂的操作时这种方法并不现实, 因此我们希望 hardware 能提供少量有用的 instructions 帮助将简单的操作 atomize, 这种 instruction 的集合被称为 <em>synchronization primitives</em>.</p>
+<p>thread 还存在的一个问题出现在一个 thread 需要等待另一个 thread 完成某些操作后才能继续下一步时, 例如一个 process 进行了 disk I/O 然后进入 sleep, 当 I/O 完成后需要从 sleep 中唤醒, 这就需要提供一些 sleeping/waking interaction 的 mechanisms.</p>
+<h2 id="interlude-thread-api"><a class="markdownIt-Anchor" href="#interlude-thread-api"></a> Interlude: Thread API</h2>
+<p>thread 相关 API 如下:</p>
+<ul>
+<li>创建 thread: <code>int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void*), void *arg);</code>
+<ul>
+<li><code>thread</code> 为传入的 <code>pthread_t</code> 类型变量指针</li>
+<li><code>attr</code> 指定 thread 的 attributes, 例如 stack 大小及 scheduling priority 的信息, attribute 指针通过 <code>pthread_attr_init();</code> 进行初始化</li>
+<li><code>start_routine</code> 为需要 thread 执行的函数指针, 前一个 <code>void *</code> 表示该函数返回值类型, 后一个 <code>void*</code> 表示该函数传入参数类型</li>
+<li><code>arg</code> 为 <code>start_routine</code> 的传入参数</li>
+</ul>
+</li>
+<li>等待 thread: <code>int pthread_join(pthread_t thread, void **value_ptr);</code>
+<ul>
+<li><code>thread</code> 为创建 thread 时 <code>pthread_create()</code> 的返回值</li>
+<li><code>value_ptr</code> 为需要存储 <code>thread</code> 的返回值的指针</li>
+</ul>
+</li>
+</ul>
+<p>POSIX threads library 使用 <em>locks</em> 保护 critical section, 相关 API 如下:</p>
+<ul>
+<li>给后面的代码上锁: <code>int pthread_mutex_lock(pthread_mutex_t *mutex);</code>
+<ul>
+<li>若后面的代码当前没有被其他 thread 占用, 则之间由当前 thread 占用</li>
+<li>若当前被其他 thread 占用, 则等待其释放后再占用</li>
+</ul>
+</li>
+<li>释放锁: <code>int pthread_mutex_unlock(pthread_mutex_t *mutex);</code></li>
+</ul>
+<p><code>pthread_mutex_t</code> 类型的变量需要正确初始化:</p>
+<ul>
+<li>使用 default value: <code>pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZAER;</code></li>
+<li>使用 function call: <code>int rc = pthread_mutex_init(&amp;lock, NULL);</code>
+<ul>
+<li>其中 <code>NULL</code> 为 default value, 也可指定 <code>lock</code> 初始为其他值</li>
+<li>always check success: <code>assert(rc == 0);</code></li>
+<li>相应地, 需要使用 <code>pthread_mutex_destroy()</code> 进行销毁</li>
+</ul>
+</li>
+</ul>
+<p>上锁的方式也有更灵活的 API 提供:</p>
+<ul>
+<li><code>int pthread_mutex_trylock(pthread_mutex_t *mutex);</code>
+<ul>
+<li>若当前代码被其他 thread 占有, 则直接 return failure</li>
+<li>否则直接占有并 return success</li>
+</ul>
+</li>
+<li><code>int pthread_mutex_timedlock(pthread_mutex_t *mutex, struct timespec *abs_timeout);</code>
+<ul>
+<li>若当前代码被其他 thread 占有, 则在等待指定时间内不断尝试占有, timeout 之后仍未成功则 return failure</li>
+</ul>
+</li>
+</ul>
+<p><em>condition variable</em> 也是任何 threads library 的重要组成部分, 它负责 threads 之间的交互, 例如:</p>
+<ul>
+<li><code>int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);</code>
+<ul>
+<li>直到 <code>cond</code> 发生相应改变之前, caller thread 会进入 sleep, 此时会释放 <code>mutex</code> 对应的 lock</li>
+</ul>
+</li>
+<li><code>int pthread_cond_signal(pthread_cond_t *cond);</code>
+<ul>
+<li>完成相关操作后利用 <code>cond</code> 向对应的 <code>pthread_cond_wait()</code> 的 caller thread 发送 signal 并唤醒它, 同时 caller thread 会 reaquire <code>mutex</code> 对应代码</li>
+</ul>
+</li>
+</ul>
+<p>类似地, <code>cond</code> 也需要正确的初始化, 例如 <code>pthread_cond_t cond = PTHREAD_CON_INITIALIZAER</code>.</p>
+<p>由于一些 pthread implementations 可能会 spuriously wake up a waiting thread, 因此常用一个 <code>while</code> recheck 某个被两个需要交互的 threads 共用的 flag 来确保 threads 之间的行为符合预期.</p>
+<p>compile 上述 code 需要用到头文件 <code>pthread.h</code> 同时需要在编译命令中加入 flag <code>-pthread</code>.</p>
+<h2 id="locks"><a class="markdownIt-Anchor" href="#locks"></a> Locks</h2>
+<p>lock 是一个变量, 它有 <em>available</em> (or <em>unlocked</em> or <em>free</em>) 和 <em>acquired</em> (or <em>locked</em> or <em>held</em>) 两种状态.</p>
+<p>thread 通过 <code>lock()</code> 来获取 lock, 若此时 lock 处于 available 状态则获取成功, 这个 thread 也被称为该 lock 的 <em>owner</em>, 它可以通过 <code>unlock()</code> 来释放这个 lock.</p>
+<p>POSIX library 使用 <em>mutex</em> 来命名 lock, Linux 则使用 <em>futex</em>.</p>
+<p>相较于用一个大的 lock 来保护整个 critical section (称为 <em>coarse-grained</em> locking strategy), 使用不同的 lock 来保护不同的 data 从而允许多个 thread 能同时进入 locked code (称为 <em>fine-grained</em> locking strategy) 可以提高 concurrency.</p>
+<p>一般用以下三个标准评估 lock:</p>
+<ul>
+<li><em>mutual exclusion</em>: 阻止不同的 threads 进入 critical section</li>
+<li><em>fairness</em>: 竞争 lock 的 threads 能否得到 fair shot, 或者是否存在 starvation</li>
+<li><em>performance</em>: 使用 lock 而增加的 time overheads</li>
+</ul>
+<h3 id="interrupt-based-locks"><a class="markdownIt-Anchor" href="#interrupt-based-locks"></a> Interrupt-Based Locks</h3>
+<p>最早的提供 mutual exclusion 的方法是在 critical section 禁止 interrupts (interrupt-based technique), 这可能导致 thread 通过不停 call <code>lock()</code> 来独占 CPU, 而且这个方法在 multiprocessor 下并不 work, 另外也可能导致重要的 interrupt 丢失 (例如 CPU 可能无法得知 disk device 是否完成了读写操作).</p>
+<h3 id="spin-locks"><a class="markdownIt-Anchor" href="#spin-locks"></a> Spin Locks</h3>
+<p>另一种方法是使用 <code>flag</code> 来标示 lock 的状态, 在 <code>lock()</code> 中先 <em>test</em> <code>flag</code> 是否为 1, 若没有则令 <code>flag = 1</code> 来 <em>holds</em> the lock, 最后 call <code>unlock()</code> 并 clear <code>flag</code>; test 失败的 thread 会用一个 while loop 进行 <em>spin-wait</em> 等待 lock 被释放. 这种方法没有对 <code>flag</code> 的修改进行保护, 另外 spin-wait 的性能也很低.</p>
+<p>通过 hardware support 可以用单个的 <em>test-and-set</em> (or <em>atomic exchange</em>) instruction 来完成 flag 的读写从而保证 correctness :</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">TestAndSet</span><span class="params">(<span class="type">int</span> *old_ptr, <span class="type">int</span> new)</span> &#123;</span><br><span class="line">  <span class="type">int</span> old = *old_ptr; <span class="comment">// fetch old value at old_ptr</span></span><br><span class="line">  *old_ptr = new;     <span class="comment">// store ’new’ into old_ptr</span></span><br><span class="line">  <span class="keyword">return</span> old;         <span class="comment">// return the old value</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一种 hardware primitive 是 <em>compare-and-swap</em> instruction (on SPARC) 或者叫 <em>compare-and-exchange</em> (on x86):</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">CompareAndSwap</span><span class="params">(<span class="type">int</span> *ptr, <span class="type">int</span> expected, <span class="type">int</span> new)</span> &#123;</span><br><span class="line">  <span class="type">int</span> original = *ptr;</span><br><span class="line">  <span class="keyword">if</span> (original == expected)</span><br><span class="line">    *ptr = new;</span><br><span class="line">  <span class="keyword">return</span> original;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以利用 conditional variable, 用一对指令来保证 correctness, 例如 MIPS 架构提供 <em>load-linked</em> 和 <em>store-conditional</em> 指令:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">LoadLinked</span><span class="params">(<span class="type">int</span> *ptr)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> *ptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">StoreConditional</span><span class="params">(<span class="type">int</span> *ptr, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (no update to *ptr since LL to this addr) &#123;</span><br><span class="line">    *ptr = value;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// success!</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// failed to update</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 LL/SC 指令的例子如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">lock</span><span class="params">(<span class="type">lock_t</span> *lock)</span> &#123;</span><br><span class="line">  <span class="keyword">while</span> (LoadLinked(&amp;lock-&gt;flag) ||</span><br><span class="line">      !StoreConditional(&amp;lock-&gt;flag, <span class="number">1</span>))</span><br><span class="line">    ; <span class="comment">// spin</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述方法都不能保证 fairness,  而 <em>ticket lock</em> 使用 <em>fetch-and-add</em> instruction, 给 lock 增加一个 ticket value, 当有一个 thread 想要获取 lock 时就用 fetch-and-add 给 ticket value 增加 1, 此时的 value 被视为该 thread 的 “turn”, 然后由 global shared <code>lock-&gt;turn</code> 来决定将 lock 给谁, <code>unlock()</code> 则是直接给 <code>lock-&gt;turn</code> 增加 1, 这种「轮流来」的方案保证了每个拥有 ticket 的 thread 都能获取 lock。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">FetchAndAdd</span><span class="params">(<span class="type">int</span> *ptr)</span> &#123;</span><br><span class="line">  <span class="type">int</span> old = *ptr;</span><br><span class="line">  *ptr = old + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> old;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>spin lock 需要 preemptive scheduler 才能在 single CPU 环境下 make sense, 而且尽管 spin locks 满足了 mutual exclusion, 也有 ticket lock 保证 fairness, 但是每个 spinning thread 都会浪费 time slice 等待 lock 被释放, 若有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 个 thread 则可能会浪费 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 个 time slice, 而且会 context switch 的花费也会计入其中, 因此 spin lock 的 performance 较差.</p>
+<h3 id="locks-with-yield-queue"><a class="markdownIt-Anchor" href="#locks-with-yield-queue"></a> Locks With Yield, Queue</h3>
+<blockquote>
+<p>“Just yield, baby!”</p>
+</blockquote>
+<p>最简单的避免 spin 的方式是直接 give up the CPU, 即在 <code>while (TestAndSet(&amp;flag, 1) == 1)</code> 中 call <code>yield()</code>, 这会将 caller thread 从 running state 移到 ready state, 并切换到另一个 thread, 本质上是 thread <em>deschedule</em> 自己.</p>
+<p>这种方法当存在大量 thread 竞争同一个 lock 时, 依然会有大量的 context switch 的花费, 而且也没有解决 starvation, 例如其他 threads 不断重复获取 lock 时会有 thread 陷入无尽的 yield loop.</p>
+<p>前面的方法都会由于 OS 错误的 schedule 而导致各种错误/性能问题, 因此我们需要从 OS 中获取一些关于 schedule threads 的 control, 例如用一个 queue 来决定下一个获取 lock 的 thread.</p>
+<p>Solaris 提供 <code>park()</code> 来令 calling thread 进入 sleeping, 以及 <code>unpark(threadID)</code> 来唤醒由 <code>threadID</code> 指定的 thread. 我们可以借由这两者 routine, 来进行入队与出队时 thread 状态转变的处理.</p>
+<p>实现上还需要用一个 guard lock (<code>lock-&gt;guard</code>) 来保护 <code>queue_add()</code> 操作, 具体而言, 在 <code>lock()</code> 中先通过 <code>TestAndSet()</code> 以及 spinning 获取 guard lock, 然后通过 <code>lock-&gt;flag</code> 变量来尝试获取 lock, 成功则置 <code>lock-&gt;flag = 1</code> 表示占用, 并释放 guard lock, 否则入队, 接着释放 guard lock, 然后 call <code>park()</code> 进入 sleeping (后两步顺序不能反); 在 <code>unlock()</code> 中, 同样先通过 <code>TestAndSet()</code> 和 spinning 获取 guard lock, 之后直接 call <code>unpark()</code> 唤醒 queue 中下一个 thread (相当于直接将 lock 交给它), 若 queue 为空则释放 lock, 最后释放 guard lock.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">lock_t</span> &#123;</span></span><br><span class="line">  <span class="type">int</span> flag;</span><br><span class="line">  <span class="type">int</span> guard;</span><br><span class="line">  <span class="type">queue_t</span> *q;</span><br><span class="line">&#125; <span class="type">lock_t</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="two-phase-locks"><a class="markdownIt-Anchor" href="#two-phase-locks"></a> Two-Phase Locks</h3>
+<p>Linux 使用的是 two-phase lock: 当 lock 要被释放时, spinning 是有用的, 因此在 1st phase 为简单的 spin once, 若没能获取 lock 则进入 2nd phase, 即进入 sleeping, 只有当 lock 变为 free 时才被唤醒.</p>
+<p>two-phase locks 属于 <em>hybrid</em> approach, 即将两个 good idea 结合起来可能得到一个更好的 idea.</p>
+<h2 id="lock-based-concurrent-data-structures"><a class="markdownIt-Anchor" href="#lock-based-concurrent-data-structures"></a> Lock-based Concurrent Data Structures</h2>
+<p>加上 locks 来使其可以被 threads 使用的 data structures 被称为是 <em>thread safe</em>.</p>
+<h3 id="concurrent-counters"><a class="markdownIt-Anchor" href="#concurrent-counters"></a> Concurrent Counters</h3>
+<p>最简单的实现方式是使用单个 <code>lock</code> variable 作为 global variable, 每个函数的 critical section 前后分别 call <code>lock()</code> 和 <code>unlock()</code>.这种做法导致 counter 只能被一个 thread 拥有, 并不 scale to multiple threads, performance 很差.</p>
+<p>能让 multiple threads 在 multiple processors 上工作效率与 single thread 在 single processor 上的一样的能力称为 <em>perfect scaling</em>.</p>
+<p><em>approximate counter</em> 方法能做到 scalable counting. 它让每个 threads 维护一个 local counter, 仅对 local counter 执行操作, 使用 threshold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 来控制 thread 获取 lock 的时间间隔, 每当获取到 lock 时就将 global counter 的值加上 local counter 的值, 然后将 local counter 清零.</p>
+<p>accuracy/performance 之间的 tradeoff 由 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 进行控制: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 越小, performance 越差; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 越大, performance 越好, 但是 global count lags 就会越大.</p>
+<h3 id="concurrent-linked-lists"><a class="markdownIt-Anchor" href="#concurrent-linked-lists"></a> Concurrent Linked Lists</h3>
+<p>最简单的方式依然是给 linked list 一个 lock, 然后在 <code>insert</code> 和 <code>lookup</code> 函数中先获取 lock, 再进行操作, 最后释放 lock. 这种单个 lock 的性能依旧很差, 另外还有一个问题就是对 failure 的处理:</p>
+<ul>
+<li><code>insert</code> 操作中 <code>malloc</code> 失败就直接 <code>unlock()</code> 并 return 了</li>
+<li><code>lookup</code> 操作中找到相应 node 后直接 <code>return 0</code> (success), 反之则遍历结束后再 <code>return -1</code> (failure)</li>
+</ul>
+<p>这种对 failure case 进行额外处理的 exceptional control flow 是相当 error prone 的, 将 <code>unlock()</code> 引入这样的 control flow 就很容易产生奇怪的错误, 因此我们应该将 success 和 failure 两种情况的 control flow 汇合之后再 call <code>unlock()</code>.</p>
+<p>一种 scaling linked lists 使用的技术是 <em>hand-over-hand locking</em> (a.k.a. <em>lock coupling</em>), 它通过给每个 node 一个 lock 而不是整个 linked list 来达到 concurrency, 但是 linked list 的遍历往往是对整个 list 的 node 进行访问, 因此这个方法在实际中并不比 single lock 方法好.</p>
+<h3 id="concurrent-queues"><a class="markdownIt-Anchor" href="#concurrent-queues"></a> Concurrent Queues</h3>
+<p>concurrent queue 使用 tail lock 与 head lock 来允许 <code>enqueue</code> 与 <code>dequeue</code> 操作的 concurrency, 为了在初始 queue 为空时建立两个 lock 还用到了 trick: 初始化两个 node 分别作为起始的 tail node 与 head node.</p>
+<h3 id="concurrent-hash-table"><a class="markdownIt-Anchor" href="#concurrent-hash-table"></a> Concurrent Hash Table</h3>
+<p>concurrent hash table 给每个 hash bucket 一个 concurrent list 来达到 concurrency.</p>
+<h2 id="condition-variables"><a class="markdownIt-Anchor" href="#condition-variables"></a> Condition Variables</h2>
+<p>简单地使用一个 global variable 来表示某个 condition 是否满足, 同时 thread spins 等待该 variable 取到期待值之后再继续 execution 是低效的方法, 因此需要允许 thread 进入 sleep 来避免浪费 CPU time.</p>
+<p>这种方法需要引入专门的 <em>condition variable</em>, 它作为 <code>wait()</code> 和 <code>signal()</code> 参数, 在 POSIX 中, 这两个函数如下:</p>
+<ul>
+<li><code>pthread_cond_wait(pthread_cond_t *c, pthread_mutex_t *m);</code>
+<ul>
+<li>释放 mutex, 然后进入 sleep 等待 condition variable 改变</li>
+</ul>
+</li>
+<li><code>pthread_cond_signal(pthread_cond_t *c);</code>
+<ul>
+<li>wake up 使用 <code>c</code> 作为 <code>wait()</code> 参数的某个 thread</li>
+</ul>
+</li>
+</ul>
+<p>这两个函数需要配合 lock 和 state variable 使用, 即在 <code>thr_join()</code> 中先获取 lock <code>m</code> 再用 while 循环 check state variable, 循环内部 <code>wait(&amp;c, &amp;m)</code>; 在 <code>thr_exit()</code> 中同样先获取 lock 再修改 state variable, 接着 <code>signal(&amp;c)</code> 最后释放 lock.</p>
+<p>lock 与 state variable 缺一不可:</p>
+<ul>
+<li>No state variable: 若 child thread 在 parent thread call <code>thr_join()</code> 前已经运行完 <code>thr_exit()</code>, 那么 parent thread 会接着直接 call <code>thr_join()</code> 从而进入 sleep 而无法 wake up</li>
+<li>No lock: state variable 的读写是 critical section, 没有 lock 保护会存在 race condition</li>
+</ul>
+<h3 id="the-producerconsumer-bounded-buffer-problem"><a class="markdownIt-Anchor" href="#the-producerconsumer-bounded-buffer-problem"></a> The Producer/Consumer (Bounded Buffer) Problem</h3>
+<p><em>producer/consumer</em> problem (<em>bounded buffer</em> problem) 描述的是一些 producer 生产 items 并将其放入一个公共的 bounded buffer 中 (用 <code>put()</code> 表示), 同时存在一些 consumers 从 buffer 中消费这些 items (用 <code>get()</code> 表示).</p>
+<p>由于 buffer 是公共资源, 因此需要 synchronized access.</p>
+<p>在 1 个 producer、2 个 consumer 的情景下, 使用前面提到的 single lock、single condition variable 与 single state variable 结合的方法会导致某个 consumer 将 buffer 消耗光时 <code>signal(&amp;cond)</code> 有可能 wake up 的是另一个 consumer, 此时若使用的是 <code>if</code> 来 check state variable <code>done</code>, 则会出现被唤醒的 consumer 消耗已经为空的 buffer 的情况, 若使用的 <code>while</code>, 那么被唤醒的 consumer 会继续 call <code>wait()</code> 进入 sleep, 出现所有 threads 都在 sleep 无法被唤醒的情况.</p>
+<p>解决方案是使用两个 condition variable: <code>empty</code> 和 <code>fill</code>. consumer 会 <code>wait(&amp;fill)</code> 并 <code>signal(&amp;empty)</code>, 而 producer 则会 <code>wait(&amp;empty)</code> 并 <code>signal(&amp;fill)</code>, 这样 consumer 只会 wake up producer, producer 只会 wake up consumer, 这也允许了存在多个 producer 的情况. 另外还需要对 <code>get()</code> 和 <code>put()</code> 进行修正, 引入 <code>counter</code> 来计算 buffer 中 item 的数量, <code>get()</code> 则减少, <code>put()</code> 则增加, 这样一来, producer 只会在 <code>counter == bufferSize</code> 时主动 sleep, 而 consumer 也只会在 <code>counter == 0</code> 时主动 sleep, 进而提高了 performance.</p>
+<h3 id="covering-conditions"><a class="markdownIt-Anchor" href="#covering-conditions"></a> Covering Conditions</h3>
+<p>在使用 single condition variable <code>c</code> 与 single lock <code>m</code> 的 memory allocation code 中可能出现当可分配的 memory 为 0 时, thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">T_{a}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> call <code>allocate(100)</code> 并进入 sleep, 然后 thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">T_{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> call <code>allocate(10)</code> 并进入 sleep, 接着 thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">T_{c}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">c</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> call <code>free(50)</code>, 此时若 wake up 的是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">T_{a}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 则会出现三者均进入 sleep 的情况.</p>
+<p>实现最简单的解决方式是将 <code>pthread_cond_signal()</code> 替换为 <code>pthread_cond_broadcast()</code> 唤醒所有 sleeping threads, 让每个 threads 自行 re-check condition 并决定是否再次进入 sleep, 代价是唤醒所有 threads 会降低 performance.</p>
+<p>这种包含了所有 threads 可能被唤醒的条件的 condition 被称为 <em>covering condition</em>. 在 producer/consumer problem with a single condition variable 中使用的就是这种方法, 然而这时是不正确的方法, 在大部分情况下使用 covering condition 不是一个好的解决方案, 不过在类似 memory allocator 的情况下, broadcast 是最直接的有效方案.</p>
+<h2 id="semaphores"><a class="markdownIt-Anchor" href="#semaphores"></a> Semaphores</h2>
+<p>前面提到要解决很多 concurrency problems 需要结合使用 lock 和 condition variable, <em>semaphore</em> 则是将二者整合而成的单个的 synchronization primitive.</p>
+<p>semaphore 是包含了一个 integer 的 object, 当 integer 为正的时候可以表示可用资源的数量, 为负的时候则表示正在等待的 thread 的数量, 它的初始值设置决定了它的 behavior.在 POSIX standard 中, 可以使用以下代码对 semaphore 进行初始化:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;semaphore.h&gt;</span></span></span><br><span class="line"><span class="type">sem_t</span> s;</span><br><span class="line">sem_init(&amp;s, <span class="number">0</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>semaphore 常用的函数有:</p>
+<ul>
+<li><code>int sem_init(sem_t *sem, int pshared, unsigned int value)</code>: 初始化 <code>sem</code>
+<ul>
+<li><code>pshared</code>: <code>sem</code> 在相同 process 的 threads 之间的共享情况</li>
+<li><code>value</code>: <code>sem</code> 的 integer 初始值</li>
+</ul>
+</li>
+<li><code>int sem_wait(sem_t *s)</code>: 将 <code>s</code> 的值 -1, 若 <code>s</code> 值为负则进入 sleep, 否则直接 return</li>
+<li><code>int sem_post(sem_t *s)</code>: 将 <code>s</code> 的值 +1, 若 <code>s</code> 值为正则唤醒某个等待中的 thread</li>
+</ul>
+<h3 id="binary-semaphores-locks"><a class="markdownIt-Anchor" href="#binary-semaphores-locks"></a> Binary Semaphores (Locks)</h3>
+<p>最简单的应用是将 semaphore 当成 lock 使用, 将 critical section 夹在 <code>sem_wait()</code> 和 <code>sem_post()</code> 中间, 此时 sempahore 的值表示 lock 是否是 available 的, 只有 2 个 state, 因此被称为 <em>binary semaphore</em>.</p>
+<h3 id="semaphore-for-ordering"><a class="markdownIt-Anchor" href="#semaphore-for-ordering"></a> Semaphore For Ordering</h3>
+<p>semaphore 也可以当作 <em>ordering</em> primitive 使用, 例如令 parent thread call <code>sem_wait()</code> 来等待 child thread 完成, child thread 则在 child function 中 call <code>sem_post()</code>, 这样无论哪个 thread 先执行 semaphore 相关函数都能按照期待的顺序进行下一步.</p>
+<h3 id="the-producerconsumer-bounded-buffer-problem-2"><a class="markdownIt-Anchor" href="#the-producerconsumer-bounded-buffer-problem-2"></a> The Producer/Consumer (Bounded Buffer) Problem</h3>
+<p>使用两个 semaphore <code>full</code> 和 <code>empty</code> 分别通知 consumer 与 producer 达到 concurrency, 若简单地用 <code>sem_wait()</code> 和 <code>sem_post()</code> 将 <code>get()</code>/<code>put()</code> 夹住的话会出现以下问题: 当 buffer 容量 &gt; 1, 用 <code>sem_init(&amp;empty, 0, MAX)</code> (其中 <code>MAX</code> 为 buffer size) 进行初始化, 并且有多个 consumer 和多个 producer 时会存在 race condition.</p>
+<p>改进措施是添加 <em>mutual exclusion</em>, 即再使用一个 semaphore <code>mutex</code> 作为 lock 来保护 buffer, 这里如果将 <code>sem_wait(&amp;mutex)</code> 与 <code>sem_post(&amp;mutex)</code> 夹住 <code>sem_wait(&amp;full / &amp;empty)</code> 与 <code>sem_post(&amp;full / &amp;empty)</code> 则会出现 <em>dead lock</em>, 例如获取了 <code>mutex</code> 的 consumer 等待 producer signal <code>full</code>, producer 可以 signal <code>full</code> 却要等待 <code>mutex</code> 被释放, 形成一个 cycle.</p>
+<p>要避免 dead lock, 就要缩小 lock 保护的范围, <code>sem_wait(&amp;mutex)</code> 与 <code>sem_post(&amp;mutex)</code> 放在 <code>sem_wait(&amp;full / &amp;empty)</code> 与 <code>sem_post(&amp;full / &amp;empty)</code> 内部, 仅用来保护 critical section <code>put()</code> 和 <code>get()</code>.</p>
+<h3 id="readerwriter-locks"><a class="markdownIt-Anchor" href="#readerwriter-locks"></a> Reader/Writer Locks</h3>
+<p>reader/writer problem 指的是要能允许多个 reader 对 data structure 同时进行读取, 另外还有多个 writer 需要单独占用 DS 对其进行修改的问题.</p>
+<p>解决上述问题的 lock 被称为 <em>reader-writer lock</em> (rwlock). rwlock 使用两个 semaphore <code>lock</code> 和 <code>writelock</code>, 另外还用 integer <code>readers</code> 记录当前 readers 的数量, 其中 <code>lock</code> 作为 binary lock 保护 <code>readers</code> 的修改操作, <code>writelock</code> 限制只能有一个 writer 对 DS 进行修改.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">rwlock_t</span> &#123;</span></span><br><span class="line">  <span class="type">sem_t</span> lock;      <span class="comment">// binary semaphore (basic lock)</span></span><br><span class="line">  <span class="type">sem_t</span> writelock; <span class="comment">// allow ONE writer/MANY readers</span></span><br><span class="line">  <span class="type">int</span> readers;     <span class="comment">// #readers in critical section</span></span><br><span class="line">&#125; <span class="type">rwlock_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rwlock_init</span><span class="params">(<span class="type">rwlock_t</span> *rw)</span> &#123;</span><br><span class="line">  rw-&gt;readers = <span class="number">0</span>;</span><br><span class="line">  sem_init(&amp;rw-&gt;lock, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">  sem_init(&amp;rw-&gt;writelock, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rwlock_acquire_readlock</span><span class="params">(<span class="type">rwlock_t</span> *rw)</span> &#123;</span><br><span class="line">  sem_wait(&amp;rw-&gt;lock);</span><br><span class="line">  rw-&gt;readers++;</span><br><span class="line">  <span class="keyword">if</span> (rw-&gt;readers == <span class="number">1</span>) <span class="comment">// first reader gets writelock</span></span><br><span class="line">    sem_wait(&amp;rw-&gt;writelock);</span><br><span class="line">  sem_post(&amp;rw-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rwlock_release_readlock</span><span class="params">(<span class="type">rwlock_t</span> *rw)</span> &#123;</span><br><span class="line">  sem_wait(&amp;rw-&gt;lock);</span><br><span class="line">  rw-&gt;readers--;</span><br><span class="line">  <span class="keyword">if</span> (rw-&gt;readers == <span class="number">0</span>) <span class="comment">// last reader lets it go</span></span><br><span class="line">    sem_post(&amp;rw-&gt;writelock);</span><br><span class="line">  sem_post(&amp;rw-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rwlock_acquire_writelock</span><span class="params">(<span class="type">rwlock_t</span> *rw)</span> &#123;</span><br><span class="line">  sem_wait(&amp;rw-&gt;writelock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">rwlock_release_writelock</span><span class="params">(<span class="type">rwlock_t</span> *rw)</span> &#123;</span><br><span class="line">  sem_post(&amp;rw-&gt;writelock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="the-dining-philosophers"><a class="markdownIt-Anchor" href="#the-dining-philosophers"></a> The Dining Philosophers</h3>
+<p><em>dining philosopher’s problem</em> 指的是: 假定有 5 个 philosopher 共同坐在圆桌上, philosopher 两两之间有一个 fork, 每个 philosopher 会有思考时间也有进餐时间, 进餐就会需要拿到他左右两边的两个 fork, 怎样让他们有序地用餐是一个 concurrent problem.</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412051059720.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202412051059720.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>如果让每个 philosopher 都先拿左边的 fork 再拿右边的 fork, 显然会出现 <em>deadlock</em>. 解决方案是让 (序号) 最后一个 philosopher 先拿右边的 fork 再拿左边的 fork.</p>
+<h3 id="thread-throttling"><a class="markdownIt-Anchor" href="#thread-throttling"></a> Thread Throttling</h3>
+<p>semaphores 还能用来限制并发执行某部分 code 的 thread 数量, 这种方法被称为 <em>throttling</em>, 它是 <em>admission control</em> 的一种形式.</p>
+<p>一个具体的例子是, 假设我们创建了上百个 threads 来并行执行某一段代码, 其中代码的某一部分 (memory-intensive region) 会申请大量的 memory, 如果所有 threads 都同时申请则机器的 physical memory 会不够用, 如果我们在 memory-intensive region 的 semaphore 初始化时将值设为允许同时进入 memory-intensive region 的 thread 数量就可以做到 throttling.</p>
+<h3 id="how-to-implement-semaphores"><a class="markdownIt-Anchor" href="#how-to-implement-semaphores"></a> How to Implement Semaphores</h3>
+<p>下面的 implementation 与 Dijkstra 提出的 semaphore 有一点不同: 当 semaphore 值降为负数则表示等待中的 thread 数量, 而 Dijkstra 的 implementation 则是维护这个值的 invariant, 每个 invariant 永远不会 &lt; 0. 与目前的 Linux implementation 更接近的是下面的 Zemaphore.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">Zem_t</span> &#123;</span></span><br><span class="line">  <span class="type">int</span> value;</span><br><span class="line">  <span class="type">pthread_cond_t</span> cond;</span><br><span class="line">  <span class="type">pthread_mutex_t</span> lock;</span><br><span class="line">&#125; Zem_t;</span><br><span class="line"></span><br><span class="line"><span class="comment">// only one thread can call this</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Zem_init</span><span class="params">(Zem_t *s, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">  s-&gt;value = value;</span><br><span class="line">  Cond_init(&amp;s-&gt;cond);</span><br><span class="line">  Mutex_init(&amp;s-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Zem_wait</span><span class="params">(Zem_t *s)</span> &#123;</span><br><span class="line">  Mutex_lock(&amp;s-&gt;lock);</span><br><span class="line">  <span class="keyword">while</span> (s-&gt;value &lt;= <span class="number">0</span>)</span><br><span class="line">    Cond_wait(&amp;s-&gt;cond, &amp;s-&gt;lock);</span><br><span class="line">  s-&gt;value--;</span><br><span class="line">  Mutex_unlock(&amp;s-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Zem_post</span><span class="params">(Zem_t *s)</span> &#123;</span><br><span class="line">  Mutex_lock(&amp;s-&gt;lock);</span><br><span class="line">  s-&gt;value++;</span><br><span class="line">  Cond_signal(&amp;s-&gt;cond);</span><br><span class="line">  Mutex_unlock(&amp;s-&gt;lock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="common-concurrency-problems"><a class="markdownIt-Anchor" href="#common-concurrency-problems"></a> Common Concurrency Problems</h2>
+<p>本节主要介绍一些常见的 concurrency problems, 并给出一些相应的解决方案.</p>
+<h3 id="non-deadlock-bugs"><a class="markdownIt-Anchor" href="#non-deadlock-bugs"></a> Non-Deadlock Bugs</h3>
+<p>non-deadlock bugs 主要是 atomicity-violation bugs 和 order-violation bugs.</p>
+<p>atomicity-violation bugs 其实就是没有使用 lock 等技术对非 atomic operations 进行保护而产生的 bug, 一个可行的解决方案就是给 critical section 上锁.</p>
+<p>order-violation bugs 则是在多线程环境下对不同 thread 的执行顺序没有考虑周全而导致的 bug, 例如 thread 1 负责创建并初始化 <code>mthread</code>, 而 thread 2 则会调用 <code>mthread-&gt;value</code>, 若 thread 2 的任务先于 thread 1 执行就会出现 NULL-pointer dereference. 使用 condition variable 与 lock 共同作用限制 threads 的执行顺序可以解决上述问题.</p>
+<h3 id="deadlock-bugs"><a class="markdownIt-Anchor" href="#deadlock-bugs"></a> Deadlock Bugs</h3>
+<p>deadlock 通常以 <em>cycle</em> 的形式出现, 它很难被避免的原因主要有两个, 一个是大型 code bases 中不同 component 之间可能存在复杂的依赖关系, 另一个则是 the nature of <em>encapsulation</em>, 即 API 函数内部的实现细节被隐藏会导致调用时很难确定外部的并发策略.</p>
+<pre><code class="highlight mermaid">flowchart LR
+
+t1([&quot;Thread 1&quot;])
+
+t2([&quot;Thread 2&quot;])
+
+l1[&quot;Lock L1&quot;]
+
+l2[&quot;Lock L2&quot;]
+
+t1-.Holds.-&gt;l1
+
+l1--Wanted By--&gt;t2
+
+t2-.Holds.-&gt;l2
+
+l2--Wanted By--&gt;t1</code></pre>
+<p>具体而言, 要产生 deadlock 必须满足下列条件, 要解决 deadlock 可以分别从下列条件入手:</p>
+<ul>
+<li><em>mutual exclusion</em>: thread 会获取某些 resource 的 exclusive control
+<ul>
+<li>解决方法是借助 hardware instructions (例如 atomic instruction) 的力量尽可能地不使用 lock, 即 <em>lock-free</em> (相应地有 <em>wait-free</em>)</li>
+</ul>
+</li>
+<li><em>hold-and-wait</em>: thread 在获取到某些 resources (例如以及获取的 lock) 后等待获取 additional resources (例如还希望获取的 lock)
+<ul>
+<li>让 thread 一次性获取所有的 lock, 可以借助添加另一个 lock 保护获取所有 lock 的部分. 这个方案要求提前知道可能需要获取的所有 lock, 可能降低 concurrency, 因此并不 practical</li>
+</ul>
+</li>
+<li><em>no preemption</em>: 被 thread 获取到的 resource 不会被强制收回
+<ul>
+<li>结合使用 <code>pthread_mutex_trylock</code> 和 <code>goto</code> 语句:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">top:</span><br><span class="line">  pthread_mutex_lock(L1);</span><br><span class="line">  <span class="keyword">if</span> (pthread_mutex_trylock(L2) != <span class="number">0</span>) &#123;</span><br><span class="line">    pthread_mutex_unlock(L1);</span><br><span class="line">    <span class="keyword">goto</span> top;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>这个方法可能会产生 <em>livelock</em>, 即两个 thread 都需要 lock 1 和 lock 2, 都在获取其中一个的情况下尝试获取另一个 lock</li>
+<li>由于 encapsulation, 若其中一个 lock 被藏在某个会被调用的 routine 中, 那么 <code>goto</code> 语句的实现会变得异常困难</li>
+<li>若 thread 在获取完 <code>L1</code> 到尝试获取 <code>L2</code> 的中间还获取了一些 resource (例如 memory), 那么它还需要在 jump back 之前释放这些 resource</li>
+<li>另外, 这个方法实际上并没有添加 preemption</li>
+</ul>
+</li>
+<li><em>circular wait</em>: threads 之间对于 resource 的依赖关系形成 circular chain
+<ul>
+<li>提供获取 lock 的 <em>total/partial ordering</em></li>
+</ul>
+</li>
+</ul>
+<p>另外, 在某些情形下可以借助 scheduling 来避免 deadlock: 一个 smart scheduler 会将可能冲突的 threads 分配给同一个 CPU 执行, 避免他们会被同时执行的情况. 例如, 给定 2 个 CPU 和下述需求表, scheduler 可以将 T3、T4 分到 CPU1, T1、T2 分到 CPU2, 避免 T1、T2 同时执行.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">T1</th>
+<th style="text-align:center">T2</th>
+<th style="text-align:center">T3</th>
+<th style="text-align:center">T4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">L1</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+<td style="text-align:center">no</td>
+</tr>
+<tr>
+<td style="text-align:center">L2</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+</tr>
+</tbody>
+</table>
+<p>若 T3 也需要 L1, 则将 T3 也分到 CPU2. 尽管这个方法可以让 tasks 并发执行, 但是代价就是降低了 concurrency, 因此利用 scheduling 来避免 deadlock 并不是一个被广泛使用的方法.</p>
+<p>最后的方法是 <em>detect and recover</em>, 即不避免 deadlock, 但是要能 detect deadlock 并且能 recover. 当 deadlock 出现较少时, 这样的 non-solution 是很有效的.</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Operating-Systems/ostep-p2/">https://blog.rbkou.me/Study-Notes/Operating-Systems/ostep-p2/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/OSTEP/" class="post-tags__link button"># OSTEP</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Yak/NAS-init/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            NAS Is All You Need: 初见
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Approx-Alg/tdaa-ch2/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            The Design of Approximation Algorithms 第二章学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

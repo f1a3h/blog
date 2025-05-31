@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>NJU「软件分析」学习笔记：Soundness and Soundiness | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Program Analysis">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Soundness and Soundiness">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU「软件分析」学习笔记：Soundness and Soundiness">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-soudiness/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Soundness and Soundiness">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/reflection.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/whyrefl.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/infer.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347570.png">
+<meta property="og:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347749.png">
+<meta property="article:published_time" content="2024-01-09T10:13:56.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.535Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Program Analysis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/reflection.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        NJU「软件分析」学习笔记：Soundness and Soundiness
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/01/" class="post-meta__date button">2024-01-09</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Program-Analysis/" class="button">Program Analysis</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#soundness-and-soundiness"><span class="toc-number">1.</span> <span class="toc-text"> Soundness and Soundiness</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hard-language-feature-java-reflection"><span class="toc-number">2.</span> <span class="toc-text"> Hard Language Feature: Java Reflection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hard-language-feature-native-code"><span class="toc-number">3.</span> <span class="toc-text"> Hard Language Feature: Native Code</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#soundness-and-soundiness"><span class="toc-number">1.</span> <span class="toc-text"> Soundness and Soundiness</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hard-language-feature-java-reflection"><span class="toc-number">2.</span> <span class="toc-text"> Hard Language Feature: Java Reflection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hard-language-feature-native-code"><span class="toc-number">3.</span> <span class="toc-text"> Hard Language Feature: Native Code</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        
+<div class="callout" data-callout="info">
+<div class="callout-title">
+<div class="callout-title-icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+</div>
+<div class="callout-title-inner">Info</div>
+</div>
+<div class="callout-content"><p>南京大学「<a target="_blank" rel="noopener" href="https://tai-e.pascal-lab.net/lectures.html">软件分析</a>」课程 Soundness and Soundiness 部分的学习笔记。</p>
+</div></div><h2 id="soundness-and-soundiness"><a class="markdownIt-Anchor" href="#soundness-and-soundiness"></a> Soundness and Soundiness</h2>
+<p>前面提到 static program analysis 追求的 goal 是 soundness，但是无论是在学术界还是在工业界，由于一些语言的 hard language features 的存在，对现实世界的大型 program 想要实现完全的 soundness 是（目前）做不到的。</p>
+<blockquote>
+<p>Hard-to-analyze features: an aggressively conservative treatment to these features will likely make the analysis too imprecise to scale, rendering the analysis useless.</p>
+</blockquote>
+<p>于是，为了避免 papers 中写 soundness 会误导读者，所以引入了 soundy 的概念：a soundy analysis typically means that the analysis is mostly sound, with well-identified unsound treatments to hard/specific language features.</p>
+<h2 id="hard-language-feature-java-reflection"><a class="markdownIt-Anchor" href="#hard-language-feature-java-reflection"></a> Hard Language Feature: Java Reflection</h2>
+<p>java reflection 会在 run-time 将 class、method、field 等转换为 metaobject，并且用一个 string 作为它们的 identifier，如图所示。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/reflection.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/reflection.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="reflection" /><span class="image-caption">reflection</span></p>
+<p>在 run-time 对代码作出一些改变会产生一些 static analysis 无法预测的行为，这也是 static analysis 的硬伤。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/whyrefl.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/whyrefl.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="why analyze reflection" /><span class="image-caption">why analyze reflection</span></p>
+<ul>
+<li>string <code>mName</code> 无法分析，那么 <code>m.invoke</code> 具体调用了哪个方法也就无法得知，于是对某些可能的 method 的忽略优化很有可能会导致我们少检测到一些 bug</li>
+<li>在进行 verification optimization 时，我们可能会忽略 reflection 产生的作用等同于 <code>a.fld = a</code> 的语句 <code>f.set(a, a)</code>，那么在分析 <code>B b = (B) a.fld</code> 就会得到 false negative</li>
+</ul>
+<p>考虑到 reflection 产生的很多不确定行为都是由于 string 具体值的未知而导致的，因此我们可以用 string constant analysis + pointer analysis<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 来完成对 reflection 的分析。</p>
+<p>但是实际上的很多 string 都是 statically unknown，所以这种方法仍然具有很大的局限性。</p>
+<p>除了直接对 string 进行分析，我们还在 usage points 对可能的 reflective targets 进行推断，概括来说就是 type inference + string analysis + pointer analysis，实践上，这种方法的准确度也很高。<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup></p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/infer.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/infer.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="infer" /><span class="image-caption">infer</span></p>
+<p>不仅仅是根据 usage point 时的 parameters 对 method 进行推断，对其他的 metaobject 也是有效的<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347570.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347570.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="more handlings" /><span class="image-caption">more handlings</span></p>
+<p>另外，我们也可以根据 run-time 的特性利用 dynamic analysis 辅助 static analysis<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>。具体一点说就是利用一部分程序进行 dynamic analysis 分析得到的数据进行 static analysis，但是有限的程序量很难 cover 所有可能的 data。</p>
+<h2 id="hard-language-feature-native-code"><a class="markdownIt-Anchor" href="#hard-language-feature-native-code"></a> Hard Language Feature: Native Code</h2>
+<p>在 java 中如果想要 print，就需要与 OS 进行交互，于是就不得不调用一些底层的 C/C++ 代码，这些代码被称为 native code。</p>
+<p>由于 java 是运行在 jvm 上的，所以 jvm 需要一个 function module 作为 interface 便于它 (jvm) 与 native code 调用的 native libraries 进行交互，也可以与 OS 进行交互、复用已有的 C/C++ 代码，这个 interface 就是 JNI。</p>
+<p><img src="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347749.png" class="lazy" data-srcset="https://picgo-1259588753.cos.ap-beijing.myqcloud.com/202411252347749.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="interoperation" /><span class="image-caption">interoperation</span></p>
+<p>由于我们的 analyzer 针对的是 java 代码，而 native code 用的是 C/C++ 代码，所以我们无法进行分析。</p>
+<p>目前对于这个问题使用最广泛的方法是 manually models critical native code，比如调用 <code>arraycopy</code> 方法就将其改写为 java 语言的循环赋值语句然后再进行分析。</p>
+<p>最近的研究工作有使用 binary scanning 在 native code 中识别 java calls 的<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>。</p>
+<p>最后，想要了解更多 soundiness，可以访问 <a target="_blank" rel="noopener" href="http://soundiness.org/">soundiness.org</a>.<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style:none; padding-left: 0;"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">1.</span><span style="display: inline-block; vertical-align: top;">Benjamin Livshits, John Whaley, Monica S. Lam. Stanford University, <em>&quot;Reflection Analysis for Java&quot;</em>. APLAS, 2005.</span><a href="#fnref:1" rev="footnote"> ↩</a></li><li id="fn:2"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">2.</span><span style="display: inline-block; vertical-align: top;">Yue Li, Tian Tan, Yulei Sui, Jingling Xue. UNSW Sydney, <em>&quot;Self-Inferencing Reflection Resolution for Java&quot;</em>. ECOOP, 2014.</span><a href="#fnref:2" rev="footnote"> ↩</a></li><li id="fn:3"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">3.</span><span style="display: inline-block; vertical-align: top;">Yue Li, Tian Tan, Jingling Xue, <em>&quot;Understanding and Analyzing Java Reflection&quot;</em>. TOSEM, 2019.</span><a href="#fnref:3" rev="footnote"> ↩</a></li><li id="fn:4"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">4.</span><span style="display: inline-block; vertical-align: top;">Eric Bodden, Andreas Sewe, Jan Sinschek, Hela Oueslati, Mira Mezini. Technische Universität Darmstadt, <em>&quot;Taming reflection: Aiding static analysis in the presence of reflection and custom class loaders&quot;</em>. ICSE, 2011.</span><a href="#fnref:4" rev="footnote"> ↩</a></li><li id="fn:5"><span style="display: inline-block; vertical-align: top; padding-right: 10px;">5.</span><span style="display: inline-block; vertical-align: top;">George Fourtounis, Leonidas Triantafyllou, Yannis Smaragdakis, University of Athens, <em>&quot;Identifying Java Calls in Native Code via Binary Scanning&quot;</em>. ISSTA, 2020.</span><a href="#fnref:5" rev="footnote"> ↩</a></li></ol></div></div></p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-soudiness/index/">https://blog.rbkou.me/Study-Notes/Program-Analysis/nju-spa-soudiness/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Program-Analysis/" class="post-tags__link button"># Program Analysis</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/ACG/koikakeru/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            「恋×シンアイ彼女」: 届不到的爱恋
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/Program-Analysis/nju-spa-ifds/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            NJU「软件分析」学习笔记：CFL-Reachability and IFDS
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

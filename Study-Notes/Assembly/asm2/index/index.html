@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>王爽「汇编语言」学习笔记（二） | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Assembly">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="旧文搬运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="王爽「汇编语言」学习笔记（二）">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Assembly/asm2/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="旧文搬运">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-cfbb479390a1397b01b6abea31a27a34_r.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/1.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.34.40.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.39.06.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.40.34.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.45.42.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.46.25.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.47.28.png">
+<meta property="article:published_time" content="2023-08-29T03:05:12.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.465Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Assembly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic1.zhimg.com/v2-cfbb479390a1397b01b6abea31a27a34_r.jpg">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        王爽「汇编语言」学习笔记（二）
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/08/" class="post-meta__date button">2023-08-29</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Assembly/" class="button">Assembly</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text"> 通用寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text"> 字在寄存器中的存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E6%9D%A1%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text"> 几条汇编指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">4.</span> <span class="toc-text"> 物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84-cpu"><span class="toc-number">5.</span> <span class="toc-text"> 16 位结构的 CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086cpu-%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text"> 8086CPU 给出物理地址的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%9C%B0%E5%9D%80"><span class="toc-number">7.</span> <span class="toc-text"> 段地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">8.</span> <span class="toc-text"> 段寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cs-%E5%92%8C-ip"><span class="toc-number">9.</span> <span class="toc-text"> CS 和 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-cs-ip-%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">10.</span> <span class="toc-text"> 修改 CS、IP 的指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="toc-number">11.</span> <span class="toc-text"> 代码段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="toc-number">12.</span> <span class="toc-text"> 实验任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80"><span class="toc-number">12.1.</span> <span class="toc-text"> 任务一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%BA%8C"><span class="toc-number">12.2.</span> <span class="toc-text"> 任务二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%89"><span class="toc-number">12.3.</span> <span class="toc-text"> 任务三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%9B%9B"><span class="toc-number">12.4.</span> <span class="toc-text"> 任务四</span></a></li></ol></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text"> 通用寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text"> 字在寄存器中的存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E6%9D%A1%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text"> 几条汇编指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">4.</span> <span class="toc-text"> 物理地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E4%BD%8D%E7%BB%93%E6%9E%84%E7%9A%84-cpu"><span class="toc-number">5.</span> <span class="toc-text"> 16 位结构的 CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8086cpu-%E7%BB%99%E5%87%BA%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text"> 8086CPU 给出物理地址的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%9C%B0%E5%9D%80"><span class="toc-number">7.</span> <span class="toc-text"> 段地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">8.</span> <span class="toc-text"> 段寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cs-%E5%92%8C-ip"><span class="toc-number">9.</span> <span class="toc-text"> CS 和 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9-cs-ip-%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="toc-number">10.</span> <span class="toc-text"> 修改 CS、IP 的指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="toc-number">11.</span> <span class="toc-text"> 代码段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="toc-number">12.</span> <span class="toc-text"> 实验任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%80"><span class="toc-number">12.1.</span> <span class="toc-text"> 任务一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%BA%8C"><span class="toc-number">12.2.</span> <span class="toc-text"> 任务二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E4%B8%89"><span class="toc-number">12.3.</span> <span class="toc-text"> 任务三</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%9B%9B"><span class="toc-number">12.4.</span> <span class="toc-text"> 任务四</span></a></li></ol></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="通用寄存器"><a class="markdownIt-Anchor" href="#通用寄存器"></a> 通用寄存器</h2>
+<p>8086CPU 的所有寄存器都是 16 位的，可以存放 2 字节的数据。</p>
+<p>8086CPU 一共有 14 个寄存器，分别是：AX，BX，CX，DX，SI，DI，SP，BP，IP，CS，SS，DS，ES，PSW，其中 AX，BX，CX，DX 通常用来存放一般性的数据，称为通用寄存器。</p>
+<p>为了兼容上一代的 8 位寄存器，8086 的这四个通用寄存器都可以拆分成两个<strong>独立</strong>的寄存器来使用，如 AH、AL 。</p>
+<h2 id="字在寄存器中的存储"><a class="markdownIt-Anchor" href="#字在寄存器中的存储"></a> 字在寄存器中的存储</h2>
+<p>8086CPU 可以一次性处理一下两种尺寸的数据：</p>
+<ol>
+<li>字节：8 位，可以存放在 8 位寄存器中</li>
+<li>字：16 位，可以存放在 16 位寄存器中，高位字节和地位字节分别存放在该 16 位寄存器的高 8 位寄存器与低 8 位寄存器中</li>
+</ol>
+<h2 id="几条汇编指令"><a class="markdownIt-Anchor" href="#几条汇编指令"></a> 几条汇编指令</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">汇编指令</th>
+<th style="text-align:center">控制 CPU 完成的操作</th>
+<th style="text-align:center">高级语言的语法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">mov ax,18</td>
+<td style="text-align:center">将 18 送入寄存器 AX</td>
+<td style="text-align:center">AX = 18</td>
+</tr>
+<tr>
+<td style="text-align:center">mov ah,78</td>
+<td style="text-align:center">将 78 送入寄存器 AH</td>
+<td style="text-align:center">AH = 78</td>
+</tr>
+<tr>
+<td style="text-align:center">add ax,8</td>
+<td style="text-align:center">将寄存器 AX 中的数值加 8</td>
+<td style="text-align:center">AX = AX + 8</td>
+</tr>
+<tr>
+<td style="text-align:center">mov ax,bx</td>
+<td style="text-align:center">将寄存器 BX 中的数据送入寄存器 AX</td>
+<td style="text-align:center">AX = BX</td>
+</tr>
+<tr>
+<td style="text-align:center">add ax,bx</td>
+<td style="text-align:center">将 AX 和 BX 中的数值相加并存入 AX</td>
+<td style="text-align:center">AX = AX + B</td>
+</tr>
+</tbody>
+</table>
+<p>指令中的数值也可以用 16 进制数表示，只需在后面加上 H 表示即可。</p>
+<p>在进行数据传送和运算时，注意指令的两个操作对象的位数应当是一致的。</p>
+<h2 id="物理地址"><a class="markdownIt-Anchor" href="#物理地址"></a> 物理地址</h2>
+<p>所有的内存单元构成的存储空间是一个一维的线性空间，每一个内存单元在这个空间中都有唯一的地址，即物理地址。</p>
+<p>CPU 向地址总线发出物理地址之前，必须先在内部形成这个物理地址。</p>
+<p>不同的 CPU 可以有不同的形成物理地址的方式。</p>
+<h2 id="16-位结构的-cpu"><a class="markdownIt-Anchor" href="#16-位结构的-cpu"></a> 16 位结构的 CPU</h2>
+<p>16 位结构描述了一个 CPU 具有下面几方面的结构特性：</p>
+<ul>
+<li>运算器一次最多可以处理 16 位的数据</li>
+<li>寄存器的最大宽度为 16 位</li>
+<li>寄存器和运算器之间的通路为 16 位</li>
+</ul>
+<h2 id="8086cpu-给出物理地址的方法"><a class="markdownIt-Anchor" href="#8086cpu-给出物理地址的方法"></a> 8086CPU 给出物理地址的方法</h2>
+<p>8086CPU 的地址总线为 20 位，可以达到 1MB 的寻址能力，但是又是 16 位结构，表现出的寻址能力只有 64KB ，因此 8086CPU 采用一种用两个 16 位地址合成的方法形成一个 20 位的物理地址：<strong>物理地址 = 段地址 X 16 + 偏移地址</strong></p>
+<p><img src="https://pic1.zhimg.com/v2-cfbb479390a1397b01b6abea31a27a34_r.jpg" class="lazy" data-srcset="https://pic1.zhimg.com/v2-cfbb479390a1397b01b6abea31a27a34_r.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h2 id="段地址"><a class="markdownIt-Anchor" href="#段地址"></a> 段地址</h2>
+<p>在编程时可以根据需要，将若干地址连续的内存单元看作一个段，一个段的起始地址一定是 16 的倍数，长度最大为 64KB 。</p>
+<h2 id="段寄存器"><a class="markdownIt-Anchor" href="#段寄存器"></a> 段寄存器</h2>
+<p>段地址在 8086CPU 的段寄存器中存放，8086CPU 有 4 个寄存器：CS、DS、SS、ES 。</p>
+<h2 id="cs-和-ip"><a class="markdownIt-Anchor" href="#cs-和-ip"></a> CS 和 IP</h2>
+<p>CS 为代码段寄存器，IP 为指令指针寄存器。</p>
+<p>8086 机中，任意时刻，CPU 将 CS:IP 指向的内容当做指令执行，它的工作过程可以简要描述如下：</p>
+<ol>
+<li>从 CS:IP 指向的内存单元读取指令，读取的指令进入指令缓冲器</li>
+<li>IP = IP + 所读取的指令的长度，从而指向下一条指令</li>
+<li>执行指令。然后转到步骤 1 重复过程</li>
+</ol>
+<p>在 8086PC 刚启动时，CS 和 IP 设置为 CS = FFFFH, IP = 0000H ，所以 FFFF0H 是 8086PC 开机后执行的第一条指令。</p>
+<p>CPU 将 CS:IP 指向的内存单元中的内容看作指令。</p>
+<h2 id="修改-cs-ip-的指令"><a class="markdownIt-Anchor" href="#修改-cs-ip-的指令"></a> 修改 CS、IP 的指令</h2>
+<p>8086CPU 大部分寄存器的值都可以用 <code>mov</code> 指令来改变，<code>mov</code> 指令被称为传送指令。</p>
+<p><code>mov</code> 指令不能用于设置 CS、IP 的值。</p>
+<p>能够改变 CS、IP 的内容的指令被统称为转移指令，其中最简单的一个为 <code>jmp</code> 。</p>
+<p>若想同时修改 CS、IP ，可以用 <code>jmp 段地址:偏移地址</code></p>
+<p>若想仅修改 IP ，可以用 <code>jmp 某一合法的寄存器</code></p>
+<h2 id="代码段"><a class="markdownIt-Anchor" href="#代码段"></a> 代码段</h2>
+<p>我们可以将长度为 N 的一组代码存在一组地址连续、起始地址为 16 的倍数的内存单元中，我们认为这段内存是用来存放代码的，从而定义了一个代码段。</p>
+<p>CPU 只认被 CS:IP 指向的内存单元中的内容为指令，所以要让 CPU 执行代码段中的指令，必须要将 CS:IP 指向所定义的代码段中的第一条指令的首地址。</p>
+<h2 id="实验任务"><a class="markdownIt-Anchor" href="#实验任务"></a> 实验任务</h2>
+<h3 id="任务一"><a class="markdownIt-Anchor" href="#任务一"></a> 任务一</h3>
+<p>第一步先把 CS:IP 指向 1000:0000 ，之后将指令输入到以 1000:0000 为起点的地址中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/1.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/1.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>先使用 E 命令写入，但是写满一行后发现不能继续输入了，同时用 D 命令查看，发现只成功写入了输入的一部分指令，之后改用 A 命令写入，注意指令的 16 进制数值不需要在末尾加 H 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/2.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/2.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>然后就是不断使用 T 命令执行了，在这个过程中可以发现寄存器中数值溢出时是直接舍去溢出部分的数，而未溢出部分的数不变，同时低 8 位寄存器溢出也是直接抛弃溢出部分的数，而不是存入高 8 位寄存器中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.34.40.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.34.40.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h3 id="任务二"><a class="markdownIt-Anchor" href="#任务二"></a> 任务二</h3>
+<p>使用 A 命令写入之后将 CS:IP 指向 2000:0 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.39.06.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.39.06.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>这 3 条指令的含义就是首先将 AX 赋值为 1 ，然后不断乘以 2 ，要计算 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">2^8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span> 的话，只需一直执行 T 命令直到 AX 变为 0100 即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.40.34.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.40.34.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h3 id="任务三"><a class="markdownIt-Anchor" href="#任务三"></a> 任务三</h3>
+<p>使用 D 命令查看 FFF00H ~ FFFFFH 的内容，发现 FFFF5H ~ FFFFCH 对应的 ASCII 码为 01/01/92 ，推测此为生产日期，表示该主板在 1992 年 1 月 1 日生产。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.45.42.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.45.42.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>尝试使用 E 命令改变它 ，结果改变失败，毕竟是写在 ROM 上的嘛</p>
+<p><s>忽略我个 sb 一开始用的 D 命令修改的地方</s></p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.46.25.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.46.25.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<h3 id="任务四"><a class="markdownIt-Anchor" href="#任务四"></a> 任务四</h3>
+<p>直接照搬书上的命令，然后发现更改失败 XD ，这大概又是一个 ROM 吧（</p>
+<p><img src="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.47.28.png" class="lazy" data-srcset="https://cdn.jsdelivr.net/gh/f1a3h/imgs/iShot_2023-05-04_19.47.28.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Assembly/asm2/index/">https://blog.rbkou.me/Study-Notes/Assembly/asm2/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Assembly/" class="post-tags__link button"># Assembly</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Algorithm/quickpow/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            快速幂复习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Algorithm/summary-of-ACM-prac/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            ACM算法实践总结
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>王爽「汇编语言」学习笔记（五） | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Assembly">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="Chapter.8 ~ Chapter.9">
+<meta property="og:type" content="article">
+<meta property="og:title" content="王爽「汇编语言」学习笔记（五）">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/Assembly/asm5/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="Chapter.8 ~ Chapter.9">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.rbkou.me/Study-Notes/Assembly/asm5/index/%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F.png">
+<meta property="article:published_time" content="2023-09-04T06:36:21.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.495Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Assembly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.rbkou.me/Study-Notes/Assembly/asm5/index/%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        王爽「汇编语言」学习笔记（五）
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/09/" class="post-meta__date button">2023-09-04</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/Assembly/" class="button">Assembly</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text"> 数据处理的两个基本问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bx-si-di-bp"><span class="toc-number">1.1.</span> <span class="toc-text"> bx、si、di、bp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E6%8C%87%E4%BB%A4%E5%A4%84%E7%90%86%E7%9A%84%E6%95%B0%E6%8D%AE%E6%89%80%E5%9C%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text"> 机器指令处理的数据所在位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E4%B8%AD%E6%95%B0%E6%8D%AE%E4%BD%8D%E7%BD%AE%E7%9A%84%E8%A1%A8%E8%BE%BE"><span class="toc-number">1.3.</span> <span class="toc-text"> 汇编语言中数据位置的表达</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text"> 寻址方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E8%A6%81%E5%A4%84%E7%90%86%E7%9A%84%E6%95%B0%E6%8D%AE%E6%9C%89%E5%A4%9A%E9%95%BF"><span class="toc-number">1.5.</span> <span class="toc-text"> 指令要处理的数据有多长？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%E7%9A%84%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text"> 寻址方式的综合应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#div-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text"> div 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E6%8C%87%E4%BB%A4-dd"><span class="toc-number">1.8.</span> <span class="toc-text"> 伪指令 dd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dup"><span class="toc-number">1.9.</span> <span class="toc-text"> dup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-7"><span class="toc-number">2.</span> <span class="toc-text"> Lab 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 转移指令的原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E6%8D%AE%E4%BD%8D%E7%A7%BB%E8%BF%9B%E8%A1%8C%E8%BD%AC%E7%A7%BB%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text"> 依据位移进行转移的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%88%B0%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E5%9C%A8%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text"> 转移到目的地址在指令中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8-16-%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.3.</span> <span class="toc-text"> 转移地址在 16 位寄存器中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.4.</span> <span class="toc-text"> 转移地址在内存中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jcxz-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.5.</span> <span class="toc-text"> jcxz 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.6.</span> <span class="toc-text"> loop 指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-8"><span class="toc-number">4.</span> <span class="toc-text"> Lab 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-9"><span class="toc-number">5.</span> <span class="toc-text"> Lab 9</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text"> 数据处理的两个基本问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bx-si-di-bp"><span class="toc-number">1.1.</span> <span class="toc-text"> bx、si、di、bp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E6%8C%87%E4%BB%A4%E5%A4%84%E7%90%86%E7%9A%84%E6%95%B0%E6%8D%AE%E6%89%80%E5%9C%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text"> 机器指令处理的数据所在位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E4%B8%AD%E6%95%B0%E6%8D%AE%E4%BD%8D%E7%BD%AE%E7%9A%84%E8%A1%A8%E8%BE%BE"><span class="toc-number">1.3.</span> <span class="toc-text"> 汇编语言中数据位置的表达</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text"> 寻址方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E8%A6%81%E5%A4%84%E7%90%86%E7%9A%84%E6%95%B0%E6%8D%AE%E6%9C%89%E5%A4%9A%E9%95%BF"><span class="toc-number">1.5.</span> <span class="toc-text"> 指令要处理的数据有多长？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%E7%9A%84%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8"><span class="toc-number">1.6.</span> <span class="toc-text"> 寻址方式的综合应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#div-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text"> div 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E6%8C%87%E4%BB%A4-dd"><span class="toc-number">1.8.</span> <span class="toc-text"> 伪指令 dd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dup"><span class="toc-number">1.9.</span> <span class="toc-text"> dup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-7"><span class="toc-number">2.</span> <span class="toc-text"> Lab 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 转移指令的原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E6%8D%AE%E4%BD%8D%E7%A7%BB%E8%BF%9B%E8%A1%8C%E8%BD%AC%E7%A7%BB%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text"> 依据位移进行转移的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%88%B0%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E5%9C%A8%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text"> 转移到目的地址在指令中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8-16-%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.3.</span> <span class="toc-text"> 转移地址在 16 位寄存器中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84-jmp-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.4.</span> <span class="toc-text"> 转移地址在内存中的 jmp 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jcxz-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.5.</span> <span class="toc-text"> jcxz 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.6.</span> <span class="toc-text"> loop 指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-8"><span class="toc-number">4.</span> <span class="toc-text"> Lab 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-9"><span class="toc-number">5.</span> <span class="toc-text"> Lab 9</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="数据处理的两个基本问题"><a class="markdownIt-Anchor" href="#数据处理的两个基本问题"></a> 数据处理的两个基本问题</h2>
+<h3 id="bx-si-di-bp"><a class="markdownIt-Anchor" href="#bx-si-di-bp"></a> bx、si、di、bp</h3>
+<ul>
+<li>只有这 4 个寄存器可以在 <code>[...]</code> 中进行内存单元的寻址</li>
+<li>它们只能单个出现或者以 bx 和 si、bx 和 di、bp 和 si、bp 和 di 的组合出现</li>
+<li>bp 的段地址默认在 ss 中</li>
+</ul>
+<h3 id="机器指令处理的数据所在位置"><a class="markdownIt-Anchor" href="#机器指令处理的数据所在位置"></a> 机器指令处理的数据所在位置</h3>
+<ul>
+<li>指令在执行前，所要处理的数据可以在：CPU 内部、内存、端口</li>
+</ul>
+<h3 id="汇编语言中数据位置的表达"><a class="markdownIt-Anchor" href="#汇编语言中数据位置的表达"></a> 汇编语言中数据位置的表达</h3>
+<ol>
+<li>立即数（idata）：执行前在 CPU 指令缓冲器中</li>
+<li>SA 和 EA：指令要处理的数据在内存中</li>
+</ol>
+<h3 id="寻址方式"><a class="markdownIt-Anchor" href="#寻址方式"></a> 寻址方式</h3>
+<p><img src="%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F.png" class="lazy" data-srcset="%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>记一下名字即可</p>
+<h3 id="指令要处理的数据有多长"><a class="markdownIt-Anchor" href="#指令要处理的数据有多长"></a> 指令要处理的数据有多长？</h3>
+<p><code>push</code> 指令只进行字操作</p>
+<h3 id="寻址方式的综合应用"><a class="markdownIt-Anchor" href="#寻址方式的综合应用"></a> 寻址方式的综合应用</h3>
+<p>用 bx 定位整个结构体，用 idata 定位结构体中的某一个数据项，用 si 定位数组项中的每个元素</p>
+<h3 id="div-指令"><a class="markdownIt-Anchor" href="#div-指令"></a> div 指令</h3>
+<ul>
+<li>除数：8 位和 16 位两种</li>
+<li>被除数：位数是除数的两倍，存放在 ax 、dx 寄存器
+<ul>
+<li>dx 存放高 16 位，ax 存放低 16 位</li>
+</ul>
+</li>
+<li>结果
+<ul>
+<li>除数为 8 位：al 存商，ah 存余数</li>
+<li>除数为 16 位：ax 存商，dx 存余数</li>
+</ul>
+</li>
+</ul>
+<h3 id="伪指令-dd"><a class="markdownIt-Anchor" href="#伪指令-dd"></a> 伪指令 dd</h3>
+<p>dd：dword (double word)</p>
+<h3 id="dup"><a class="markdownIt-Anchor" href="#dup"></a> dup</h3>
+<p>使用格式：<code>db 重复次数 dup (重复的字节型数据)</code></p>
+<h2 id="lab-7"><a class="markdownIt-Anchor" href="#lab-7"></a> Lab 7</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">data segment</span><br><span class="line">  db &#x27;1975&#x27;,&#x27;1976&#x27;,&#x27;1977&#x27;,&#x27;1978&#x27;,&#x27;1979&#x27;,&#x27;1980&#x27;,&#x27;1981&#x27;,&#x27;1982&#x27;,&#x27;1983&#x27;</span><br><span class="line">  db &#x27;1984&#x27;,&#x27;1985&#x27;,&#x27;1986&#x27;,&#x27;1987&#x27;,&#x27;1988&#x27;,&#x27;1989&#x27;,&#x27;1990&#x27;,&#x27;1991&#x27;,&#x27;1992&#x27;</span><br><span class="line">  db &#x27;1993&#x27;,&#x27;1994&#x27;,&#x27;1995&#x27;</span><br><span class="line">  ;以上是表示21年的21个字符串</span><br><span class="line"></span><br><span class="line">  dd 16,22,382,1356,2390,8000,16000,24486,50065,97479,140417,197514</span><br><span class="line">  dd 345980,590827,803530,1183000,1843000,2759000,3753000,4649000,5937000</span><br><span class="line">  ;以上是表示21年公司总收入的21个dword型数据</span><br><span class="line"></span><br><span class="line">  dw 3,7,9,13,28,38,130,220,476,778,1001,1442,2258,2793,4037,5635,8226</span><br><span class="line">  dw 11542,14430,15257,17800</span><br><span class="line">  ;以上是表示21年公司雇员人数的21个word型数据</span><br><span class="line">data ends</span><br><span class="line"></span><br><span class="line">table segment</span><br><span class="line">  db 21 dup(&#x27;year summ ne ?? &#x27;)</span><br><span class="line">table ends</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">start:  mov ax, table</span><br><span class="line">    mov ds, ax</span><br><span class="line">    mov ax, data</span><br><span class="line">    mov es, ax</span><br><span class="line"></span><br><span class="line">    mov bx, 0</span><br><span class="line">    mov di, 0</span><br><span class="line">    mov cx, 21</span><br><span class="line">  s0:	mov si, 0</span><br><span class="line">    push di</span><br><span class="line">    mov ax, di</span><br><span class="line">    add di, ax</span><br><span class="line">    mov ax, es:[di+0]</span><br><span class="line">    mov [bx].0[si], ax</span><br><span class="line">    add si, 2</span><br><span class="line">    add di, 2</span><br><span class="line">    mov ax, es:[di+0]</span><br><span class="line">    mov [bx].0[si], ax</span><br><span class="line">    pop di</span><br><span class="line">    ; year</span><br><span class="line">    mov si, 0</span><br><span class="line">    push di</span><br><span class="line">    mov ax, di</span><br><span class="line">    add di, ax</span><br><span class="line">    mov ax, es:[di+84]</span><br><span class="line">    mov [bx].5[si], ax</span><br><span class="line">    add si, 2</span><br><span class="line">    add di, 2</span><br><span class="line">    mov ax, es:[di+84]</span><br><span class="line">    mov [bx].5[si], ax</span><br><span class="line">    pop di</span><br><span class="line">    ; summ</span><br><span class="line">    mov si, 0</span><br><span class="line">    mov ax, es:[di+168]</span><br><span class="line">    mov [bx].10[si], ax</span><br><span class="line">    ; ne</span><br><span class="line">    add bx, 16</span><br><span class="line">    add di, 2</span><br><span class="line">    loop s0</span><br><span class="line"></span><br><span class="line">    mov ax, 4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<h2 id="转移指令的原理"><a class="markdownIt-Anchor" href="#转移指令的原理"></a> 转移指令的原理</h2>
+<h3 id="依据位移进行转移的-jmp-指令"><a class="markdownIt-Anchor" href="#依据位移进行转移的-jmp-指令"></a> 依据位移进行转移的 jmp 指令</h3>
+<ul>
+<li>段内短转移：<code>jmp short 标号</code>
+<ul>
+<li>IP 修改范围：-128 ~ 127</li>
+<li>(IP) = (IP) + 8 位位移</li>
+<li>对应机器码中不包含转移的目的地址，包含的是下一条指令到标号地址到位移差</li>
+<li>位移用补码表示</li>
+</ul>
+</li>
+<li>段内近转移：<code>jmp near ptr 标号</code>
+<ul>
+<li>IP 修改范围：-32768 ~ 32767</li>
+<li>(IP) = (IP) + 16 位位移</li>
+</ul>
+</li>
+</ul>
+<h3 id="转移到目的地址在指令中的-jmp-指令"><a class="markdownIt-Anchor" href="#转移到目的地址在指令中的-jmp-指令"></a> 转移到目的地址在指令中的 jmp 指令</h3>
+<ul>
+<li>段间转移：<code>jmp far ptr 标号</code></li>
+</ul>
+<h3 id="转移地址在-16-位寄存器中的-jmp-指令"><a class="markdownIt-Anchor" href="#转移地址在-16-位寄存器中的-jmp-指令"></a> 转移地址在 16 位寄存器中的 jmp 指令</h3>
+<ul>
+<li><code>jmp 16位寄存器</code></li>
+</ul>
+<h3 id="转移地址在内存中的-jmp-指令"><a class="markdownIt-Anchor" href="#转移地址在内存中的-jmp-指令"></a> 转移地址在内存中的 jmp 指令</h3>
+<ul>
+<li><code>jmp word ptr 内存单元地址</code>（段内转移）</li>
+<li><code>jmp dword ptr 内存单元地址</code>（段间转移）</li>
+</ul>
+<h3 id="jcxz-指令"><a class="markdownIt-Anchor" href="#jcxz-指令"></a> jcxz 指令</h3>
+<ul>
+<li><code>jcxz 标号</code></li>
+<li>若 cx = 0，(IP) = (IP) + 8 位位移</li>
+</ul>
+<h3 id="loop-指令"><a class="markdownIt-Anchor" href="#loop-指令"></a> loop 指令</h3>
+<p>所有循环指令都是短指令</p>
+<h2 id="lab-8"><a class="markdownIt-Anchor" href="#lab-8"></a> Lab 8</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line">    mov ax, 4c00h</span><br><span class="line">    int 21h</span><br><span class="line">start: mov ax, 0</span><br><span class="line">s:  nop</span><br><span class="line">    nop</span><br><span class="line"></span><br><span class="line">    mov di, offset s</span><br><span class="line">    mov si, offset s2</span><br><span class="line">    mov ax, cs:[si]</span><br><span class="line">    mov cs:[di], ax</span><br><span class="line"></span><br><span class="line">s1: mov ax, 0</span><br><span class="line">    int 21h</span><br><span class="line">    mov ax, 0</span><br><span class="line"></span><br><span class="line">s2: jmp short s1</span><br><span class="line">    nop</span><br><span class="line">codesg ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+<p>运行前：不能正确返回</p>
+<p>使用 debug 加载程序，一步步执行指令发现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov di, offset s</span><br><span class="line">mov si, offset s2</span><br><span class="line">mov ax, cs:[si]</span><br><span class="line">mov cs:[di], ax</span><br></pre></td></tr></table></figure>
+<p>将 s 处的指令修改为了 s2 处的指令，即</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s:  nop</span><br><span class="line">    nop</span><br></pre></td></tr></table></figure>
+<p>变成了 <code>jmp short s1</code> ，但是由于机器码记录的是位移差，因此执行 <code>jmp short s</code> 之后再次执行 s 处的 <code>jmp short s1</code> 会跳转到奇怪的指令处，从而不能正确返回</p>
+<h2 id="lab-9"><a class="markdownIt-Anchor" href="#lab-9"></a> Lab 9</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code</span><br><span class="line"></span><br><span class="line">; 绿色 00000010B</span><br><span class="line">; 绿底红色 00100100B</span><br><span class="line">; 白底蓝色 01110001B</span><br><span class="line"></span><br><span class="line">; starts from B87A0H</span><br><span class="line"></span><br><span class="line">code segment</span><br><span class="line">    mov ax, 0B87AH</span><br><span class="line">    mov ds, ax</span><br><span class="line">    mov bx, 0</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;w&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;e&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;l&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;c&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;o&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;m&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;e&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27; &#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;t&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;o&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27; &#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;m&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;a&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;s&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;m&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line">    add bx, 2</span><br><span class="line"></span><br><span class="line">    mov ah, &#x27;!&#x27;</span><br><span class="line">    mov al, 00000010B</span><br><span class="line">    mov word ptr [bx], ax</span><br><span class="line"></span><br><span class="line">    mov ax, 4c00h</span><br><span class="line">    int 21h</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/Assembly/asm5/index/">https://blog.rbkou.me/Study-Notes/Assembly/asm5/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Assembly/" class="post-tags__link button"># Assembly</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/ACG/Eisenflugel/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            「钢铁之翼」: 天空、战争与巨龙
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/CS-APP/CSAPP%E5%BA%8F/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CS:APP 学习笔记 序
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

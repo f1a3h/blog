@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/assets/img/android-chrome-192x192.png">
+    
+
+
+    <!-- meta -->
+
+
+<title>CNATDA 第六章学习笔记 | flash&#39;s ideal</title>
+
+
+    <meta name="keywords" content="Computer Network, CNATDA">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="The Link Layer and LANs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNATDA 第六章学习笔记">
+<meta property="og:url" content="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch6/index/index.html">
+<meta property="og:site_name" content="flash&#39;s ideal">
+<meta property="og:description" content="The Link Layer and LANs">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/data%20center%20network.jpeg">
+<meta property="article:published_time" content="2023-11-16T13:01:21.000Z">
+<meta property="article:modified_time" content="2025-05-31T07:11:11.503Z">
+<meta property="article:author" content="f1a3h">
+<meta property="article:tag" content="Computer Network">
+<meta property="article:tag" content="CNATDA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/f1a3h/imgs/data%20center%20network.jpeg">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/highlight.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/highlight.dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+    
+        <link rel="stylesheet" href="/assets/css/callout_blocks.css"> 
+    
+
+<link rel="alternate" href="/rss2.xml" title="flash's ideal" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="flash's ideal" type="application/rss+xml">
+</head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Flash</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/about/" class="navbar-menu button">关于</a>
+                
+                    <a href="/friends/" class="navbar-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="navbar-menu button">开往</a>
+                
+            </div>
+        
+        
+        
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/about/" class="dropdown-menu button">关于</a>
+                
+                    <a href="/friends/" class="dropdown-menu button">友链</a>
+                
+                    <a target="_blank" rel="noopener" href="https://www.travellings.cn/go.html" class="dropdown-menu button">开往</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        CNATDA 第六章学习笔记
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/11/" class="post-meta__date button">2023-11-16</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/" class="button">Study Notes</a>
+
+    <span class="separate-dot"></span><a href="/categories/Study-Notes/CNATDA/" class="button">CNATDA</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-to-the-link-layer"><span class="toc-number">1.</span> <span class="toc-text"> Introduction to the Link Layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#error-detection-and-correction-techniques"><span class="toc-number">2.</span> <span class="toc-text"> Error-Detection and -Correction Techniques</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#parity-checks"><span class="toc-number">2.1.</span> <span class="toc-text"> Parity Checks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#checksumming-methods"><span class="toc-number">2.2.</span> <span class="toc-text"> Checksumming Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cyclic-redundancy-check-crc"><span class="toc-number">2.3.</span> <span class="toc-text"> Cyclic Redundancy Check (CRC)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiple-access-links-and-protocols"><span class="toc-number">3.</span> <span class="toc-text"> Multiple Access Links and Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#channel-partitioning-protocols"><span class="toc-number">3.1.</span> <span class="toc-text"> Channel Partitioning Protocols</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#random-access-protocols"><span class="toc-number">3.2.</span> <span class="toc-text"> Random Access Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#aloha"><span class="toc-number">3.2.1.</span> <span class="toc-text"> ALOHA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#carrier-sense-multiple-access-with-collision-detection-csmacd"><span class="toc-number">3.2.2.</span> <span class="toc-text"> Carrier Sense Multiple Access with Collision Detection (CSMA&#x2F;CD)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#taking-turns-protocols"><span class="toc-number">3.3.</span> <span class="toc-text"> Taking-Turns Protocols</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docsis-the-link-layer-protocol-for-cable-internet-access"><span class="toc-number">3.4.</span> <span class="toc-text"> DOCSIS: The Link-Layer Protocol for Cable Internet Access</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switched-local-area-networks"><span class="toc-number">4.</span> <span class="toc-text"> Switched Local Area Networks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#link-layer-addressing-and-arp"><span class="toc-number">4.1.</span> <span class="toc-text"> Link-Layer Addressing and ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#address-resolution-protocol"><span class="toc-number">4.2.</span> <span class="toc-text"> Address Resolution Protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ethernet"><span class="toc-number">4.3.</span> <span class="toc-text"> Ethernet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#link-layer-switches"><span class="toc-number">4.4.</span> <span class="toc-text"> Link-Layer Switches</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#virtual-local-area-networks-vlans"><span class="toc-number">4.5.</span> <span class="toc-text"> Virtual Local Area Networks (VLANs)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiprotocol-label-switching-mpls"><span class="toc-number">5.</span> <span class="toc-text"> Multiprotocol Label Switching (MPLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-center-networking"><span class="toc-number">6.</span> <span class="toc-text"> Data Center Networking</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#introduction-to-the-link-layer"><span class="toc-number">1.</span> <span class="toc-text"> Introduction to the Link Layer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#error-detection-and-correction-techniques"><span class="toc-number">2.</span> <span class="toc-text"> Error-Detection and -Correction Techniques</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#parity-checks"><span class="toc-number">2.1.</span> <span class="toc-text"> Parity Checks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#checksumming-methods"><span class="toc-number">2.2.</span> <span class="toc-text"> Checksumming Methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cyclic-redundancy-check-crc"><span class="toc-number">2.3.</span> <span class="toc-text"> Cyclic Redundancy Check (CRC)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiple-access-links-and-protocols"><span class="toc-number">3.</span> <span class="toc-text"> Multiple Access Links and Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#channel-partitioning-protocols"><span class="toc-number">3.1.</span> <span class="toc-text"> Channel Partitioning Protocols</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#random-access-protocols"><span class="toc-number">3.2.</span> <span class="toc-text"> Random Access Protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#aloha"><span class="toc-number">3.2.1.</span> <span class="toc-text"> ALOHA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#carrier-sense-multiple-access-with-collision-detection-csmacd"><span class="toc-number">3.2.2.</span> <span class="toc-text"> Carrier Sense Multiple Access with Collision Detection (CSMA&#x2F;CD)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#taking-turns-protocols"><span class="toc-number">3.3.</span> <span class="toc-text"> Taking-Turns Protocols</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docsis-the-link-layer-protocol-for-cable-internet-access"><span class="toc-number">3.4.</span> <span class="toc-text"> DOCSIS: The Link-Layer Protocol for Cable Internet Access</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switched-local-area-networks"><span class="toc-number">4.</span> <span class="toc-text"> Switched Local Area Networks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#link-layer-addressing-and-arp"><span class="toc-number">4.1.</span> <span class="toc-text"> Link-Layer Addressing and ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#address-resolution-protocol"><span class="toc-number">4.2.</span> <span class="toc-text"> Address Resolution Protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ethernet"><span class="toc-number">4.3.</span> <span class="toc-text"> Ethernet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#link-layer-switches"><span class="toc-number">4.4.</span> <span class="toc-text"> Link-Layer Switches</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#virtual-local-area-networks-vlans"><span class="toc-number">4.5.</span> <span class="toc-text"> Virtual Local Area Networks (VLANs)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#multiprotocol-label-switching-mpls"><span class="toc-number">5.</span> <span class="toc-text"> Multiprotocol Label Switching (MPLS)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-center-networking"><span class="toc-number">6.</span> <span class="toc-text"> Data Center Networking</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="introduction-to-the-link-layer"><a class="markdownIt-Anchor" href="#introduction-to-the-link-layer"></a> Introduction to the Link Layer</h2>
+<p>link layer 的主要任务是将 datagram 从当前 node 传输到另一个 node，还可以提供以下服务：</p>
+<ul>
+<li>framing：将 network layer 的 datagram encapsulate 成 link layer 的 frame 然后进行传输。</li>
+<li>link access：使用 medium access control（MAC）协议来决定传输哪一个 frame。对于 point-to-point 的传输是很简单的，但是对于 multiple access problem 来说，则需要 MAC protocol 来进行协调。</li>
+<li>reliable delivery：使用 acknowledgments 和 retransmission ，与 transport layer 的可靠传输服务类似。reliable delivery 在出错率较高的 links（如 wireless link）中采用较广，但是在出错率较低的 links 中则会造成不必要的 overhead，采用较少。</li>
+<li>error detection and correction：通过在 transmitting node 的 frame 中加入 error-detection bits 和在 receiving node 中进行 error check 来实现。link layer 的 error detection 主要在硬件层面上实现。</li>
+</ul>
+<p>在 host 中，link layer 使用名为 network adapter（network interface controller，NIC） 的 chip 实现，属于硬件层面的实现。另外，还会有一部分由 CPU 上的软件实现。</p>
+<h2 id="error-detection-and-correction-techniques"><a class="markdownIt-Anchor" href="#error-detection-and-correction-techniques"></a> Error-Detection and -Correction Techniques</h2>
+<p>error-detection and -correction 允许接收端偶尔的差错检测，但是不是永远都会进行，也就是说会存在未检测到的 error bits。</p>
+<h3 id="parity-checks"><a class="markdownIt-Anchor" href="#parity-checks"></a> Parity Checks</h3>
+<p>实现 bit 层面上的 error detection 最简单的方法就是添加一个 parity bit 来记录原来值为 1 的 bits 的数目。这在只有一个 bit 会出错的情况下是 work 的，但是事实上 error 总是 clustered together in “bursts”，从而单个的 parity bit 行不通。</p>
+<p>考虑采用 two-diminutional parity ，将要传输的 bits 分成一个二维矩阵，每一横、每一列都设置一个 parity bit，这样以来，不仅可以确定 error bit 的位置，还能进行 correction。</p>
+<p>这种既能 detect 也能 correct 的能力叫做 <em>forward error correction（FEC）</em>。</p>
+<h3 id="checksumming-methods"><a class="markdownIt-Anchor" href="#checksumming-methods"></a> Checksumming Methods</h3>
+<p>在 checksumming methods 中，d bits 的 data 会被分成 k bit 大小的整数序列，然后将这些整数的和作为 error-detection bits。 <em>Internet checksum</em> 就是这样的一种方法。在 TCP 和 UDP 中，所有 fields 包括 header 和 data 都会进行 Internet checksum ，而 IP protocol 中只有 header 会进行。</p>
+<p>checksumming methods 需要相对少的 packet overhead，但是对 errors 的保护能力相对 link layer 采用 cyclic redundancy check 较弱。由于 transport layer 主要在软件上实现，需要的是 simple and fast 的差错检测能力，而 link layer 在硬件层面上实现使得能进行更复杂的 CRC 运算，所以 transport layer 采用的是 Internet checksumming 而 link layer 采用的是 CRC。</p>
+<h3 id="cyclic-redundancy-check-crc"><a class="markdownIt-Anchor" href="#cyclic-redundancy-check-crc"></a> Cyclic Redundancy Check (CRC)</h3>
+<p>生成一个多项式来实现，详细的可以看 <a target="_blank" rel="noopener" href="https://www.eecs70.org/assets/pdf/notes/n9.pdf">UCB CS70 Error Correcting Codes</a> 或者看书，其实就是 CS 70 这个的 bit 版本。</p>
+<h2 id="multiple-access-links-and-protocols"><a class="markdownIt-Anchor" href="#multiple-access-links-and-protocols"></a> Multiple Access Links and Protocols</h2>
+<p>network links 分为两种：<em>point-to-point</em> 和 <em>braodcast</em>。在 broadcast link 中，如果有多个 nodes 同时发送信息，则会产生 collision 。</p>
+<p>为了解决 <em>multiple access problem</em>，需要一个 <em>multiple access protocol</em> ，主要有三类 multiple access protocols：channel partitioning protocols，random access protocols 和 taking-turs protocols。</p>
+<p>一个合理的 multiple access protocol 需要满足以下条件：</p>
+<ul>
+<li>只有一个结点发送消息则完全使用带宽</li>
+<li>多个结点发送则平分带宽</li>
+<li>decentralized</li>
+<li>simple，inexpensive to implement</li>
+</ul>
+<h3 id="channel-partitioning-protocols"><a class="markdownIt-Anchor" href="#channel-partitioning-protocols"></a> Channel Partitioning Protocols</h3>
+<p>TDM 将 time 分成 frames 然后每个 frame 又分成 slots，每一个 time slot 分配给一个 node。</p>
+<p>FDM 则将频率分为 frames 再细分为 slots 。</p>
+<p>FDM 和 TDM 都能保证每个 node 都能得到均分的传输速率，并且完全避免了 collision，但是也会导致只有一个 sender 时不能使用分配给其他 nodes 的 slots。</p>
+<p>code division multiple access（CDMA）给每个 node 分配一个不同的 code，node 将 data 通过分配的 code 进行 encode 之后再发送。CDMA 在 wireless channel 中较常用。</p>
+<h3 id="random-access-protocols"><a class="markdownIt-Anchor" href="#random-access-protocols"></a> Random Access Protocols</h3>
+<p>每个遭遇 collision 的结点都独立选取一个 random delay，在 delay 之后进行 retransmission。</p>
+<h4 id="aloha"><a class="markdownIt-Anchor" href="#aloha"></a> ALOHA</h4>
+<p>假设每个 frame 大小相同，将 slot 的大小等于传输一个 frame 的时间，每个结点只会在 slot 的开始传输，并且所有结点是同步的，结点会在 slot 结束之前检测到 collision。</p>
+<p>在 slotted ALOHA 中，结点在检测到 collision 之后立即停止传输，并且在之后的 slots 的开头以概率 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span> 进行传输直到成功，是 decentralized 。</p>
+<p>恰好一个结点进行传输的 slot 被称为 <em>successful slot</em>，slotted multiple access protocol 的 <em>efficiency</em> 被定义为 successful slot 的占比。显然，有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个 active nodes 的时候，efficiency 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>p</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><msup><mo stretchy="false">)</mo><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">np(1-p)^{n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> ，当 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 很大时，它的最大值为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>e</mi><mo>≈</mo><mn>0.37</mn></mrow><annotation encoding="application/x-tex">1/e\approx 0.37</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">/</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">3</span><span class="mord">7</span></span></span></span>。</p>
+<p>在 pure ALOHA 中，不进行 slot 的划分，是 fully decentralized 的，并且每个结点遭遇 collision 之后会以概率 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span> 立即重传，尽管更加去中心化，但是它的 efficiency 也只有 slotted ALOHA 的一半了。</p>
+<h4 id="carrier-sense-multiple-access-with-collision-detection-csmacd"><a class="markdownIt-Anchor" href="#carrier-sense-multiple-access-with-collision-detection-csmacd"></a> Carrier Sense Multiple Access with Collision Detection (CSMA/CD)</h4>
+<p>CSMA 基于 “Listen before speaking” 的原则进行 <em>carrier sensing</em>，而 CSMA/CD 则是 CSMA 加上 “If someone else begins talking at the same time, stop talking” 的原则进行 <em>collision detection</em>。</p>
+<p>由于 <em>channel propagation delay</em> 的存在，一个结点在检测到另一个结点发送过消息前可能已经发送过一段消息了。</p>
+<p>在 CSMA/CD 中，结点遇到 collision 会随机等到一段时间再进行重传，这个等待时间由 <em>binary exponential backoff</em> 算法进行计算：当前如果累计检测到了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 次 collision，则在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msup><mn>2</mn><mi>n</mi></msup><mo>−</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,2,\dots,2^n-1\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span> 中随机取一个数作为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> ，然后等待传输 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>⋅</mo><mn>512</mn></mrow><annotation encoding="application/x-tex">K\cdot 512</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">1</span><span class="mord">2</span></span></span></span> bit 的用时，当 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 超过 10 的时候则取 10。如果等待之后传输成功，则 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 重新变为 0。</p>
+<p>CSMA/CD 的 efficiency 约为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true" scriptlevel="0"><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mn>5</mn><msub><mi>d</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>d</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">s</mi></mrow></msub></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{1}{1+5d_{\mathrm{prop}}/d_{\mathrm{trans}}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.293548em;vertical-align:-0.972108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">5</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">p</span><span class="mord mathrm mtight">r</span><span class="mord mathrm mtight">o</span><span class="mord mathrm mtight">p</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">t</span><span class="mord mathrm mtight">r</span><span class="mord mathrm mtight">a</span><span class="mord mathrm mtight">n</span><span class="mord mathrm mtight">s</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.972108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> ，其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{\mathrm{prop}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">p</span><span class="mord mathrm mtight">r</span><span class="mord mathrm mtight">o</span><span class="mord mathrm mtight">p</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span> 表示 propogation delay，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{\mathrm{trans}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">t</span><span class="mord mathrm mtight">r</span><span class="mord mathrm mtight">a</span><span class="mord mathrm mtight">n</span><span class="mord mathrm mtight">s</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 表示一个 maximum-size frame 的传输用时。</p>
+<h3 id="taking-turns-protocols"><a class="markdownIt-Anchor" href="#taking-turns-protocols"></a> Taking-Turns Protocols</h3>
+<p>taking-turns protocol 的主要思想是让结点轮流发送消息。</p>
+<p>polling protocol 中存在一个 master node，它轮流 poll 每个结点让其发送不超过 maximum number 个 frame，发送完再继续 poll 下一个结点。polling protocol 是 centralized 的，master node 倒下了整个系统就会崩溃，同时也引入了 polling delay：对 inactive nodes 进行 poll 会浪费时间。</p>
+<p>token-passing protocol 中每个结点以固定顺序向下一个结点发送 token，当结点需要传输时则会先传输不超过 maximum number 个 frame 再传递 token。token-passing protocol 是 decentralized 并且高效的，但是当一个结点崩溃了同样会使得整个 channel 崩溃，需要采取 recovery procedure。</p>
+<h3 id="docsis-the-link-layer-protocol-for-cable-internet-access"><a class="markdownIt-Anchor" href="#docsis-the-link-layer-protocol-for-cable-internet-access"></a> DOCSIS: The Link-Layer Protocol for Cable Internet Access</h3>
+<p>DOCSIS 用于 cable access network，将一个 residential cable modems 连接到 cable modem termination system（CMTS），同时用到了多种 multiple access protocol。</p>
+<p>DOCSIS 使用 FDM 分为 downstream 和 upstream 两个 channel，downstream channel 的内容由 CTMS 向 cable modem 发送，不存在 multiple access problem。upstream channel 则被分为了多个 mini-slots，这些 slots 由 CMTS 通过 downstream 动态分配，需要由 cable modem 发送 mini-slot-request-frame，这些 requests 通过一些特殊的 mini-slots 以 random access 的方式发送，通过是否收到 CMTS 回复的 mini-slots 来判定 collision 的存在，使用 binary exponential backoff。</p>
+<h2 id="switched-local-area-networks"><a class="markdownIt-Anchor" href="#switched-local-area-networks"></a> Switched Local Area Networks</h2>
+<h3 id="link-layer-addressing-and-arp"><a class="markdownIt-Anchor" href="#link-layer-addressing-and-arp"></a> Link-Layer Addressing and ARP</h3>
+<p>host 和 router 的每个 adapter 都有一个 LAN address (physical address/MAC address) ，对于有多个 interface 的 router 来说，每个 interface 都会有一个 MAC address。</p>
+<p>MAC address 的长度为 6 bytes，由 IEEE 进行分配，每个 adapter 的 MAC address 都是固定不变的。</p>
+<p>当 adapter 需要发送 frame 给目的 adapter 时会将目的 MAC address 插入 frame 然后送往 LAN，由 switch 将其向所有的 interfaces 进行 broadcast，与目的 MAC address 匹配的就会接收，否则丢弃。</p>
+<p>MAC broadcast address 为 <code>ff:ff:ff:ff:ff:ff</code>。</p>
+<h3 id="address-resolution-protocol"><a class="markdownIt-Anchor" href="#address-resolution-protocol"></a> Address Resolution Protocol</h3>
+<p>ARP 是用来将 subnet 内部的 IP address 转换成 MAC address 的。</p>
+<p>每个 host/router 内部维护一个 ARP table，存储 IP 到 MAC 地址的映射，同时会有一个 TTL，到期则会丢弃这条记录。</p>
+<p>当 ARP table 中没有对应的 MAC 地址时，sender 会发送一个 ARP request，其中目的 MAC 地址为 MAC broadcast address，对应的 receiver 收到后会发送 ARP response，一般不是 broadcast。sender 收到 response 后更新 ARP table。通过这种机制，ARP table 可以自动构建，不需要手动配置。</p>
+<p>如果需要向 subnet 外发送信息，则是需要发送给 gateway（first-hop router），需要查询的也是 gateway 的 MAC 地址，gateway 收到 frame 后会传递给它的 network layer 将 source IP address 修改为它的 IP address。</p>
+<p>ARP 是一个位于 network layer 和 link layer 之间的 protocol。</p>
+<h3 id="ethernet"><a class="markdownIt-Anchor" href="#ethernet"></a> Ethernet</h3>
+<p>Ethernet 通常使用 hub 或 switch 来连接各个 interface。hub 会将收到的每个 bit 转发给所有 interfaces，容易造成 collision。switch 根据 MAC protocol 进行转发，避免了 collision。</p>
+<p>Ethernet 的 frame 通常由以下部分组成：</p>
+<ul>
+<li>data field（46 to 1500 bytes）：IP datagram。如果 IP datagram 的长度小于 46 bytes，则会填充至 46 bytes，network layer 通过 IP datagram 的 length field 来去除填充。</li>
+<li>destination field（6 bytes）</li>
+<li>source field（6 bytes）</li>
+<li>type field（2 bytes）：标识 upper layer protocol。</li>
+<li>CRC checksum（4 bytes）</li>
+<li>preamble（8 bytes）：标识 frame 的开头并同步时钟。</li>
+</ul>
+<p>Ethernet technologies 提供的是 connectionless、unreliable 的服务。</p>
+<h3 id="link-layer-switches"><a class="markdownIt-Anchor" href="#link-layer-switches"></a> Link-Layer Switches</h3>
+<p>switch 的主要任务是将 incoming frames forward 到 outgoing links。switch 是 transparent 的，也就是说，host 和 router 并不知道它的存在，它也不需要手动配置，是 plug-and-play 的。</p>
+<p>switch 的每个 interface 都有一个 output buffer，与 router 类似。</p>
+<p>switch 主要有两个功能：filtering 和 forwarding。它们通过维护一个 <em>switch table</em> 来实现：存储 MAC 地址和对应的地址，另外还有过期时间。</p>
+<p>当从 interface <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 中收到 destination MAC address 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 的 frame 时：</p>
+<ul>
+<li>若 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 不在 switch table 中，则 broadcast。</li>
+<li>若 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 对应的 interface 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 时，则 discard。</li>
+<li>若 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 对应的 interface 不等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 时，则 forward。</li>
+</ul>
+<p>switch 是 <em>self-learning</em> 的：如果在 intreface <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 中收到了 source MAC address 为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span> 的 frame 会在 table 中添加相应的记录。</p>
+<p>相比 hub，switch 具有以下优势：</p>
+<ul>
+<li>消除了 collision。</li>
+<li>可以将不同 technology 的 links 连接在一起。</li>
+<li>提供 network management 服务，如 enhanced security 等。</li>
+</ul>
+<p>switch 和 router 各自具有 pros 和 cons：</p>
+<ul>
+<li>switch 即插即用，无需手动配置；只有 2 layers，性能更好；只能练成 spanning tree，不能形成环；如果 subnet 内 host 太多会影响性能；可能遭受 broadcast storm。</li>
+<li>router 需要手动配置；有 3 layers，性能略差；可以随便连，从而提供多个 route 供 routing protocol 使用，实现 best path；提供 firewall 防止 broadcast storm。</li>
+</ul>
+<p>一般来说，几十上百个 host 使用 switch 即可，更多的需要 router 进行中转。</p>
+<h3 id="virtual-local-area-networks-vlans"><a class="markdownIt-Anchor" href="#virtual-local-area-networks-vlans"></a> Virtual Local Area Networks (VLANs)</h3>
+<p>LANs 存在以下一些限制：</p>
+<ul>
+<li>缺少对 traffic 的限制，例如未被学习到的 MAC 地址发送的 ARP 仍需 traverse 整个 subnet，降低了性能。</li>
+<li>switch 的 ports 数量不足以匹配 subnet 内 host 的数量。</li>
+<li>要在不同的 subnet 之间移动 host 需要更改物理接线。</li>
+</ul>
+<p>VLAN 可以解决这些问题。它通过软件对 switch 的 ports 进行配置，将 ports 划分为不同的 group，每个 group 都属于一个 subnet。为了将不同 subnet 相连，可以使用一个 router 将这两个 switch 连接起来，为了方便，很多 switch 都自带一个 router。</p>
+<p>可以使用 VLAN trunking 将分属于不同 switch 上的 port 连接起来作为一个 VLAN：每一个 switch 上有一个 trunk port，将需要 trunking 的 switch 通过 trunk port 相连，发送到对面 switch 的 VLAN 的 frame 会被 forward 到 trunk port。 trunking 时使用的是 extended Ethernet frame format 802.1Q，由发送端的 switch 将对应的 VLAN tag 加入 header 来对 VLAN 进行标识。</p>
+<p>除了基于 switch port 的 VLAN，还有基于 MAC address 和 network protocol 的 VLAN。</p>
+<h2 id="multiprotocol-label-switching-mpls"><a class="markdownIt-Anchor" href="#multiprotocol-label-switching-mpls"></a> Multiprotocol Label Switching (MPLS)</h2>
+<p>MPLS 采取了一个重要的概念：定长的 label 来优化 IP router 进行 forward 的速度。它仍然使用的是 IP addressing 和 routing，但是在 link layer header 和 network layer header 之间加入了一个 MPLS header，它由 label、exp、s、TTL 组成。</p>
+<p>MPLS frame 仅仅能在支持 MPLS 的 router 之间进行传输，在处理 MPLS datagram 时，router 不需要将 destination IP 展开并在 forwarding table 中 look up 来进行 longest prefix match。</p>
+<p>MPLS 可以潜在提升 switching speed，也带来了新的 traffic management 的能力，如 VPNs。</p>
+<h2 id="data-center-networking"><a class="markdownIt-Anchor" href="#data-center-networking"></a> Data Center Networking</h2>
+<p>大型互联网公司建造了许多 data centers，它们对外接入 Internet，对内存在一套 data center networks。</p>
+<p>data center 主要提供 3 种服务：provide content、distributed computing、cloud computing。</p>
+<p>data center 内的 hosts 称为 <em>blades</em>，几十个 blades 组成一个 <em>rack</em>，每个 rack 有一个 switch，被称为 <em>Top of Rack (ToR) switch</em>。</p>
+<p>data center network 支持两种 traffic：外部的 clients 与内部的 hosts 之间的 traffic、内部的 hosts 之间的 traffic，为了支持第一种 traffic，设有 <em>border routers</em> 来连接 Internet。</p>
+<p>另外，为了分配外界大量的 requests，data center network 中设有 load balancer 来分配这些 requests 给不同的但是提供相同内容的 hosts 从而平衡 load，同时 load balancer 还起到了一个 NAT-like 的功能。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/f1a3h/imgs/data%20center%20network.jpeg" class="lazy" data-srcset="https://fastly.jsdelivr.net/gh/f1a3h/imgs/data%20center%20network.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAABlBMVEXMzMyWlpYU2uzLAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNgAAAAAgAB9HFkpgAAAABJRU5ErkJggg==" alt="" /></p>
+<p>树状的网络结构使得 data center 可以拥有上万个 servers，但是也存在着 limited host-to-host capacity 的问题。解决这个问题有 3 种方法：</p>
+<ul>
+<li>部署更高速率的 switch 和 router，这样开销会很大。</li>
+<li>将需要互相通信的 host 尽量放在一个子树下，这样不容易做到且灵活性较低。</li>
+<li>将相邻两层级的 switch 之间互相连通，增加 interconnection 的数量，这样在优化性能的同时也增加了系统的稳定性。</li>
+</ul>
+<p>data center 通常使用 SDN 来对网络进行集中式管理。</p>
+<p>为了方便 cloud computing 和网络管理，data center 使用 virtual machine 来将软件与硬件进行 decouple。为了方便 VM 在不同 host 之间移动，可以将整个 data center network 看成是一个 single、flat、layer-2 network。要使所有的 hosts 看上去是与单个的 switch 相连，可以将 ARP 的机制改成一个类似 DNS query 的机制，并且维护一张分配给 VM 的 IP 地址到 VM 对应的 ToR switch 的映射表。</p>
+<p>data center 内部的 hosts 有限，因此内部 network 的 buffer size 和 delay 也很小，并且 congestion control 会降低性能，因此一般使用针对 data center 的 TCP protocols。</p>
+<p>modular data center (MDC) 是一个由至多数千个 hosts 组成的 container，当 MDC 内部的某个 component 坏掉时，MDC 可以以 degraded performance 继续工作，当很多 components 都坏掉的时候，整个 MDC 就会被丢弃。</p>
+<p>很多公司会定制他们的 data center 内的几乎一切内容。</p>
+<p>Amazon 使用 “available zones” 将 data center 在邻近但是位置不同的地方进行复制，从而提供 fault tolerance，也保证了 low latency，提高了服务的可靠性。</p>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>f1a3h
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch6/index/">https://blog.rbkou.me/Study-Notes/CNATDA/cnatda-ch6/index/</a>
+        </p>
+        
+            <strong>
+                <p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p>
+
+            </strong>
+        
+    </div>
+ 
+    <div class="post-footer__meta"><p>updated at 2025-05-31</p></div> 
+    <div class="post-entry__tags"><a href="/tags/Computer-Network/" class="post-tags__link button"># Computer Network</a><a href="/tags/CNATDA/" class="post-tags__link button"># CNATDA</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch3/index/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第三章学习笔记
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/Study-Notes/CNATDA/cnatda-ch4/index/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            CNATDA 第四章学习笔记
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    
+    
+    
+    
+    <div id="giscus_container">
+        <script src="https://giscus.app/client.js"
+                data-repo="f1a3h/blog"
+                data-repo-id="R_kgDONVGjDg"
+                data-category="Announcements"
+                data-category-id="DIC_kwDONVGjDs4Cknu4"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous" async></script>
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023&nbsp;-&nbsp;2025 <a href="/">flash&#39;s ideal</a>
+        </p>
+    
+    
+        
+            <p>「那你愿意让我重新相信童话吗」</p>
+
+        
+            <p><a href="https://icp.gov.moe/?keyword=20252114" target="_blank">萌ICP备20252114号</a></p>
+
+        
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"
+></script>
+<script>
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    threshold: 0,
+  };
+</script>
+
+ 
+
+ 
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'G-B6B645V12R', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+<script src="https://testingcf.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+ 
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+ 
+<script src="https://testingcf.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+<script>
+  let lazyloadT = Boolean("true"),
+    auto_fancybox = Boolean("false");
+  if (auto_fancybox) {
+    $(".post__content")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  } else {
+    $(".post__content")
+      .find("fancybox")
+      .find("img")
+      .each(function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "gallery");
+        $(element).attr("href", $(this).attr("src"));
+        if (lazyloadT) {
+          $(element).attr("href", $(this).attr("data-srcset"));
+        }
+        $(this).wrap(element);
+      });
+  }
+</script>
+
+ 
+
+ 
+
+
+<link
+  rel="stylesheet"
+  href="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://testingcf.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+  crossorigin="anonymous"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      // customised options
+      // • auto-render specific keys, e.g.:
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true },
+      ],
+      // • rendering keys, e.g.:
+      throwOnError: false,
+    });
+  });
+</script>
+
+ 
+
+
+<script src="https://testingcf.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize(JSON.stringify(""));
+</script>
+
+ 
+
+ 
+
+
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
